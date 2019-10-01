@@ -4,6 +4,8 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -16,20 +18,20 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void initRobot() {
 
         //Add the motors to the configuration on the phones
-        leftFrontDrive = hardwareMap.dcMotor.get("LF");
-        rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        //leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        //rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
 
         //Set the direction of the motors
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        //leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //Set the mode the motors are going to be running in
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -38,6 +40,11 @@ public abstract class AutoMethods extends AutoHardwareMap {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
+
+        //Add range sensors
+        RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
+        RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
+        RLB.setI2cAddress(I2cAddr.create8bit(0x16));
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
