@@ -14,8 +14,8 @@ public class TestBotRange extends AutoMethods {
         waitForStart();
 
         while (getRuntime() != -1) {
-            rightBackDrive.setPower(Range.clip(1 * (1 - (5 / RRB.getDistance(DistanceUnit.CM))) / 15,-1,1));
-            leftBackDrive.setPower(Range.clip(-1 * (1 - (5 / RLB.getDistance(DistanceUnit.CM))) / 15,-1,1));
+//            rightBackDrive.setPower(Range.clip(1 * (1 - (5 / RRB.getDistance(DistanceUnit.CM))) / 15,-1,1));
+//            leftBackDrive.setPower(Range.clip(-1 * (1 - (5 / RLB.getDistance(DistanceUnit.CM))) / 15,-1,1));
             telemetry.addData("Right", RRB.getDistance(DistanceUnit.CM));
             telemetry.addData("Left", RLB.getDistance(DistanceUnit.CM));
             telemetry.update();
