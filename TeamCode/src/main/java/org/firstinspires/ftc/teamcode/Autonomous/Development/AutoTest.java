@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 //Add the program to the index of Autonomous programs
-@Autonomous(name = "AutoTest")
+//@Autonomous(name = "AutoTest")
 
 //Create the class declaration, extending AutoMethods
 public class AutoTest extends AutoMethods {

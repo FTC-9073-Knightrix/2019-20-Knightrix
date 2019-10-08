@@ -3,15 +3,23 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.I2cAddr;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
+import java.util.List;
 
 public abstract class AutoMethods extends AutoHardwareMap {
     //Create the initialization method to run at the start of the programs
@@ -45,6 +53,87 @@ public abstract class AutoMethods extends AutoHardwareMap {
         RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
         RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
         RLB.setI2cAddress(I2cAddr.create8bit(0x16));
+    }
+
+    public void initVision() {
+        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
+        // first.
+        initVuforia();
+
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
+            initTfod();
+        } else {
+            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
+        }
+
+        /**
+         * Activate TensorFlow Object Detection before we wait for the start command.
+         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
+         **/
+        if (tfod != null) {
+            tfod.activate();
+        }
+
+        /** Wait for the game to begin */
+        telemetry.addData(">", "Press Play to start op mode");
+        telemetry.update();
+        waitForStart();
+    }
+
+    public void runVision() {
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    stoneleft = recognition.getLeft();
+                    stonetop = recognition.getTop();
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                    stoneright = recognition.getRight();
+                    stonebottom = recognition.getBottom();
+                }
+                telemetry.update();
+            }
+        }
+    }
+
+    /**
+     * Initialize the Vuforia localization engine.
+     */
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    }
+
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minimumConfidence = 0.8;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
