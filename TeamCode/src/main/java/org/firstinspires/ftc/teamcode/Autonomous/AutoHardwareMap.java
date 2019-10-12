@@ -11,6 +11,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class AutoHardwareMap extends LinearOpMode {
     //Create the four motors
     public DcMotor leftFrontDrive;
@@ -37,8 +40,13 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     static final String VUFORIA_KEY = "AYl7ALf/////AAABmYRUZlrZD0yrpIpwu/lCqI404R8xljtOfAC2CqbtCpS8cdQOxNeRkjlt2adr+rxsSRHbQ8BerXEveMhl/jmXPM8GaYKri+E1j+LZplYraYHpWu6YXtceQQ24UIRIDKtRXkzUY9Hp5QY+Zrie7bELZTAm21wWSNLtF1XPd2XyEUa0Lw96c5BpczME5VhEQdVCfHA1TLnOEsQutrw173uOiZvvKdeEV1bGeRAlfkcf99ffKvTlVMZORlMCksWeKcatZRoC/zBXphIJMETpgYZCkmy59usG/JxL6rQrAjXHaLM60fzvLm2E9Fl5guhDrydctoHye8+Zla8Uh0tFAqF14YaElg2mmhAci59Nq2c1hher";
     VuforiaLocalizer vuforia;
     TFObjectDetector tfod;
-    public float stoneleft;
-    public float stonetop;
-    public float stoneright;
-    public float stonebottom;
+    //public float stoneleft;
+    //public float stonetop;
+    //public float stoneright;
+    //public float stonebottom;
+    public List<Float> stoneleft = new ArrayList<Float>();
+    public List<Float> stonetop = new ArrayList<Float>();
+    public List<Float> stoneright = new ArrayList<Float>();
+    public List<Float> stonebottom = new ArrayList<Float>();
+    public int found = -1;
 }
