@@ -16,6 +16,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -112,6 +115,20 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+    public void runVuforia() {
+        targetsSkyStone.activate();
+
+        while(opModeIsActive()) {
+            if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+                telemetry.addLine("Skystone Visible");
+            }
+            else {
+                telemetry.addLine("No Skystone Visible");
+            }
+            telemetry.update();
+        }
+    }
+
     /**
      * Initialize the Vuforia localization engine.
      */
@@ -122,13 +139,22 @@ public abstract class AutoMethods extends AutoHardwareMap {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
+        //parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
+    }
+
+    public void initVuStone() {
+        initVuforia();
+
+        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        stoneTarget = targetsSkyStone.get(0);
+
+        stoneTarget.setName("Stone Target");
     }
 
     /**

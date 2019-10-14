@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.ArrayList;
@@ -38,7 +40,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     static final String LABEL_FIRST_ELEMENT = "Stone";
     static final String LABEL_SECOND_ELEMENT = "Skystone";
     static final String VUFORIA_KEY = "AYl7ALf/////AAABmYRUZlrZD0yrpIpwu/lCqI404R8xljtOfAC2CqbtCpS8cdQOxNeRkjlt2adr+rxsSRHbQ8BerXEveMhl/jmXPM8GaYKri+E1j+LZplYraYHpWu6YXtceQQ24UIRIDKtRXkzUY9Hp5QY+Zrie7bELZTAm21wWSNLtF1XPd2XyEUa0Lw96c5BpczME5VhEQdVCfHA1TLnOEsQutrw173uOiZvvKdeEV1bGeRAlfkcf99ffKvTlVMZORlMCksWeKcatZRoC/zBXphIJMETpgYZCkmy59usG/JxL6rQrAjXHaLM60fzvLm2E9Fl5guhDrydctoHye8+Zla8Uh0tFAqF14YaElg2mmhAci59Nq2c1hher";
-    VuforiaLocalizer vuforia;
+    VuforiaLocalizer vuforia = null;
     TFObjectDetector tfod;
     //public float stoneleft;
     //public float stonetop;
@@ -49,4 +51,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public List<Float> stoneright = new ArrayList<Float>();
     public List<Float> stonebottom = new ArrayList<Float>();
     public int found = -1;
+
+    public VuforiaTrackables targetsSkyStone = null;
+    public VuforiaTrackable stoneTarget = null;
 }
