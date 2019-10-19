@@ -33,8 +33,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public ModernRoboticsI2cRangeSensor RRB;
     public ModernRoboticsI2cRangeSensor RLB;
 
-    //amount of clicks per cm
-    public final double ENCDISTANCE = 35.4736842105;
+    //amount of clicks per inch
+    public final double ENCDISTANCE = 5000/56.75;
 
     static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     static final String LABEL_FIRST_ELEMENT = "Stone";
