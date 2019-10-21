@@ -68,6 +68,12 @@ android {
         //
         versionCode vCode
         versionName vName
+
+        // For the use of RoadRunner
+        // from: https://github.com/acmerobotics/road-runner#core
+        // Doesn't work with ZTE Phones
+        multiDexEnabled true
+
     }
 
     // Advanced user code might just want to use Vuforia directly, so we set up the libs as needed
