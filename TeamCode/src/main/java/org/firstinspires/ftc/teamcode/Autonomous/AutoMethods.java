@@ -31,6 +31,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
 
+        centerEncoder = hardwareMap.dcMotor.get("CE");
+
         //Set the direction of the motors
         //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -42,6 +44,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        centerEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Add the gyroscope to the configuration on the phones
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");

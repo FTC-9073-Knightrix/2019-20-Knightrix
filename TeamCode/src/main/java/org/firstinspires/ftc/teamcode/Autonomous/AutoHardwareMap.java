@@ -21,6 +21,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
+    public DcMotor centerEncoder;
+
     //Create the gyroscope
     public BNO055IMU gyro;
     //Create the orientation variable for the robot position
