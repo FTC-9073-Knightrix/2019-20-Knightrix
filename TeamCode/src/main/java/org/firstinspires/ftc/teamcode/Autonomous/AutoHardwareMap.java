@@ -54,4 +54,5 @@ public abstract class AutoHardwareMap extends LinearOpMode {
 
     public VuforiaTrackables targetsSkyStone = null;
     public VuforiaTrackable stoneTarget = null;
+    public double VuX = 0;
 }

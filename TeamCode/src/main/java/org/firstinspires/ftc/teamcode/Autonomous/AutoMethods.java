@@ -123,8 +123,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void runVuforia() {
         targetsSkyStone.activate();
 
-        while(opModeIsActive()) {
-            if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+        if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
                 telemetry.addLine("Skystone Visible");
 
                 OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)stoneTarget.getListener()).getFtcCameraFromTarget();
@@ -148,29 +147,19 @@ public abstract class AutoMethods extends AutoHardwareMap {
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
 
-                    telemetry.addData("Rot X", rZ);
+                    telemetry.addData("Rot X", rX);
                     telemetry.addData("Rot Y", rY);
                     telemetry.addData("Rot Z", rZ);
 
-                    /*if (tX > 0) {
-                        leftBackDrive.setPower(-0.2);
-                        rightBackDrive.setPower(0.2);
-                    }
-                    else if (tX < 0) {
-                        leftBackDrive.setPower(0.2);
-                        rightBackDrive.setPower(-0.2);
-                    }
-                    else {
-                        leftBackDrive.setPower(0);
-                        rightBackDrive.setPower(0);
-                    }*/
+                    VuX = trans.get(0);
+
+                    //telemetry.addData("X", VuX);
                 }
             }
             else {
                 telemetry.addLine("No Skystone Visible");
             }
             telemetry.update();
-        }
     }
 
     /**

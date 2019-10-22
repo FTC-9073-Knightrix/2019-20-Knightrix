@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -16,25 +18,22 @@ public class VuforiaTest extends AutoMethods {
 
         waitForStart();
 
-        movePosition(5, 0.4);
+        while(opModeIsActive()) {
+            runVuforia();
 
-        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
-        int Angle = (int) orientation.firstAngle + 180;
-        //while (Angle > 130) {
-            while(opModeIsActive()) {
-            rightBackDrive.setPower(-0.3);
-            leftBackDrive.setPower(0.3);
-            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
-            Angle = (int) orientation.firstAngle + 180;
-            telemetry.addData("Angle", Angle);
-            telemetry.update();
-
-            //FOR NEXT MEETING... FLIP THE REV SIDEWAYS! SO THAT THE ANGLE WORKS!!!
+            if (VuX > 0) {
+                telemetry.addLine("TURN LEFT");
+                leftBackDrive.setPower(Range.clip(VuX / 300, -1, 1));
+                rightBackDrive.setPower(Range.clip(-VuX / 300, -1, 1));
+            } else if (VuX < 0) {
+                telemetry.addLine("TURN RIGHT");
+                leftBackDrive.setPower(Range.clip(VuX / 300, -1, 1));
+                rightBackDrive.setPower(Range.clip(-VuX / 300, -1, 1));
+            } else {
+                telemetry.addLine("CENTERED");
+                leftBackDrive.setPower(0);
+                rightBackDrive.setPower(0);
+            }
         }
-        rightBackDrive.setPower(0);
-
-        movePosition(22, 0.4);
-
-        runVuforia();
     }
 }
