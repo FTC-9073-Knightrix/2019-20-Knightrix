@@ -153,7 +153,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         int StartingOrientation = (int) orientation.firstAngle;
 
         resetEncoders();
-        distance *= ENCDISTANCE; //converts cm to encoder rotations
+        distance *= ENCCM; //converts cm to encoder rotations
         while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4)) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
