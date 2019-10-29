@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
@@ -13,6 +14,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
+
+    //Create the servo motors
+    public Servo bodyTwistServo;
+    public Servo blockTwistServo;
+    public Servo clampServo;
 
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
@@ -60,6 +66,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         //rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+
+        //Add servos to the configuration on the phones
+        bodyTwistServo = hardwareMap.servo.get("BodyS");
+        blockTwistServo = hardwareMap.servo.get("BlockS");
+        clampServo = hardwareMap.servo.get("CS");
 
         //Set the direction of the motors
         //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
