@@ -28,6 +28,10 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //Gamepad bumpers
         g2_right_bumper = gamepad2.right_bumper;
         g2_left_bumper  = gamepad2.left_bumper;
+
+        //Gamepad triggers
+        g2_right_trigger = gamepad2.right_trigger;
+        g2_left_trigger = gamepad2.left_trigger;
     }
 
     public void move (double myangle, float mypower, float myrot) {

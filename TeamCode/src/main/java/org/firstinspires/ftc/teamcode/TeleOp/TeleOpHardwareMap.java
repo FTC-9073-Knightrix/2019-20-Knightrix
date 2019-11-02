@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -41,6 +42,10 @@ public abstract class TeleOpHardwareMap extends OpMode {
     // Game pad Bumpers
     public boolean g2_right_bumper = false;
     public boolean g2_left_bumper  = false;
+
+    //Gamepad triggers
+    public float g2_right_trigger = 0;
+    public float g2_left_trigger = 0;
 
     //Create the gyroscope
     public BNO055IMU gyro;
