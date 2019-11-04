@@ -23,10 +23,10 @@ public class TeleOp extends TeleOpMethods {
             intakeRight.setPower(0);
         }
 
-        if (g2_left_bumper) {
+        if (g2_dpad_up) {
             liftMotor.setPower(1);
         }
-        else if (g2_right_bumper) {
+        else if (g2_dpad_down) {
             liftMotor.setPower(-1);
         }
         else {

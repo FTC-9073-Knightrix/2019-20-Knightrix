@@ -154,8 +154,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     }
 
     public void moveArm() {
-        blockTwistServo.setPosition((g2_leftstick_y / 2.0) + 0.5);
-        telemetry.addData("Block", (g2_leftstick_x / 2.0) + 0.5);
+        blockTwistServo.setPosition((g2_rightstick_x / 2.0) + 0.5);
+        telemetry.addData("Block", (g2_rightstick_x / 2.0) + 0.5);
         bodyTwistServo.setPosition((g2_leftstick_x / 2.0) + 0.5);
         telemetry.addData("Body", (g2_leftstick_x / 2.0) + 0.5);
         clampServo.setPosition(g2_left_trigger);
