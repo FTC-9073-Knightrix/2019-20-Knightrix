@@ -76,8 +76,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones
-        //leftFrontDrive = hardwareMap.dcMotor.get("LF");
-        //rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         intakeLeft = hardwareMap.dcMotor.get("IL");
@@ -90,14 +90,14 @@ public abstract class TeleOpHardwareMap extends OpMode {
         clampServo = hardwareMap.servo.get("CS");
 
         //Set the direction of the motors
-        //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // F
-        //leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
         intakeLeft.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

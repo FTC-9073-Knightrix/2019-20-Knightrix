@@ -21,11 +21,15 @@ public class RobotPosition extends AutoMethods {
         double left = 0;
         double right = 0;
 
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         while(opModeIsActive()) {
+            leftFrontDrive.setPower(Range.clip(gamepad1.left_stick_y - gamepad1.left_stick_x,-1,1));
             leftBackDrive.setPower(Range.clip(gamepad1.left_stick_y - gamepad1.left_stick_x,-1,1));
+            rightFrontDrive.setPower(Range.clip(gamepad1.left_stick_y + gamepad1.left_stick_x, -1, 1));
             rightBackDrive.setPower(Range.clip(gamepad1.left_stick_y + gamepad1.left_stick_x, -1, 1));
             //telemetry.addData("X CM", centerEncoder.getCurrentPosition()/ENCCM);
             //telemetry.addData("Y CM", (leftBackDrive.getCurrentPosition() + rightBackDrive.getCurrentPosition()) / 2 / ENCCM);
@@ -39,10 +43,10 @@ public class RobotPosition extends AutoMethods {
             telemetry.addData("Gyro+180", rot);
 
             double rad = Math.toRadians(rot);
-            x += -1*Math.sin(rad)*(((leftBackDrive.getCurrentPosition()-left) + (rightBackDrive.getCurrentPosition()-right)) / 2.0);
+            x += -1*Math.sin(rad)*(((((leftBackDrive.getCurrentPosition()+leftFrontDrive.getCurrentPosition())/2.0)-left) + (((rightBackDrive.getCurrentPosition()+rightFrontDrive.getCurrentPosition())/2.0)-right)) / 2.0);
             y += Math.cos(rad)*(((leftBackDrive.getCurrentPosition()-left) + (rightBackDrive.getCurrentPosition()-right)) / 2.0);
-            left = leftBackDrive.getCurrentPosition();
-            right = rightBackDrive.getCurrentPosition();
+            left = (leftBackDrive.getCurrentPosition() + leftFrontDrive.getCurrentPosition()) / 2.0;
+            right = (rightBackDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition()) / 2.0;
             telemetry.addData("X (CM)", x/ENCCM);
             telemetry.addData("Y (IN)", y/ENCIN);
 

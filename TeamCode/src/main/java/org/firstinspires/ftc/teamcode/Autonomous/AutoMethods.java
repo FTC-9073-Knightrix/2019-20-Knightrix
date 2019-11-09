@@ -34,22 +34,22 @@ public abstract class AutoMethods extends AutoHardwareMap {
     public void initRobot() {
 
         //Add the motors to the configuration on the phones
-        //leftFrontDrive = hardwareMap.dcMotor.get("LF");
-        //rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
 
         centerEncoder = hardwareMap.dcMotor.get("CE");
 
         //Set the direction of the motors
-        //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        //leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         //Set the mode the motors are going to be running in
-        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -267,7 +267,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
     public void movePosition(double inches, double power) {
         resetEncoders();
-        int distance = (int)round(inches * ENCDISTANCE);
+        int distance = (int)round(inches * ENCIN);
         while(leftBackDrive.getCurrentPosition() < distance || rightBackDrive.getCurrentPosition() < distance) {
             if (leftBackDrive.getCurrentPosition() < distance) {
                 leftBackDrive.setPower(power);
@@ -288,13 +288,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     public void resetEncoders() {
-        //leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
