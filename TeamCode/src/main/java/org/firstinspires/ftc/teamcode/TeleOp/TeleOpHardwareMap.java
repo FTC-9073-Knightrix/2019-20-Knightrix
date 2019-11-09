@@ -25,6 +25,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public Servo bodyTwistServo;
     public Servo blockTwistServo;
     public Servo clampServo;
+    public Servo blockServo;
 
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
@@ -88,6 +89,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         bodyTwistServo = hardwareMap.servo.get("BodyS");
         blockTwistServo = hardwareMap.servo.get("BlockS");
         clampServo = hardwareMap.servo.get("CS");
+        blockServo = hardwareMap.servo.get("BS");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F

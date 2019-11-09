@@ -10,6 +10,8 @@ public class TeleOp extends TeleOpMethods {
         drive();
         moveArm();
 
+        blockServo.setPosition(0);
+
         if (g2_a) {
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
