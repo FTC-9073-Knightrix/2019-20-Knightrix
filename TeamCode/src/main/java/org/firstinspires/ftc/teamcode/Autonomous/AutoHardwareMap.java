@@ -23,6 +23,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
+    public DcMotor centerEncoder;
+
     //Create the gyroscope
     public BNO055IMU gyro;
     //Create the orientation variable for the robot position
@@ -33,8 +35,12 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public ModernRoboticsI2cRangeSensor RRB;
     public ModernRoboticsI2cRangeSensor RLB;
 
-    //amount of clicks per inch
-    public final double ENCDISTANCE = 5000/56.75;
+    //amount of clicks per unit
+    //15727.5 clicks
+    //457.5 cm
+    //180.13 in
+    public final double ENCCM = 15727.5/457.5;
+    public final double ENCIN = 15727.5/180.13;
 
     static final String TFOD_MODEL_ASSET = "Skystone.tflite";
     static final String LABEL_FIRST_ELEMENT = "Stone";

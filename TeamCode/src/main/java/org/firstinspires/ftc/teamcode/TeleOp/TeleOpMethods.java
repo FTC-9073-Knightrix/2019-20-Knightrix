@@ -10,13 +10,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     public void getController() {
         //Gamepad
         g1_leftstick_x = gamepad1.left_stick_x;
-        g2_leftstick_x = gamepad2.left_stick_x / 5;
+        g2_leftstick_x = gamepad2.left_stick_x;
 
         g1_leftstick_y = gamepad1.left_stick_y;
-        g2_leftstick_y = gamepad2.left_stick_y / 5;
+        g2_leftstick_y = gamepad2.left_stick_y;
 
         g1_rightstick_x = gamepad1.right_stick_x;
-        g2_rightstick_x = gamepad2.right_stick_x / 5;
+        g2_rightstick_x = gamepad2.right_stick_x;
 
 
         //Gamepad buttons
@@ -28,6 +28,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //Gamepad bumpers
         g2_right_bumper = gamepad2.right_bumper;
         g2_left_bumper  = gamepad2.left_bumper;
+
+        //Gamepad triggers
+        g2_right_trigger = gamepad2.right_trigger;
+        g2_left_trigger = gamepad2.left_trigger;
+
+        g2_a = gamepad2.a;
+        g2_b = gamepad2.b;
     }
 
     public void move (double myangle, float mypower, float myrot) {
@@ -144,5 +151,14 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //telemetry.update();
 
         move(myangle,mypower,myrot);
+    }
+
+    public void moveArm() {
+        blockTwistServo.setPosition((g2_rightstick_x / 2.0) + 0.5);
+        telemetry.addData("Block", (g2_rightstick_x / 2.0) + 0.5);
+        bodyTwistServo.setPosition((g2_leftstick_x / 2.0) + 0.5);
+        telemetry.addData("Body", (g2_leftstick_x / 2.0) + 0.5);
+        clampServo.setPosition(g2_left_trigger);
+        telemetry.addData("Clamp", g2_left_trigger);
     }
 }
