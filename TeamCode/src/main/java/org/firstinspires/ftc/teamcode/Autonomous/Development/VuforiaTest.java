@@ -14,14 +14,14 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 public class VuforiaTest extends AutoMethods {
     public void runOpMode() {
         initVuStone();
-        initRobot();
+        //initRobot();
 
         waitForStart();
 
         while(opModeIsActive()) {
             runVuforia();
 
-            if (VuX > 0) {
+            /*if (VuX > 0) {
                 telemetry.addLine("TURN LEFT");
                 leftBackDrive.setPower(Range.clip(VuX / 300, -1, 1));
                 rightBackDrive.setPower(Range.clip(-VuX / 300, -1, 1));
@@ -33,7 +33,7 @@ public class VuforiaTest extends AutoMethods {
                 telemetry.addLine("CENTERED");
                 leftBackDrive.setPower(0);
                 rightBackDrive.setPower(0);
-            }
+            }*/
         }
     }
 }
