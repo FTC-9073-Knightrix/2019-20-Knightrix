@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -24,6 +25,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor leftBackDrive;
 
     public DcMotor centerEncoder;
+
+    public Servo blockServo;
 
     //Create the gyroscope
     public BNO055IMU gyro;

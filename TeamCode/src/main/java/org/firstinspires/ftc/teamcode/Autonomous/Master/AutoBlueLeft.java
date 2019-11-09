@@ -19,5 +19,15 @@ public class AutoBlueLeft extends AutoMethods {
         place block
         push block into the build site
         */
+
+
+        //Move towards build site
+        gyroMove(0, 0.5, 120, 500);
+        //Turn to face sideways
+        turn(-90,-0.5);
+        //Drop blockservo
+        blockServo.setPosition(90);
+        //Pull back buildsite
+        gyroMove(0, -0.5, 90, 0);
     }
 }
