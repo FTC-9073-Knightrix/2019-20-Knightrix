@@ -8,9 +8,9 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         getController();
         drive();
-        moveArm();
+        /*moveArm();
 
-        blockServo.setPosition(0);
+        blockServo.setPosition(0);*/
 
         if (g2_a) {
             intakeLeft.setPower(1);
@@ -25,7 +25,7 @@ public class TeleOp extends TeleOpMethods {
             intakeRight.setPower(0);
         }
 
-        if (g2_dpad_up) {
+        /*if (g2_dpad_up) {
             liftMotor.setPower(1);
         }
         else if (g2_dpad_down) {
@@ -35,6 +35,6 @@ public class TeleOp extends TeleOpMethods {
             liftMotor.setPower(0);
         }
 
-        telemetry.update();
+        telemetry.update();*/
     }
 }

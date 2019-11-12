@@ -81,9 +81,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
-        /*intakeLeft = hardwareMap.dcMotor.get("IL");
+        intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
-        liftMotor = hardwareMap.dcMotor.get("LM");*/
+        /*liftMotor = hardwareMap.dcMotor.get("LM");*/
 
         //Add servos to the configuration on the phones
         /*bodyTwistServo = hardwareMap.servo.get("BodyS");
@@ -96,7 +96,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // F
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
-        /*intakeLeft.setDirection(DcMotor.Direction.REVERSE);*/
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
