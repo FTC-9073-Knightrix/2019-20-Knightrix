@@ -8,9 +8,11 @@ public class TeleOp extends TeleOpMethods {
     public void loop () {
         getController();
         drive();
-        /*moveArm();
+        moveArm();
 
-        blockServo.setPosition(0);*/
+        blockServo.setPosition(g2_right_trigger);
+        telemetry.addData("Block", g2_right_trigger);
+        telemetry.update();
 
         if (g2_a) {
             intakeLeft.setPower(1);

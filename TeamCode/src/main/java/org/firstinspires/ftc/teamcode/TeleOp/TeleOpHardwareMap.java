@@ -86,10 +86,10 @@ public abstract class TeleOpHardwareMap extends OpMode {
         /*liftMotor = hardwareMap.dcMotor.get("LM");*/
 
         //Add servos to the configuration on the phones
-        /*bodyTwistServo = hardwareMap.servo.get("BodyS");
+        bodyTwistServo = hardwareMap.servo.get("BodyS");
         blockTwistServo = hardwareMap.servo.get("BlockS");
         clampServo = hardwareMap.servo.get("CS");
-        blockServo = hardwareMap.servo.get("BS");*/
+        blockServo = hardwareMap.servo.get("BS");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
