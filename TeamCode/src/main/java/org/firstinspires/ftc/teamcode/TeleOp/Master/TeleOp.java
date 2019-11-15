@@ -12,7 +12,7 @@ public class TeleOp extends TeleOpMethods {
 
         blockServo.setPosition(g2_right_trigger);
         telemetry.addData("Block", g2_right_trigger);
-        telemetry.update();
+        //telemetry.update();
 
         if (g2_a) {
             intakeLeft.setPower(1);
@@ -27,16 +27,23 @@ public class TeleOp extends TeleOpMethods {
             intakeRight.setPower(0);
         }
 
-        /*if (g2_dpad_up) {
-            liftMotor.setPower(1);
+        liftMotor.setPower(1);
+        if (g2_dpad_up && liftSet >= liftPosition - 3900) {
+            liftSet -= 150;
+            liftMotor.setTargetPosition(liftSet);
         }
-        else if (g2_dpad_down) {
-            liftMotor.setPower(-1);
+        else if (g2_dpad_down && liftSet + 100 <= liftPosition) {
+            liftSet += 150;
+            liftMotor.setTargetPosition(liftSet);
         }
         else {
-            liftMotor.setPower(0);
+            liftSet = liftMotor.getCurrentPosition();
+            liftMotor.setTargetPosition(liftSet);
         }
 
-        telemetry.update();*/
+        telemetry.addData("LiftSet", liftSet);
+        telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());
+
+        telemetry.update();
     }
 }

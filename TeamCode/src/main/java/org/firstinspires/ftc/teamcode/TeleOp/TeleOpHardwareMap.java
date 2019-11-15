@@ -74,6 +74,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Create slowmode variable
     public boolean slowmode = false;
 
+    public int liftPosition = 0;
+    public int liftSet = 0;
+
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones
@@ -83,7 +86,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
-        /*liftMotor = hardwareMap.dcMotor.get("LM");*/
+        liftMotor = hardwareMap.dcMotor.get("LM");
 
         //Add servos to the configuration on the phones
         bodyTwistServo = hardwareMap.servo.get("BodyS");
@@ -102,6 +105,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftPosition = liftMotor.getCurrentPosition();
+        liftMotor.setTargetPosition(liftPosition);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
