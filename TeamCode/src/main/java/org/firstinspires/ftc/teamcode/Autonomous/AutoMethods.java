@@ -39,7 +39,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
 
-        centerEncoder = hardwareMap.dcMotor.get("CE");
+        //centerEncoder = hardwareMap.dcMotor.get("CE");
 
         //Servos
         blockServo = hardwareMap.servo.get("BS");
@@ -56,7 +56,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        centerEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //centerEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Add the gyroscope to the configuration on the phones
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
@@ -65,9 +65,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         gyro.initialize(parameters);
 
         //Add range sensors
-        RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
-        RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
-        RLB.setI2cAddress(I2cAddr.create8bit(0x16));
+        //RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
+        //RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
+        //RLB.setI2cAddress(I2cAddr.create8bit(0x16));
     }
 
     public void initVision() {
@@ -210,13 +210,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
-    public void gyroMove(int direction, double power, int distance, int wait){
+    public void gyroMove(int direction, double power, double distance, int wait){
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
 
         resetEncoders();
-        distance *= ENCCM; //converts cm to encoder rotations
-        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4)) {
+        distance *= ENCIN; //converts cm to encoder rotations
+        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 

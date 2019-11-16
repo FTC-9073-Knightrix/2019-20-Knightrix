@@ -42,16 +42,16 @@
 |a|intake in|
 |x||
 |select||
-|start||
+|start|initialize|
 |left stick up||
 |left stick down||
-|left stick right|turn body right|
-|left stick left|turn body left|
+|left stick right||
+|left stick left||
 |right stick up||
 |right stick down||
-|right stick right|turn block right|
-|right stick left|turn block left|
-|right trigger||
-|left trigger|clamp in|
-|right bumper||
-|left bumper||
+|right stick right||
+|right stick left||
+|right trigger|turn body|
+|left trigger|turn block|
+|right bumper|close clamp|
+|left bumper|open clamp|

@@ -6,44 +6,74 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
-        getController();
-        drive();
-        moveArm();
-
-        blockServo.setPosition(g2_right_trigger);
-        telemetry.addData("Block", g2_right_trigger);
-        //telemetry.update();
-
-        if (g2_a) {
-            intakeLeft.setPower(1);
-            intakeRight.setPower(1);
+        if (gamepad1.start && !ready) {
+            initRun = true;
+            ready = true;
         }
-        else if (g2_b) {
-            intakeLeft.setPower(-1);
-            intakeRight.setPower(-1);
+        if(initRun) {
+            if (stage == 0) {
+                blockServo.setPosition(0.7);
+                liftMotor.setPower(0.2);
+                liftMotor.setTargetPosition(-3500);
+                stage++;
+            }
+            else if (stage == 1) {
+                if (liftMotor.getCurrentPosition() < -3000) {
+                    blockServo.setPosition(0);
+                    liftMotor.setPower(0.3);
+                    liftMotor.setTargetPosition(0);
+                    stage++;
+                }
+                else if (liftMotor.getCurrentPosition() < -200) {
+                    liftMotor.setPower(1);
+                }
+            }
+            else if (stage == 2) {
+                if (liftMotor.getCurrentPosition() > -2800) {
+                    liftMotor.setPower(1);
+                    stage++;
+                }
+            }
+            else {
+                if (liftMotor.getCurrentPosition() > -25) {
+                    initRun = false;
+                }
+            }
         }
         else {
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
-        }
+            getController();
+            drive();
 
-        liftMotor.setPower(1);
-        if (g2_dpad_up && liftSet >= liftPosition - 3900) {
-            liftSet -= 150;
-            liftMotor.setTargetPosition(liftSet);
-        }
-        else if (g2_dpad_down && liftSet + 100 <= liftPosition) {
-            liftSet += 150;
-            liftMotor.setTargetPosition(liftSet);
-        }
-        else {
-            liftSet = liftMotor.getCurrentPosition();
-            liftMotor.setTargetPosition(liftSet);
-        }
+            //MAKE THE ARM THING ONE BUTTON!
+            moveArm();
 
-        telemetry.addData("LiftSet", liftSet);
-        telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());
+            if (g2_a) {
+                intakeLeft.setPower(1);
+                intakeRight.setPower(1);
+            } else if (g2_b) {
+                intakeLeft.setPower(-1);
+                intakeRight.setPower(-1);
+            } else {
+                intakeLeft.setPower(0);
+                intakeRight.setPower(0);
+            }
 
-        telemetry.update();
+            liftMotor.setPower(1);
+            if (g2_dpad_up && liftSet >= liftPosition - 3900) {
+                liftSet -= 150;
+                liftMotor.setTargetPosition(liftSet);
+            } else if (g2_dpad_down && liftSet + 100 <= liftPosition) {
+                liftSet += 150;
+                liftMotor.setTargetPosition(liftSet);
+            } else {
+                liftSet = liftMotor.getCurrentPosition();
+                liftMotor.setTargetPosition(liftSet);
+            }
+
+            telemetry.addData("LiftSet", liftSet);
+            telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());
+
+            telemetry.update();
+        }
     }
 }

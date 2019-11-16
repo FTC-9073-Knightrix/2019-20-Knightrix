@@ -77,6 +77,13 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public int liftPosition = 0;
     public int liftSet = 0;
 
+    public boolean ready = false;
+    public boolean initRun = false;
+    public int stage = 0;
+
+    public boolean closed = false;
+    public boolean down = false;
+
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones

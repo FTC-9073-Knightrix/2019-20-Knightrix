@@ -1,14 +1,19 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
+@Autonomous(name="BlueStone")
+
 public class AutoBlueRight extends AutoMethods {
     public void runOpMode() {
         initRobot();
+        initVuStone();
 
         double x = 0;
         double x2 = 0;
@@ -29,11 +34,13 @@ public class AutoBlueRight extends AutoMethods {
 
         ///FIRST STONE
         //Move forwards
-        gyroMove(0, 0.5, 120, 500);
+        gyroMove(0, 0.5, 10, 500);
         //Turn to face stones with camera
-        turn(-90, -0.5);
+        turn(90, 0.5);
         //Go slowly as camera detects
+        targetsSkyStone.activate();
         while (!((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+            targetsSkyStone.activate();
             leftFrontDrive.setPower(-0.3);
             leftBackDrive.setPower(-0.3);
             rightFrontDrive.setPower(-0.3);
@@ -47,6 +54,9 @@ public class AutoBlueRight extends AutoMethods {
             left = (leftBackDrive.getCurrentPosition() + leftFrontDrive.getCurrentPosition()) / 2.0;
             right = (rightBackDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition()) / 2.0;
         }
+
+        /*
+
         //Once stone found pick it up
         blockServo.setPosition(90);
         gyroMove(90, -0.5, 20, 500);
@@ -78,10 +88,11 @@ public class AutoBlueRight extends AutoMethods {
         gyroMove(0, -0.5, 100, 500);
         gyroMove(90, 0.5, 70, 500);
         //Go to second stone
+        gyroMove(0, -0.3, 24, 0);
         x2 = 0;
         left = 0;
         right = 0;
-        while(2*Math.abs(x) > Math.abs(x2)) {
+        while(Math.abs(x) > Math.abs(x2)) {
             leftFrontDrive.setPower(-0.3);
             leftBackDrive.setPower(-0.3);
             rightFrontDrive.setPower(-0.3);
@@ -102,7 +113,7 @@ public class AutoBlueRight extends AutoMethods {
         x2 = 0;
         left = 0;
         right = 0;
-        while(2*Math.abs(x) > Math.abs(x2)) {
+        while(Math.abs(x) > Math.abs(x2)) {
             leftFrontDrive.setPower(0.3);
             leftBackDrive.setPower(0.3);
             rightFrontDrive.setPower(0.3);
@@ -116,6 +127,7 @@ public class AutoBlueRight extends AutoMethods {
             left = (leftBackDrive.getCurrentPosition() + leftFrontDrive.getCurrentPosition()) / 2.0;
             right = (rightBackDrive.getCurrentPosition() + rightFrontDrive.getCurrentPosition()) / 2.0;
         }
+        gyroMove(0, 0.3, 24, 500);
         //move under bar
         gyroMove(90, -0.5, 50, 500);
         gyroMove(0, 0.5, 100, 500);
@@ -123,5 +135,8 @@ public class AutoBlueRight extends AutoMethods {
         blockServo.setPosition(0);
         //Park under bar
         gyroMove(0, -0.5, 40, 0);
+
+
+         */
     }
 }

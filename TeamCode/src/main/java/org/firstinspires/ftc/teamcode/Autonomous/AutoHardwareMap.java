@@ -24,7 +24,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
 
-    public DcMotor centerEncoder;
+    //public DcMotor centerEncoder;
 
     public Servo blockServo;
 
@@ -35,8 +35,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     //Create the angle tracker
     public double angle = 0;
 
-    public ModernRoboticsI2cRangeSensor RRB;
-    public ModernRoboticsI2cRangeSensor RLB;
+    //public ModernRoboticsI2cRangeSensor RRB;
+    //public ModernRoboticsI2cRangeSensor RLB;
 
     //amount of clicks per unit
     //15727.5 clicks
