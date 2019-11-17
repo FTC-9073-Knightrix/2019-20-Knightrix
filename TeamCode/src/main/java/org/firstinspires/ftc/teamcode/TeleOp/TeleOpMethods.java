@@ -159,7 +159,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //min 0.1967
         bodyTwistServo.setPosition(Range.clip(g2_right_trigger,0.1215,1));
         telemetry.addData("Body", Range.clip(g2_right_trigger,0,1));
-        if (g2_left_bumper) {
+        /*if (g2_left_bumper) {
             closed = false;
         }
         else if (g2_right_bumper) {
@@ -172,7 +172,18 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         else {
             blockTwistServo.setPosition(1);
             //clampServo.setPosition(0.5);
+        }*/
+
+        if (g2_left_bumper) {
+            blockTwistServo.setPosition(1);
         }
+        else if (g2_right_bumper) {
+            blockTwistServo.setPosition(0);
+        }
+        else {
+            blockTwistServo.setPosition(0.5);
+        }
+
         telemetry.addData("Clamp", closed);
     }
 }

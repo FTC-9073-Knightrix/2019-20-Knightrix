@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Master;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "Master")
@@ -58,7 +60,22 @@ public class TeleOp extends TeleOpMethods {
                 intakeRight.setPower(0);
             }
 
-            liftMotor.setPower(1);
+            if (g2_dpad_up && liftMotor.getCurrentPosition() > -3900) {
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                liftMotor.setPower(-1);
+            }
+            else if (g2_dpad_down && liftMotor.getCurrentPosition() < 0) {
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                liftMotor.setPower(1);
+            }
+            else {
+                liftMotor.setPower(1);
+                liftMotor.setTargetPosition(liftMotor.getCurrentPosition());
+                liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            }
+
+
+            /*liftMotor.setPower(1);
             if (g2_dpad_up && liftSet >= liftPosition - 3900) {
                 liftSet -= 150;
                 liftMotor.setTargetPosition(liftSet);
@@ -71,7 +88,7 @@ public class TeleOp extends TeleOpMethods {
             }
 
             telemetry.addData("LiftSet", liftSet);
-            telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());
+            telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());*/
 
             telemetry.update();
         }
