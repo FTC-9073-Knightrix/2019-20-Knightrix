@@ -74,30 +74,21 @@ public class AutoBlueRight extends AutoMethods {
             gyroMove(90, -0.2, 16, 0);
             blockServo.setPosition(.9);
             sleep(500);
+        if (setup < 3) { //if 1 or 2
             gyroMove(0, -0.2, 1, 0);
             gyroMove(90, 0.2, 16, 0);
             gyroMove(0, 0.6, 80 + ((setup + 3) * 10), 0);
             blockServo.setPosition(0);
             sleep(500);
             gyroMove(0, -0.6, 20, 0);
-        /*}
+        }
         else {
-            gyroMove(0, -0.6, 82 + ((setup + 1) * 10), 0);
-            gyroMove(0, 1, 1,0);
-            gyroMove(0, -1, 1,500);
-            turn(-45, -0.5);
-            gyroMove(-45, 0.6, 25,0);
-            timer = getRuntime() + 1;
-            while (opModeIsActive() && getRuntime() < timer) {
-                intakeLeft.setPower(1);
-                intakeRight.setPower(1);
-            }
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
-            gyroMove(-45, -0.6, 25,0);
-            turn(90, 0.5);
-            gyroMove(0, 0.6, 80 + ((setup + 3) * 10), 0);
-            gyroMove(0, -0.6, 20, 0);
-        }*/
+            turn(-90, -0.3);
+            gyroMove(90, -0.2, 20, 0);
+            gyroMove(0, -0.6, 80 + ((setup + 1) * 10), 0);
+            blockServo.setPosition(0);
+            sleep(500);
+            gyroMove(0, 0.6, 20, 0);
+        }
     }
 }
