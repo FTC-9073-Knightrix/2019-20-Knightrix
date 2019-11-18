@@ -23,6 +23,8 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
 
     //public DcMotor centerEncoder;
 
@@ -64,4 +66,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public VuforiaTrackables targetsSkyStone = null;
     public VuforiaTrackable stoneTarget = null;
     public double VuX = 0;
+
+    public double timer = 0;
+    public int setup = 1;
 }

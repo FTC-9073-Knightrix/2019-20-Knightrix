@@ -38,6 +38,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+        intakeLeft = hardwareMap.dcMotor.get("IL");
+        intakeRight = hardwareMap.dcMotor.get("IR");
 
         //centerEncoder = hardwareMap.dcMotor.get("CE");
 
@@ -49,6 +51,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
 
         //Set the mode the motors are going to be running in
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -195,6 +198,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         stoneTarget = targetsSkyStone.get(0);
 
         stoneTarget.setName("Stone Target");
+
+        telemetry.addLine("Vuforia init done");
+        telemetry.update();
     }
 
     /**
@@ -215,7 +221,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         int StartingOrientation = (int) orientation.firstAngle;
 
         resetEncoders();
-        distance *= ENCIN; //converts cm to encoder rotations
+        distance *= ENCCM; //converts cm to encoder rotations
         while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
