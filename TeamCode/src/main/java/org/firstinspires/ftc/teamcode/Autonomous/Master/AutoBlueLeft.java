@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
+
+@Autonomous(name = "BlueBuildsite")
 
 public class AutoBlueLeft extends AutoMethods {
     public void runOpMode() {
@@ -22,12 +26,18 @@ public class AutoBlueLeft extends AutoMethods {
 
 
         //Move towards build site
-        gyroMove(0, 0.5, 120, 500);
-        //Turn to face sideways
-        turn(-90,-0.5);
+        gyroMove(90, -0.5, 55, 500);
         //Drop blockservo
-        blockServo.setPosition(90);
+        blockServo.setPosition(1);
+        sleep(1500);
         //Pull back buildsite
-        gyroMove(0, -0.5, 90, 0);
+        gyroMove(90, 0.3, 80, 500);
+        blockServo.setPosition(0);
+        sleep(1000);
+        gyroMove(0, -0.5, 50, 500);
+        gyroMove(90, -0.5, 40, 500);
+        gyroMove(0, 0.5, 30, 500);
+        gyroMove(90, 0.5, 30, 500);
+        gyroMove(0, -0.5, 40, 500);
     }
 }
