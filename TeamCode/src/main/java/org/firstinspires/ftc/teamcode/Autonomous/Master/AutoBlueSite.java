@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name = "BlueBuildsite")
 
-public class AutoBlueLeft extends AutoMethods {
+public class AutoBlueSite extends AutoMethods {
     public void runOpMode() {
         initRobot();
         waitForStart();

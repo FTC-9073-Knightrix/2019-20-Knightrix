@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name="BlueStone")
 
-public class AutoBlueRight extends AutoMethods {
+public class AutoBlueStone extends AutoMethods {
     public void runOpMode() {
         //Initialize the robot itself
         initRobot();
@@ -93,6 +93,7 @@ public class AutoBlueRight extends AutoMethods {
         }
         //If it is the right stone
         else {
+            /*
             //Move to the second skystone
             gyroMove(0, -1, 85 + ((setup) * 10), 0);
             gyroMove(0, -0.5, 10, 0);
@@ -112,9 +113,9 @@ public class AutoBlueRight extends AutoMethods {
             //Let go of the stone
             blockServo.setPosition(0);
             //Wait for the arm to fully go up
-            sleep(500);
+            sleep(500);*/
             //Turn to get ready for the drivers
-            turn(0,0.5);
+            turn(0,-0.5);
             //Go park
             gyroMove(90, -1, 5, 0);
         }
