@@ -13,5 +13,8 @@ public class TestBotTeleOp extends TeleOpMethods {
 
         leftBackDrive.setPower(Range.clip(g1_leftstick_x - g1_leftstick_y,-1,1));
         rightBackDrive.setPower(Range.clip(g1_leftstick_x + g1_leftstick_y, -1, 1));
+
+        telemetry.addData("Left Encoder", intakeLeft.getCurrentPosition());
+        telemetry.addData("Right Encoder", intakeRight.getCurrentPosition());
     }
 }

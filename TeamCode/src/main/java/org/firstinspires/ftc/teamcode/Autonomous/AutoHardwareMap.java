@@ -26,8 +26,6 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
 
-    //public DcMotor centerEncoder;
-
     public Servo blockServo;
 
     //Create the gyroscope
