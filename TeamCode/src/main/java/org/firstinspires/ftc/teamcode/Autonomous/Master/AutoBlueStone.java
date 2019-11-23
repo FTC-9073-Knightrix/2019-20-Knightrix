@@ -26,7 +26,7 @@ public class AutoBlueStone extends AutoMethods {
         timer = getRuntime() + 1.5;
         //Run Vuforia until either the skystone has been detected or 1.5 seconds have passed
         while (opModeIsActive() && !((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible() && getRuntime() < timer) {
-            runVuforia();
+            targetsSkyStone.activate();
         }
         //If it's not the first stone
         if (!((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
@@ -38,7 +38,7 @@ public class AutoBlueStone extends AutoMethods {
             timer = getRuntime() + 1.5;
             //Run Vuforia until either the skystone has been detected or 1.5 seconds have passed
             while (opModeIsActive() && !((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible() && getRuntime() < timer) {
-                runVuforia();
+                targetsSkyStone.activate();
             }
             //If it's not the second stone, it is the third one
             if (!((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
@@ -53,7 +53,7 @@ public class AutoBlueStone extends AutoMethods {
         //Approach the stone
         gyroMove(90, -0.4, 9, 0);
         //Set the arm down
-        blockServo.setPosition(.9);
+        blockServo.setPosition(1);
         //Wait for the arm to fully go down
         sleep(500);
         //Move a bit so the arm can adjust in case it gets stuck on either side of gap
@@ -72,7 +72,7 @@ public class AutoBlueStone extends AutoMethods {
             //Approach the stone
             gyroMove(90, -0.4, 16, 0);
             //Set the arm down
-            blockServo.setPosition(.9);
+            blockServo.setPosition(1);
             //Wait for the arm to fully go down
             sleep(500);
             //If it is the left or middle stone

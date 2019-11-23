@@ -45,49 +45,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
         gyro.initialize(parameters);
     }
 
-    public void runVuforia() {
-        targetsSkyStone.activate();
-
-        /*
-        if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
-                telemetry.addLine("Skystone Visible");
-
-                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)stoneTarget.getListener()).getFtcCameraFromTarget();
-                //telemetry.addData("Pose", pose);
-
-                if (pose != null) {
-                    VectorF trans = pose.getTranslation();
-                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
-
-                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
-                    double tX = trans.get(0);
-                    double tY = trans.get(1);
-                    double tZ = trans.get(2);
-
-                    telemetry.addData("X", tX);
-                    telemetry.addData("Y", tY);
-                    telemetry.addData("Z", tZ);
-
-                    // Extract the rotational components of the target relative to the robot
-                    double rX = rot.firstAngle;
-                    double rY = rot.secondAngle;
-                    double rZ = rot.thirdAngle;
-
-                    telemetry.addData("Rot X", rX);
-                    telemetry.addData("Rot Y", rY);
-                    telemetry.addData("Rot Z", rZ);
-
-                    VuX = trans.get(0);
-
-                    //telemetry.addData("X", VuX);
-                }
-            }
-            else {
-                telemetry.addLine("No Skystone Visible");
-            }
-        telemetry.update();*/
-    }
-
     /**
      * Initialize the Vuforia localization engine.
      */
