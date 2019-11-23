@@ -10,13 +10,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     public void getController() {
         //Gamepad
         g1_leftstick_x = gamepad1.left_stick_x;
-        g2_leftstick_x = gamepad2.left_stick_x / 5;
+        g2_leftstick_x = gamepad2.left_stick_x;
 
         g1_leftstick_y = gamepad1.left_stick_y;
-        g2_leftstick_y = gamepad2.left_stick_y / 5;
+        g2_leftstick_y = gamepad2.left_stick_y;
 
         g1_rightstick_x = gamepad1.right_stick_x;
-        g2_rightstick_x = gamepad2.right_stick_x / 5;
+        g2_rightstick_x = gamepad2.right_stick_x;
 
 
         //Gamepad buttons
@@ -28,6 +28,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //Gamepad bumpers
         g2_right_bumper = gamepad2.right_bumper;
         g2_left_bumper  = gamepad2.left_bumper;
+
+        //Gamepad triggers
+        g2_right_trigger = gamepad2.right_trigger;
+        g2_left_trigger = gamepad2.left_trigger;
+
+        g2_a = gamepad2.a;
+        g2_b = gamepad2.b;
     }
 
     public void move (double myangle, float mypower, float myrot) {
@@ -144,5 +151,39 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         //telemetry.update();
 
         move(myangle,mypower,myrot);
+    }
+
+    public void moveArm() {
+        clampServo.setPosition(Range.clip(g2_left_trigger,0.5,0.85));
+        telemetry.addData("Block", g2_left_trigger);
+        //min 0.1967
+        bodyTwistServo.setPosition(Range.clip(g2_right_trigger,0.1215,1));
+        telemetry.addData("Body", Range.clip(g2_right_trigger,0,1));
+        /*if (g2_left_bumper) {
+            closed = false;
+        }
+        else if (g2_right_bumper) {
+            closed = true;
+        }
+        if (closed) {
+            blockTwistServo.setPosition(0);
+            //clampServo.setPosition(0.85);
+        }
+        else {
+            blockTwistServo.setPosition(1);
+            //clampServo.setPosition(0.5);
+        }*/
+
+        if (g2_left_bumper) {
+            blockTwistServo.setPosition(1);
+        }
+        else if (g2_right_bumper) {
+            blockTwistServo.setPosition(0);
+        }
+        else {
+            blockTwistServo.setPosition(0.5);
+        }
+
+        telemetry.addData("Clamp", closed);
     }
 }

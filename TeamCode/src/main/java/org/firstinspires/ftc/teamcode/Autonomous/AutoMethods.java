@@ -11,37 +11,53 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 import java.util.List;
+
+import static java.lang.Math.round;
 
 public abstract class AutoMethods extends AutoHardwareMap {
     //Create the initialization method to run at the start of the programs
     public void initRobot() {
 
         //Add the motors to the configuration on the phones
-        //leftFrontDrive = hardwareMap.dcMotor.get("LF");
-        //rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+        intakeLeft = hardwareMap.dcMotor.get("IL");
+        intakeRight = hardwareMap.dcMotor.get("IR");
+
+        //Servos
+        blockServo = hardwareMap.servo.get("BS");
 
         //Set the direction of the motors
-        //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        //leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
 
         //Set the mode the motors are going to be running in
-        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //centerEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         //Add the gyroscope to the configuration on the phones
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
@@ -50,9 +66,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         gyro.initialize(parameters);
 
         //Add range sensors
-        RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
-        RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
-        RLB.setI2cAddress(I2cAddr.create8bit(0x16));
+        //RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
+        //RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
+        //RLB.setI2cAddress(I2cAddr.create8bit(0x16));
     }
 
     public void initVision() {
@@ -112,6 +128,48 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+    public void runVuforia() {
+        targetsSkyStone.activate();
+
+        if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+                telemetry.addLine("Skystone Visible");
+
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)stoneTarget.getListener()).getFtcCameraFromTarget();
+                //telemetry.addData("Pose", pose);
+
+                if (pose != null) {
+                    VectorF trans = pose.getTranslation();
+                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+
+                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                    double tX = trans.get(0);
+                    double tY = trans.get(1);
+                    double tZ = trans.get(2);
+
+                    telemetry.addData("X", tX);
+                    telemetry.addData("Y", tY);
+                    telemetry.addData("Z", tZ);
+
+                    // Extract the rotational components of the target relative to the robot
+                    double rX = rot.firstAngle;
+                    double rY = rot.secondAngle;
+                    double rZ = rot.thirdAngle;
+
+                    telemetry.addData("Rot X", rX);
+                    telemetry.addData("Rot Y", rY);
+                    telemetry.addData("Rot Z", rZ);
+
+                    VuX = trans.get(0);
+
+                    //telemetry.addData("X", VuX);
+                }
+            }
+            else {
+                telemetry.addLine("No Skystone Visible");
+            }
+            telemetry.update();
+    }
+
     /**
      * Initialize the Vuforia localization engine.
      */
@@ -131,6 +189,18 @@ public abstract class AutoMethods extends AutoHardwareMap {
         // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
+    public void initVuStone() {
+        initVuforia();
+
+        targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        stoneTarget = targetsSkyStone.get(0);
+
+        stoneTarget.setName("Stone Target");
+
+        telemetry.addLine("Vuforia init done");
+        telemetry.update();
+    }
+
     /**
      * Initialize the TensorFlow Object Detection engine.
      */
@@ -144,13 +214,13 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
-    public void gyroMove(int direction, double power, int distance, int wait){
+    public void gyroMove(int direction, double power, double distance, int wait){
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
 
         resetEncoders();
-        distance *= ENCDISTANCE; //converts cm to encoder rotations
-        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4)) {
+        distance *= ENCCM; //converts cm to encoder rotations
+        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
@@ -202,6 +272,28 @@ public abstract class AutoMethods extends AutoHardwareMap {
         }
     }
 
+    public void movePosition(double inches, double power) {
+        resetEncoders();
+        int distance = (int)round(inches * ENCIN);
+        while(leftBackDrive.getCurrentPosition() < distance || rightBackDrive.getCurrentPosition() < distance) {
+            if (leftBackDrive.getCurrentPosition() < distance) {
+                leftBackDrive.setPower(power);
+            }
+            else {
+                leftBackDrive.setPower(0);
+            }
+            if (rightBackDrive.getCurrentPosition() < distance) {
+                rightBackDrive.setPower(power);
+            }
+            else {
+                rightBackDrive.setPower(0);
+            }
+            telemetry.addData("Left", leftBackDrive.getCurrentPosition());
+            telemetry.addData("Right", rightBackDrive.getCurrentPosition());
+            telemetry.update();
+        }
+    }
+
     public void resetEncoders() {
         leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -212,5 +304,59 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    //Create the method to turn the robot based on the degree value set and the current position of the robot
+    public void turn(double degrees, double power) {
+
+        //Create a variable power of the motor that gets slower the closer the robot is to the set degree
+        //double power = 0.3;
+
+        //Get the current position of the robot
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        //Get the current degree of the robot
+        angle = orientation.firstAngle;
+
+        //While the difference between the target angle and current angle is greater than three degrees
+        while (opModeIsActive() && Math.abs(degrees - angle) > 1) {
+            //If the target degree is greater than the current angle of the robot, turn right
+            if (Math.abs(degrees - angle) < 25) {
+                leftFrontDrive.setPower(-power/4);
+                rightFrontDrive.setPower(power/4);
+                leftBackDrive.setPower(-power/4);
+                rightBackDrive.setPower(power/4);
+            }
+            else {
+                leftFrontDrive.setPower(-power);
+                rightFrontDrive.setPower(power);
+                leftBackDrive.setPower(-power);
+                rightBackDrive.setPower(power);
+            }
+
+            //If the target degree is greater than the current angle of the robot, turn left
+            /*if (degrees > angle) {
+                leftFrontDrive.setPower(power);
+                rightFrontDrive.setPower(-power);
+                leftBackDrive.setPower(power);
+                rightBackDrive.setPower(-power);
+            }*/
+
+            //Get the current position of the robot
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            //Get the current degree of the robot
+            angle = orientation.firstAngle;
+
+            //Display the target degree the robot is going to move to on the screen
+            telemetry.addLine("Target degree: " + (int)(degrees));
+            //Display the current degree of the robot on the screen
+            telemetry.addLine("Current degree: " + (int)(angle));
+            //Update telemetry
+            telemetry.update();
+        }
+
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
     }
 }

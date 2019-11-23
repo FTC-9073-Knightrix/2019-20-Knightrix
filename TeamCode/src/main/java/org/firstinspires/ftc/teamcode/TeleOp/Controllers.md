@@ -19,6 +19,8 @@
 |left stick down|backwards|
 |left stick right|right|
 |left stick left|left|
+|right stick up||
+|right stick down||
 |right stick right|turn right|
 |right stick left|turn left|
 |right trigger||
@@ -31,23 +33,25 @@
 
 |Button|Action|
 |:-------------:|:-------------:|
-|dpad up||
-|dpad down||
+|dpad up|lift up|
+|dpad down|lift down|
 |dpad left||
 |dpad right||
 |y||
-|b||
-|a||
+|b|intake out|
+|a|intake in|
 |x||
 |select||
-|start||
+|start|initialize|
 |left stick up||
 |left stick down||
 |left stick right||
 |left stick left||
+|right stick up||
+|right stick down||
 |right stick right||
 |right stick left||
-|right trigger||
-|left trigger||
-|right bumper||
-|left bumper||
+|right trigger|turn body|
+|left trigger|turn block|
+|right bumper|close clamp|
+|left bumper|open clamp|

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Disabled
 @Autonomous(name="MoveToStone", group="Development")
 
 public class MoveToStone extends AutoMethods {

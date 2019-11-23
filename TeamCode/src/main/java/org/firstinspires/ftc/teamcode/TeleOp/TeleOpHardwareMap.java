@@ -2,17 +2,30 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 public abstract class TeleOpHardwareMap extends OpMode {
-    //Create the four motors
+    //Create the four drive motors
     public DcMotor leftFrontDrive;
     public DcMotor rightFrontDrive;
     public DcMotor rightBackDrive;
     public DcMotor leftBackDrive;
+    //Create other motors
+    public DcMotor intakeLeft;
+    public DcMotor intakeRight;
+    public DcMotor liftMotor;
+
+    //Create the servo motors
+    public Servo bodyTwistServo;
+    public Servo blockTwistServo;
+    public Servo clampServo;
+    public Servo blockServo;
 
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
@@ -36,6 +49,14 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean g2_right_bumper = false;
     public boolean g2_left_bumper  = false;
 
+    //Gamepad triggers
+    public float g2_right_trigger = 0;
+    public float g2_left_trigger = 0;
+
+    //Gamepad buttons
+    public boolean g2_a = false;
+    public boolean g2_b = false;
+
     //Create the gyroscope
     public BNO055IMU gyro;
     //Create the orientation variable for the robot position
@@ -53,24 +74,47 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Create slowmode variable
     public boolean slowmode = false;
 
+    public int liftPosition = 0;
+    public int liftSet = 0;
+
+    public boolean ready = false;
+    public boolean initRun = false;
+    public int stage = 0;
+
+    public boolean closed = false;
+    public boolean down = false;
+
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones
-        //leftFrontDrive = hardwareMap.dcMotor.get("LF");
-        //rightFrontDrive = hardwareMap.dcMotor.get("RF");
+        leftFrontDrive = hardwareMap.dcMotor.get("LF");
+        rightFrontDrive = hardwareMap.dcMotor.get("RF");
         rightBackDrive = hardwareMap.dcMotor.get("RB");
         leftBackDrive = hardwareMap.dcMotor.get("LB");
+        intakeLeft = hardwareMap.dcMotor.get("IL");
+        intakeRight = hardwareMap.dcMotor.get("IR");
+        liftMotor = hardwareMap.dcMotor.get("LM");
+
+        //Add servos to the configuration on the phones
+        bodyTwistServo = hardwareMap.servo.get("BodyS");
+        blockTwistServo = hardwareMap.servo.get("BlockS");
+        clampServo = hardwareMap.servo.get("CS");
+        blockServo = hardwareMap.servo.get("BS");
 
         //Set the direction of the motors
-        //rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // F
-        //leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
+        intakeLeft.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        //leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        liftPosition = liftMotor.getCurrentPosition();
+        liftMotor.setTargetPosition(liftPosition);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
