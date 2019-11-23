@@ -10,11 +10,11 @@
 |dpad left||
 |dpad right||
 |y||
-|b||
-|a||
+|b|slowmode off|
+|a|slowmode on|
 |x||
 |select||
-|start||
+|start|initialize|
 |left stick up|forwards|
 |left stick down|backwards|
 |left stick right|right|
@@ -25,16 +25,16 @@
 |right stick left|turn left|
 |right trigger||
 |left trigger||
-|right bumper||
-|left bumper||
+|right bumper|intake in|
+|left bumper|intake out|
 
 
 ### Gamepad 2
 
 |Button|Action|
 |:-------------:|:-------------:|
-|dpad up|lift up|
-|dpad down|lift down|
+|dpad up||
+|dpad down||
 |dpad left||
 |dpad right||
 |y||
@@ -43,8 +43,8 @@
 |x||
 |select||
 |start|initialize|
-|left stick up||
-|left stick down||
+|left stick up|lift up|
+|left stick down|lift down|
 |left stick right||
 |left stick left||
 |right stick up||
@@ -52,6 +52,6 @@
 |right stick right||
 |right stick left||
 |right trigger|turn body|
-|left trigger|turn block|
-|right bumper|close clamp|
-|left bumper|open clamp|
+|left trigger|clamp|
+|right bumper|wrist right|
+|left bumper|wrist left|
