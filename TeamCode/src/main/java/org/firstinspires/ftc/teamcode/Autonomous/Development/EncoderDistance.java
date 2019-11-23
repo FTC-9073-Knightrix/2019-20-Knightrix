@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
+@Disabled
 @Autonomous(name = "EncDistance", group = "Development")
 
 public class EncoderDistance extends AutoMethods {

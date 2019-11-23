@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
+@Disabled
 @Autonomous(name = "Vuforia Test", group = "Development")
 
 public class VuforiaTest extends AutoMethods {

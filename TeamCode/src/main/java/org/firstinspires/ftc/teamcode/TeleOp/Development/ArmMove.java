@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
+@Disabled
 @TeleOp(name = "Arm", group = "Development")
 
 public class ArmMove extends TeleOpMethods {

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
-@Autonomous(name = "RedBuildsite")
+@Autonomous(name = "Red Buildsite")
 
 public class AutoRedSite extends AutoMethods {
     public void runOpMode() {

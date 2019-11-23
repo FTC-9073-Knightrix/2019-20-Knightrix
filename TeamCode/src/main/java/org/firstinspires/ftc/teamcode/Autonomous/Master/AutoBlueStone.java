@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
-@Autonomous(name="BlueStone")
+@Autonomous(name="Blue Stone")
 
 public class AutoBlueStone extends AutoMethods {
     public void runOpMode() {
