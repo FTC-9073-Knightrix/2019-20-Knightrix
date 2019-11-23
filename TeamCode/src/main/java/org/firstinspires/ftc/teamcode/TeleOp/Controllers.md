@@ -51,7 +51,7 @@
 |right stick down||
 |right stick right||
 |right stick left||
-|right trigger|turn body|
-|left trigger|clamp|
+|right trigger|clamp|
+|left trigger|turn body|
 |right bumper|wrist right|
 |left bumper|wrist left|

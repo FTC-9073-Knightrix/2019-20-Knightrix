@@ -78,15 +78,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Create slowmode variable
     public boolean slowmode = false;
 
-    public int liftPosition = 0;
-    public int liftSet = 0;
-
     public boolean ready = false;
     public boolean initRun = false;
     public int stage = 0;
-
-    public boolean closed = false;
-    public boolean down = false;
 
     //Initialize the defined objects
     public void init() {
@@ -116,8 +110,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftPosition = liftMotor.getCurrentPosition();
-        liftMotor.setTargetPosition(liftPosition);
+        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
