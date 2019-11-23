@@ -1,38 +1,19 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
-import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
-import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-
-import java.util.List;
-
-import static java.lang.Math.round;
 
 public abstract class AutoMethods extends AutoHardwareMap {
     //Create the initialization method to run at the start of the programs
     public void initRobot() {
-
         //Add the motors to the configuration on the phones
         leftFrontDrive = hardwareMap.dcMotor.get("LF");
         rightFrontDrive = hardwareMap.dcMotor.get("RF");
@@ -57,80 +38,17 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //centerEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         //Add the gyroscope to the configuration on the phones
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
-
-        //Add range sensors
-        //RRB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RRB");
-        //RLB = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"RLB");
-        //RLB.setI2cAddress(I2cAddr.create8bit(0x16));
-    }
-
-    public void initVision() {
-        // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
-        // first.
-        initVuforia();
-
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
-            initTfod();
-        } else {
-            telemetry.addData("Sorry!", "This device is not compatible with TFOD");
-        }
-
-        /**
-         * Activate TensorFlow Object Detection before we wait for the start command.
-         * Do it here so that the Camera Stream window will have the TensorFlow annotations visible.
-         **/
-        if (tfod != null) {
-            tfod.activate();
-        }
-
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode");
-        telemetry.update();
-        waitForStart();
-    }
-
-    public void runVision() {
-        if (tfod != null) {
-            // getUpdatedRecognitions() will return null if no new information is available since
-            // the last time that call was made.
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                if (updatedRecognitions.size() >= 3) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    int x = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        if (recognition.getLabel().equals("Skystone")) {
-                            found = x;
-                        }
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        stoneleft.add(x, recognition.getLeft());
-                        stonetop.add(x, recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-                        stoneright.add(x, recognition.getRight());
-                        stonebottom.add(x, recognition.getBottom());
-                        x++;
-                    }
-                    telemetry.update();
-                }
-            }
-        }
     }
 
     public void runVuforia() {
         targetsSkyStone.activate();
 
+        /*
         if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
                 telemetry.addLine("Skystone Visible");
 
@@ -167,26 +85,19 @@ public abstract class AutoMethods extends AutoHardwareMap {
             else {
                 telemetry.addLine("No Skystone Visible");
             }
-            telemetry.update();
+        telemetry.update();*/
     }
 
     /**
      * Initialize the Vuforia localization engine.
      */
     private void initVuforia() {
-        /*
-         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
-         */
+        //Configure Vuforia
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-        //parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-
-        //  Instantiate the Vuforia engine
+        //Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
     public void initVuStone() {
@@ -199,18 +110,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         telemetry.addLine("Vuforia init done");
         telemetry.update();
-    }
-
-    /**
-     * Initialize the TensorFlow Object Detection engine.
-     */
-    private void initTfod() {
-        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minimumConfidence = 0.8;
-        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
     // Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
@@ -232,19 +131,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
             move(direction, (float) power, myrot);
-
-            // DEBUG with Telemetry
-            telemetry.addData("Directin Goal: ", direction);
-            telemetry.addData("Gyro Position: ", gyroDegrees);
-            telemetry.addData("Correction :   ",  CorrectionDegrees );
-            telemetry.addData("MyRot -1/+1 :  ",  myrot);
-
-            telemetry.addData("Position", (
-                    Math.abs(leftFrontDrive.getCurrentPosition()) +
-                            Math.abs(rightFrontDrive.getCurrentPosition()) +
-                            Math.abs(leftBackDrive.getCurrentPosition()) +
-                            Math.abs(rightBackDrive.getCurrentPosition()) )/ 4);
-            telemetry.update();
         }
 
         leftFrontDrive.setPower(0);
@@ -269,28 +155,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.addData("LeftBack", leftBackDrive.getCurrentPosition());
             telemetry.addData("RightFront", rightFrontDrive.getCurrentPosition());
             telemetry.addData("RightBack", rightBackDrive.getCurrentPosition());
-        }
-    }
-
-    public void movePosition(double inches, double power) {
-        resetEncoders();
-        int distance = (int)round(inches * ENCIN);
-        while(leftBackDrive.getCurrentPosition() < distance || rightBackDrive.getCurrentPosition() < distance) {
-            if (leftBackDrive.getCurrentPosition() < distance) {
-                leftBackDrive.setPower(power);
-            }
-            else {
-                leftBackDrive.setPower(0);
-            }
-            if (rightBackDrive.getCurrentPosition() < distance) {
-                rightBackDrive.setPower(power);
-            }
-            else {
-                rightBackDrive.setPower(0);
-            }
-            telemetry.addData("Left", leftBackDrive.getCurrentPosition());
-            telemetry.addData("Right", rightBackDrive.getCurrentPosition());
-            telemetry.update();
         }
     }
 
@@ -332,14 +196,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
                 leftBackDrive.setPower(-power);
                 rightBackDrive.setPower(power);
             }
-
-            //If the target degree is greater than the current angle of the robot, turn left
-            /*if (degrees > angle) {
-                leftFrontDrive.setPower(power);
-                rightFrontDrive.setPower(-power);
-                leftBackDrive.setPower(power);
-                rightBackDrive.setPower(-power);
-            }*/
 
             //Get the current position of the robot
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);

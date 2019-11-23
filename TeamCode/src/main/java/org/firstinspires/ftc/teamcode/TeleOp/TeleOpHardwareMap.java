@@ -46,6 +46,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean g2_dpad_left  = false;
 
     // Game pad Bumpers
+    public boolean g1_left_bumper = false;
+    public boolean g1_right_bumper = false;
     public boolean g2_right_bumper = false;
     public boolean g2_left_bumper  = false;
 
@@ -54,6 +56,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public float g2_left_trigger = 0;
 
     //Gamepad buttons
+    public boolean g1_a = false;
+    public boolean g1_b = false;
     public boolean g2_a = false;
     public boolean g2_b = false;
 

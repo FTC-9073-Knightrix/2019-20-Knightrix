@@ -93,27 +93,6 @@ public class AutoBlueStone extends AutoMethods {
         }
         //If it is the right stone
         else {
-            /*
-            //Move to the second skystone
-            gyroMove(0, -1, 85 + ((setup) * 10), 0);
-            gyroMove(0, -0.5, 10, 0);
-            //Approach the stone
-            gyroMove(90, -0.4, 12, 0);
-            //Set the arm down
-            blockServo.setPosition(.9);
-            //Wait for the arm to fully go down
-            sleep(500);
-            //If it is the left or middle stone
-            //Turn while grabbing the skystone
-            turn(-90, -0.4);
-            //Move away from the line of stones
-            gyroMove(90, -0.5, 20, 0);
-            //Take the stone to the other side of the field
-            gyroMove(0, -1, 80, 0);
-            //Let go of the stone
-            blockServo.setPosition(0);
-            //Wait for the arm to fully go up
-            sleep(500);*/
             //Turn to get ready for the drivers
             turn(0,-0.5);
             //Go park

@@ -24,17 +24,20 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g2_dpad_up   = gamepad2.dpad_up;
         g2_dpad_right= gamepad2.dpad_right;
         g2_dpad_left = gamepad2.dpad_left;
+        g1_a = gamepad1.a;
+        g1_b = gamepad1.b;
+        g2_a = gamepad2.a;
+        g2_b = gamepad2.b;
 
         //Gamepad bumpers
+        g1_right_bumper = gamepad1.right_bumper;
+        g1_left_bumper = gamepad1.left_bumper;
         g2_right_bumper = gamepad2.right_bumper;
         g2_left_bumper  = gamepad2.left_bumper;
 
         //Gamepad triggers
         g2_right_trigger = gamepad2.right_trigger;
         g2_left_trigger = gamepad2.left_trigger;
-
-        g2_a = gamepad2.a;
-        g2_b = gamepad2.b;
     }
 
     public void move (double myangle, float mypower, float myrot) {
@@ -49,29 +52,11 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     }
 
     public void drive() {
-        getController();
-        //Refresh the gyroscope value every three loops of the program
-        //if (navxCounter == 3) {
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
-        //Get the current angle of the robot, subtracting it by the previous value recorded
-        //gyroDegrees = (int) (orientation.firstAngle - gyroResetValue);
         gyroDegrees = (int) orientation.firstAngle;
-        //Reset the counter
-        //navxCounter = 1;
-        //}
-        //else {
-        //Add one to the counter
-        //    navxCounter++;
-        //}
-
-        //Add the current angle of the robot to the display
-        //telemetry.addLine("Gyro Value: " + orientation.firstAngle + "\u00b0");
-        //Update telemetry
-        //telemetry.update();
 
         //Get the rotation of the robot based off the position of the right joystick x
-
         if (!slowmode) {
             myrot = Math.round(g1_rightstick_x * (float) 100) / (float) 100;
         }
@@ -85,18 +70,6 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
         else {
             leftstick_x = (float) (-g1_leftstick_x / 2.5);
-            /*if (g1_leftstick_x != 0) {
-
-            }
-            /*else if (gamepad2.dpad_left) {
-                leftstick_x = (float) 0.4;
-            }
-            else if (gamepad2.dpad_right) {
-                leftstick_x = (float) -0.4;
-            }*/
-            /*else {
-                leftstick_x = 0;
-            }*/
         }
         if (!slowmode) {
             //Declare the left joystick y
@@ -141,38 +114,12 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
 
         //Move the robot based off the calculated values
-
-        /*telemetry.addData("Power :", mypower);
-        telemetry.addData("Angle :", myangle);
-        telemetry.addData("Gyro: :", gyroDegrees);
-        telemetry.addData("MyRot :", myrot);
-
-        telemetry.addData("Down", MagDown.getState());*/
-        //telemetry.update();
-
         move(myangle,mypower,myrot);
     }
 
     public void moveArm() {
         clampServo.setPosition(Range.clip(g2_left_trigger,0.5,0.85));
-        telemetry.addData("Block", g2_left_trigger);
-        //min 0.1967
         bodyTwistServo.setPosition(Range.clip(g2_right_trigger,0.1215,1));
-        telemetry.addData("Body", Range.clip(g2_right_trigger,0,1));
-        /*if (g2_left_bumper) {
-            closed = false;
-        }
-        else if (g2_right_bumper) {
-            closed = true;
-        }
-        if (closed) {
-            blockTwistServo.setPosition(0);
-            //clampServo.setPosition(0.85);
-        }
-        else {
-            blockTwistServo.setPosition(1);
-            //clampServo.setPosition(0.5);
-        }*/
 
         if (g2_left_bumper) {
             blockTwistServo.setPosition(1);
@@ -183,7 +130,5 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         else {
             blockTwistServo.setPosition(0.5);
         }
-
-        telemetry.addData("Clamp", closed);
     }
 }

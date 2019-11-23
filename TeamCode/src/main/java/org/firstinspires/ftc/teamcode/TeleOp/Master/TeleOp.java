@@ -45,25 +45,25 @@ public class TeleOp extends TeleOpMethods {
         else {
             getController();
             drive();
-
-            //MAKE THE ARM THING ONE BUTTON!
             moveArm();
 
-            if (gamepad1.right_bumper || g2_a) {
+            if (g1_right_bumper || g2_a) {
                 intakeLeft.setPower(1);
                 intakeRight.setPower(1);
-            } else if (gamepad1.left_bumper || g2_b) {
+            }
+            else if (g1_left_bumper || g2_b) {
                 intakeLeft.setPower(-1);
                 intakeRight.setPower(-1);
-            } else {
+            }
+            else {
                 intakeLeft.setPower(0);
                 intakeRight.setPower(0);
             }
 
-            if (gamepad1.b) {
+            if (g1_b) {
                 slowmode = false;
             }
-            else if (gamepad1.a){
+            else if (g1_a){
                 slowmode = true;
             }
 
@@ -80,26 +80,6 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setTargetPosition(liftMotor.getCurrentPosition());
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
-
-            telemetry.addData("lift", liftPosition - liftMotor.getCurrentPosition());
-
-
-            /*liftMotor.setPower(1);
-            if (g2_dpad_up && liftSet >= liftPosition - 3900) {
-                liftSet -= 150;
-                liftMotor.setTargetPosition(liftSet);
-            } else if (g2_dpad_down && liftSet + 100 <= liftPosition) {
-                liftSet += 150;
-                liftMotor.setTargetPosition(liftSet);
-            } else {
-                liftSet = liftMotor.getCurrentPosition();
-                liftMotor.setTargetPosition(liftSet);
-            }
-
-            telemetry.addData("LiftSet", liftSet);
-            telemetry.addData("LiftMotor", liftMotor.getCurrentPosition());*/
-
-            telemetry.update();
         }
     }
 }

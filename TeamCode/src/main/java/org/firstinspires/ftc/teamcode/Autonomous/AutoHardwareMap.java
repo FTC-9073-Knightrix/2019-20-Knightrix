@@ -35,31 +35,11 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     //Create the angle tracker
     public double angle = 0;
 
-    //public ModernRoboticsI2cRangeSensor RRB;
-    //public ModernRoboticsI2cRangeSensor RLB;
-
-    //amount of clicks per unit
-    //15727.5 clicks
-    //457.5 cm
-    //180.13 in
     public final double ENCCM = 15727.5/457.5;
     public final double ENCIN = 15727.5/180.13;
 
-    static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    static final String LABEL_FIRST_ELEMENT = "Stone";
-    static final String LABEL_SECOND_ELEMENT = "Skystone";
     static final String VUFORIA_KEY = "AYl7ALf/////AAABmYRUZlrZD0yrpIpwu/lCqI404R8xljtOfAC2CqbtCpS8cdQOxNeRkjlt2adr+rxsSRHbQ8BerXEveMhl/jmXPM8GaYKri+E1j+LZplYraYHpWu6YXtceQQ24UIRIDKtRXkzUY9Hp5QY+Zrie7bELZTAm21wWSNLtF1XPd2XyEUa0Lw96c5BpczME5VhEQdVCfHA1TLnOEsQutrw173uOiZvvKdeEV1bGeRAlfkcf99ffKvTlVMZORlMCksWeKcatZRoC/zBXphIJMETpgYZCkmy59usG/JxL6rQrAjXHaLM60fzvLm2E9Fl5guhDrydctoHye8+Zla8Uh0tFAqF14YaElg2mmhAci59Nq2c1hher";
     VuforiaLocalizer vuforia = null;
-    TFObjectDetector tfod;
-    //public float stoneleft;
-    //public float stonetop;
-    //public float stoneright;
-    //public float stonebottom;
-    public List<Float> stoneleft = new ArrayList<Float>();
-    public List<Float> stonetop = new ArrayList<Float>();
-    public List<Float> stoneright = new ArrayList<Float>();
-    public List<Float> stonebottom = new ArrayList<Float>();
-    public int found = -1;
 
     public VuforiaTrackables targetsSkyStone = null;
     public VuforiaTrackable stoneTarget = null;
