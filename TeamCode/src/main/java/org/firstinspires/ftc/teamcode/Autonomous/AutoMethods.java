@@ -28,6 +28,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //Servos
         blockServo = hardwareMap.servo.get("BS");
+        sideServo = hardwareMap.servo.get("SS");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);

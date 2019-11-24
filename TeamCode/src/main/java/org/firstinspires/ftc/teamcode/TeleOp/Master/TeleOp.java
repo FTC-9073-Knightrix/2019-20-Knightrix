@@ -8,7 +8,30 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
-        if (gamepad1.start && !ready) {
+        getController();
+        drive();
+
+        if (g1_right_bumper || g2_a) {
+            intakeLeft.setPower(1);
+            intakeRight.setPower(1);
+        }
+        else if (g1_left_bumper || g2_b) {
+            intakeLeft.setPower(-1);
+            intakeRight.setPower(-1);
+        }
+        else {
+            intakeLeft.setPower(0);
+            intakeRight.setPower(0);
+        }
+
+        if (g1_b) {
+            slowmode = false;
+        }
+        else if (g1_a){
+            slowmode = true;
+        }
+
+        if (gamepad2.start && !ready) {
             initRun = true;
             ready = true;
         }
@@ -19,10 +42,14 @@ public class TeleOp extends TeleOpMethods {
             sideDown = false;
         }
         if (sideDown) {
-            blockServo.setPosition(1);
+            siteServo.setPosition(1);
         }
         else {
-            blockServo.setPosition(0);
+            siteServo.setPosition(0);
+        }
+
+        if (gamepad2.back) {
+            blockServo.setPosition(0.7);
         }
 
         if(initRun) {
@@ -55,29 +82,7 @@ public class TeleOp extends TeleOpMethods {
             }
         }
         else {
-            getController();
-            drive();
             moveArm();
-
-            if (g1_right_bumper || g2_a) {
-                intakeLeft.setPower(1);
-                intakeRight.setPower(1);
-            }
-            else if (g1_left_bumper || g2_b) {
-                intakeLeft.setPower(-1);
-                intakeRight.setPower(-1);
-            }
-            else {
-                intakeLeft.setPower(0);
-                intakeRight.setPower(0);
-            }
-
-            if (g1_b) {
-                slowmode = false;
-            }
-            else if (g1_a){
-                slowmode = true;
-            }
 
             if (g2_leftstick_y < 0 && liftMotor.getCurrentPosition() > -3700) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

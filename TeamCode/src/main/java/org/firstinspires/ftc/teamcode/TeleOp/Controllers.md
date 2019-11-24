@@ -5,15 +5,15 @@
 
 |Button|Action|
 |:-------------:|:-------------:|
-|dpad up|side up|
-|dpad down|side down|
+|dpad up|site up|
+|dpad down|site down|
 |dpad left||
 |dpad right||
 |y||
 |b|slowmode off|
 |a|slowmode on|
 |x||
-|select||
+|select|side out|
 |start|initialize|
 |left stick up|forwards|
 |left stick down|backwards|
