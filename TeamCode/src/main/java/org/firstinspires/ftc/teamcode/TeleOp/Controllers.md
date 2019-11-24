@@ -5,8 +5,8 @@
 
 |Button|Action|
 |:-------------:|:-------------:|
-|dpad up||
-|dpad down||
+|dpad up|side up|
+|dpad down|side down|
 |dpad left||
 |dpad right||
 |y||
@@ -37,7 +37,7 @@
 |dpad down||
 |dpad left||
 |dpad right||
-|y||
+|y|wrist center|
 |b|intake out|
 |a|intake in|
 |x||
@@ -49,9 +49,9 @@
 |left stick left||
 |right stick up||
 |right stick down||
-|right stick right||
-|right stick left||
+|right stick right|body right|
+|right stick left|body left|
 |right trigger|clamp|
-|left trigger|turn body|
+|left trigger||
 |right bumper|wrist right|
 |left bumper|wrist left|

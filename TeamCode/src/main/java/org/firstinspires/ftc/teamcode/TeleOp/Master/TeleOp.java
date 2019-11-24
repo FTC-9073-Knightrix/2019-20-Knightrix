@@ -12,14 +12,21 @@ public class TeleOp extends TeleOpMethods {
             initRun = true;
             ready = true;
         }
+        if (g1_dpad_up) {
+            sideDown = true;
+        }
+        else if (g1_dpad_down) {
+            sideDown = false;
+        }
+        if (sideDown) {
+            blockServo.setPosition(1);
+        }
+        else {
+            blockServo.setPosition(0);
+        }
+
         if(initRun) {
             if (stage == 0) {
-                blockServo.setPosition(0.7);
-                double timer = getRuntime();
-                while(getRuntime() > timer + 1) {
-                    telemetry.addData("Time", getRuntime() - timer);
-                    telemetry.update();
-                }
                 liftMotor.setPower(0.2);
                 liftMotor.setTargetPosition(-3100);
                 stage++;

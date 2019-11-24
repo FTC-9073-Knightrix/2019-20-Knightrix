@@ -20,6 +20,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
 
         //Gamepad buttons
+        g1_dpad_down = gamepad1.dpad_down;
+        g1_dpad_up = gamepad1.dpad_up;
         g2_dpad_down = gamepad2.dpad_down;
         g2_dpad_up   = gamepad2.dpad_up;
         g2_dpad_right= gamepad2.dpad_right;
@@ -28,6 +30,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g1_b = gamepad1.b;
         g2_a = gamepad2.a;
         g2_b = gamepad2.b;
+        g2_y = gamepad2.y;
 
         //Gamepad bumpers
         g1_right_bumper = gamepad1.right_bumper;
@@ -120,8 +123,19 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     public void moveArm() {
         clampServo.setPosition(g2_right_trigger);
 
-        if (liftMotor.getCurrentPosition() < -1400) {
-            bodyTwistServo.setPosition(Range.clip(g2_left_trigger, 0.11, 0.83));
+        if (liftMotor.getCurrentPosition() < -1300) {
+            if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.02 <= 0.83) {
+                bodyTwistServo.setPosition(bodyTwistServo.getPosition() + .02);
+            }
+            else if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.02 > 0.83) {
+                bodyTwistServo.setPosition(0.83);
+            }
+            else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.02 >= 0.11) {
+                bodyTwistServo.setPosition(bodyTwistServo.getPosition() - .02);
+            }
+            else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.02 < 0.11) {
+                bodyTwistServo.setPosition(0.11);
+            }
         }
 
         if (g2_left_bumper) {
@@ -130,12 +144,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         else if (g2_right_bumper) {
             blockTwistServo.setPosition(0);
         }
-        else {
+        else if (g2_y) {
             blockTwistServo.setPosition(0.5);
         }
-
-        telemetry.addData("clamp", g2_right_trigger);
-        telemetry.addData("lift", liftMotor.getCurrentPosition());
-        telemetry.update();
     }
 }

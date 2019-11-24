@@ -60,6 +60,9 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean g1_b = false;
     public boolean g2_a = false;
     public boolean g2_b = false;
+    public boolean g2_y = false;
+    public boolean g1_dpad_up = false;
+    public boolean g1_dpad_down = false;
 
     //Create the gyroscope
     public BNO055IMU gyro;
@@ -81,6 +84,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean ready = false;
     public boolean initRun = false;
     public int stage = 0;
+
+    public boolean sideDown = false;
 
     //Initialize the defined objects
     public void init() {
@@ -106,10 +111,14 @@ public abstract class TeleOpHardwareMap extends OpMode {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
         intakeLeft.setDirection(DcMotor.Direction.REVERSE);
         //Set the mode the motors are going to be running in
-        leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

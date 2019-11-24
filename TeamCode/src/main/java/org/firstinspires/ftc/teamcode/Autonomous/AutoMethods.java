@@ -6,10 +6,14 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
+import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 
 public abstract class AutoMethods extends AutoHardwareMap {
     //Create the initialization method to run at the start of the programs
@@ -43,6 +47,39 @@ public abstract class AutoMethods extends AutoHardwareMap {
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro.initialize(parameters);
+    }
+
+    public void runVuforia() {
+        targetsSkyStone.activate();
+
+        if (((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible()) {
+                telemetry.addLine("Skystone Visible");
+                OpenGLMatrix pose = ((VuforiaTrackableDefaultListener)stoneTarget.getListener()).getFtcCameraFromTarget();
+                //telemetry.addData("Pose", pose);
+                if (pose != null) {
+                    VectorF trans = pose.getTranslation();
+                    Orientation rot = Orientation.getOrientation(pose, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                    // Extract the X, Y, and Z components of the offset of the target relative to the robot
+                    double tX = trans.get(0);
+                    double tY = trans.get(1);
+                    double tZ = trans.get(2);
+                    telemetry.addData("X", tX);
+                    telemetry.addData("Y", tY);
+                    telemetry.addData("Z", tZ);
+                    // Extract the rotational components of the target relative to the robot
+                    double rX = rot.firstAngle;
+                    double rY = rot.secondAngle;
+                    double rZ = rot.thirdAngle;
+                    telemetry.addData("Rot X", rX);
+                    telemetry.addData("Rot Y", rY);
+                    telemetry.addData("Rot Z", rZ);
+                    VuX = trans.get(0);
+                }
+            }
+            else {
+                telemetry.addLine("No Skystone Visible");
+            }
+        telemetry.update();
     }
 
     /**
