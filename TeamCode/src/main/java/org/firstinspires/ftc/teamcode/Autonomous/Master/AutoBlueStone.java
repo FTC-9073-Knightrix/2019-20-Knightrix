@@ -51,7 +51,7 @@ public class AutoBlueStone extends AutoMethods {
         //Adjust so that the arm grabs from the middle of the stone
         gyroMove(0, 0.4, 2, 0);
         //Approach the stone
-        gyroMove(90, -0.4, 9, 0);
+        gyroMove(90, -0.4, 11, 0);
         //Set the arm down
         blockServo.setPosition(1);
         //Wait for the arm to fully go down
@@ -67,6 +67,7 @@ public class AutoBlueStone extends AutoMethods {
         //Wait for the arm to fully go up
         sleep(500);
         if (setup < 3) {
+            gyroMove(90, -0.4, 1, 0);
             //Move to the second skystone
             gyroMove(0, -0.7, 80 + ((setup + 2) * 10), 0);
             //Approach the stone
@@ -96,7 +97,7 @@ public class AutoBlueStone extends AutoMethods {
             //Turn to get ready for the drivers
             turn(0,-0.5);
             //Go park
-            gyroMove(90, -1, 5, 0);
+            gyroMove(90, -1, 10, 0);
         }
     }
 }

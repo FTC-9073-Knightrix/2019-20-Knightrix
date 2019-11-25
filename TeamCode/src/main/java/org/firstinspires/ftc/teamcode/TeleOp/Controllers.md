@@ -33,14 +33,14 @@
 
 |Button|Action|
 |:-------------:|:-------------:|
-|dpad up||
-|dpad down||
+|dpad up|override up|
+|dpad down|override down|
 |dpad left||
 |dpad right||
 |y|wrist center|
 |b|intake out|
 |a|intake in|
-|x||
+|x|reset lift|
 |select||
 |start|initialize|
 |left stick up|lift up|

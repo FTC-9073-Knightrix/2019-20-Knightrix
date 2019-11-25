@@ -57,7 +57,7 @@ public class AutoRedStone extends AutoMethods {
         //Wait for the arm to fully go down
         sleep(1000);
         //Move a bit so the arm can adjust in case it gets stuck on either side of gap
-        gyroMove(0, -0.4, 2, 0);
+        gyroMove(0, 0.4, 2, 0);
         //Pull the stone out
         gyroMove(90, 0.5, 21, 0);
         //Move to the other side of the field
@@ -68,8 +68,9 @@ public class AutoRedStone extends AutoMethods {
         sleep(500);
         //If it is the left or middle stone
         if (setup < 3) {
+            gyroMove(90, -0.4, 1, 0);
             //Move to the second skystone
-            gyroMove(0, 0.7, 83 + ((setup + 2) * 10), 0);
+            gyroMove(0, 0.7, 85 + ((setup + 2) * 10), 0);
             //Approach the stone
             gyroMove(90, -0.4, 23, 0);
             //Set the arm down

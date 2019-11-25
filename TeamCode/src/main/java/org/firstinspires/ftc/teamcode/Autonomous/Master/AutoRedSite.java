@@ -25,5 +25,6 @@ public class AutoRedSite extends AutoMethods {
         gyroMove(90, 0.5, 30, 0);
         gyroMove(0, 0.5, 30, 0);
         gyroMove(90, -0.5, 60, 0);
+        turn(180, 0.5);
     }
 }
