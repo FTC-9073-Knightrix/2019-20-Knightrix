@@ -50,7 +50,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         double RightPower = Math.max( Math.abs(-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))),Math.abs(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))));
         double RobotPower = Math.max(Math.abs(LeftPower),Math.abs(RightPower));
 
-        if RobotPower = null {mypower = 0}
+        if (Double.isNaN(RobotPower )) {mypower = 0;}
         mypower = (float) (1/ RobotPower * mypower);
 
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
@@ -60,6 +60,9 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * 3.141592))))), -1, 1));
             rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
         }
+
+        telemetry.addData("MyPower", mypower);
+        telemetry.addData("RobotPower", RobotPower);
     }
 
     public void drive() {
