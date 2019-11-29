@@ -147,7 +147,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             double RightPower = Math.max( (-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))),(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))));
             double RobotPower = Math.max(LeftPower,RightPower);
 
-            mypower = 1/RobotPower * mypower;
+            mypower = (float) (1/ RobotPower * mypower);
 
             leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
             leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
