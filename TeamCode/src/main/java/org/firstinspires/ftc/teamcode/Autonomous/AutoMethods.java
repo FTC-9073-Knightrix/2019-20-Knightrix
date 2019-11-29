@@ -141,6 +141,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
+
+            //To maximize the motor power, first calculate the maximum power from Trig, then increase power to match 100%
+            double LeftPower = Math.max( (myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))),(myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))));
+            double RightPower = Math.max( (-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))),(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))));
+            double RobotPower = Math.max(LeftPower,RightPower);
+
+            mypower = 1/RobotPower * mypower;
+
             leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
             leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
             rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
@@ -210,4 +218,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
     }
+    // Create a method to get values from Hardware
+    // public void Get_Hardware_Values(MyGyro){
+
+    //}
 }
+
