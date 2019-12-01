@@ -35,9 +35,9 @@ public class AutoTest extends AutoMethods {
         int StartingOrientation = (int) orientation.firstAngle;
         String filename = "Gyro_pos.json";
         File file = AppUtil.getInstance().getSettingsFile(filename);
-        ReadWriteFile.writeFile(file,StartingOrientation);
+        ReadWriteFile.writeFile(file, String.valueOf(StartingOrientation));
 
-        
+
         //Move forwards at half speed
         gyroMove(0, 0.4, 30000, 0);
     }
