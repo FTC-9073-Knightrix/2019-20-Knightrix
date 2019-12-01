@@ -132,6 +132,6 @@ public abstract class TeleOpHardwareMap extends OpMode {
         String filename = "Gyro_pos.txt";
         File file = AppUtil.getInstance().getSettingsFile(filename);
         StartingPosition = Integer.valueOf(ReadWriteFile.readFile(file));
-
+        gyroDegrees = StartingPosition;
     }
 }
