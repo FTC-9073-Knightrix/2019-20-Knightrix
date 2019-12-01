@@ -142,11 +142,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
 
         //Move the robot based off the calculated values
 
-        /*telemetry.addData("Power :", mypower);
+        telemetry.addData("Power :", mypower);
         telemetry.addData("Angle :", myangle);
         telemetry.addData("Gyro: :", gyroDegrees);
         telemetry.addData("MyRot :", myrot);
+        telemetry.addData("Starting :", StartingPosition);
 
+        /*
         telemetry.addData("Down", MagDown.getState());*/
         //telemetry.update();
 

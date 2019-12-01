@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 import java.io.File;
 
 //Add the program to the index of Autonomous programs
-@Disabled
+//@Disabled
 @Autonomous(name = "AutoTest")
 
 //Create the class declaration, extending AutoMethods
@@ -33,12 +33,12 @@ public class AutoTest extends AutoMethods {
         //Records the current position into a Text File
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
-        String filename = "Gyro_pos.json";
+        String filename = "Gyro_pos.txt";
         File file = AppUtil.getInstance().getSettingsFile(filename);
         ReadWriteFile.writeFile(file, String.valueOf(StartingOrientation));
 
 
         //Move forwards at half speed
-        gyroMove(0, 0.4, 30000, 0);
+        gyroMove(0, 0.4, 10, 0);
     }
 }

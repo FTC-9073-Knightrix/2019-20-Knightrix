@@ -7,8 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+
+import java.io.File;
 
 public abstract class TeleOpHardwareMap extends OpMode {
     //Create the four drive motors
@@ -84,6 +88,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean closed = false;
     public boolean down = false;
 
+    public static int StartingPosition = 0;
+
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones
@@ -117,9 +123,15 @@ public abstract class TeleOpHardwareMap extends OpMode {
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        //parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
-        gyro.initialize(parameters);
+        //gyro.initialize(parameters);
+
+        //Gets the starting Gyro Position from a file
+        String filename = "Gyro_pos.txt";
+        File file = AppUtil.getInstance().getSettingsFile(filename);
+        StartingPosition = Integer.valueOf(ReadWriteFile.readFile(file));
+
     }
 }
