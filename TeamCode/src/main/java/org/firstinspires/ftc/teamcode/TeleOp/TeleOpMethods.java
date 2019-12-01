@@ -70,6 +70,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             rightBackDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * 3.141592))))), -1, 1));
         }
 
+        telemetry.addData("MyRot", myrot);
         telemetry.addData("MyPower", mypower);
         telemetry.addData("RobotPower", RobotPower);
     }

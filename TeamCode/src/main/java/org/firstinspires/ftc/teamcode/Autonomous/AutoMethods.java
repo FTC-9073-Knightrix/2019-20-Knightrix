@@ -142,12 +142,21 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
         if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
 
-            //To maximize the motor power, first calculate the maximum power from Trig, then increase power to match 100%
-            double LeftPower = Math.max( (myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))),(myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))));
-            double RightPower = Math.max( (-myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))),(-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))));
-            double RobotPower = Math.max(LeftPower,RightPower);
+            // Record variables
+            float Orig_power = mypower;
 
-            mypower = (float) (1/ RobotPower * mypower);
+            //To maximize the motor power, first calculate the maximum absolute power from Trig, then increase power to match 100% (Disregarding rotation values)
+            double LeftPower = Math.max( Math.abs(myrot * 0 + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))),Math.abs(myrot * 0+ (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))));
+            double RightPower = Math.max( Math.abs(-myrot * 0 + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))),Math.abs(-myrot * 0 + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))));
+            double RobotPower = Math.max(Math.abs(LeftPower),Math.abs(RightPower));
+            mypower = (float) (1/ RobotPower * mypower); // Determine the new power to apply so that wheels are always running at the Power speed
+
+            //Check for errors
+            if (Double.isNaN(RobotPower )) {mypower = 0;}
+            if (RobotPower==0) {mypower =0;}
+            //Since mypower is -1/+1 and myrot can also be -1/+1, need to trim both down to ensure mypower + myrot are between -1/+1
+            myrot = myrot * (Math.abs(myrot) / (Math.abs(myrot)+Math.abs(Orig_power)));
+            mypower = mypower * (Math.abs(Orig_power) / (Math.abs(myrot)+Math.abs(Orig_power)));
 
             leftFrontDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
             leftBackDrive.setPower(Range.clip((myrot + (mypower * ((Math.sin((myangle + 45) / 180 * Math.PI))))), -1, 1));
