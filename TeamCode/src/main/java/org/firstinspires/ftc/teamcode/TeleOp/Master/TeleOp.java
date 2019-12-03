@@ -94,11 +94,11 @@ public class TeleOp extends TeleOpMethods {
             }
             else if (g2_leftstick_y > 0 && liftMotor.getCurrentPosition() < 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(g2_leftstick_y / 1.5);
+                liftMotor.setPower(g2_leftstick_y);
             }
             else if (g2_dpad_down) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(1/1.5);
+                liftMotor.setPower(1);
             }
             else if (gamepad2.x) {
                 liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
