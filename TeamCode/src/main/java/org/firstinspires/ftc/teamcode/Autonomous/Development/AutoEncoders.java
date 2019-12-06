@@ -13,16 +13,16 @@ public class AutoEncoders extends AutoMethods {
 
         while (Math.abs(intakeLeft.getCurrentPosition()) < 30000 && Math.abs(intakeRight.getCurrentPosition()) < 30000) {
             if (Math.abs(intakeLeft.getCurrentPosition()) < 30000) {
-                leftFrontDrive.setPower(0.5);
-                leftBackDrive.setPower(0.5);
+                leftFrontDrive.setPower(0.1);
+                leftBackDrive.setPower(0.1);
             }
             else {
                 leftFrontDrive.setPower(0);
                 leftBackDrive.setPower(0);
             }
             if (Math.abs(intakeRight.getCurrentPosition()) < 30000) {
-                rightFrontDrive.setPower(0.5);
-                rightBackDrive.setPower(0.5);
+                rightFrontDrive.setPower(0.1);
+                rightBackDrive.setPower(0.1);
             }
             else {
                 rightFrontDrive.setPower(0);

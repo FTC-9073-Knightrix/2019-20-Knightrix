@@ -86,19 +86,19 @@ public class TeleOp extends TeleOpMethods {
 
             if (g2_leftstick_y < 0 && liftMotor.getCurrentPosition() > -3700) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(g2_leftstick_y / 1.5);
+                liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
             }
             else if (g2_dpad_up) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(-1/1.5);
+                liftMotor.setPower(1/1.5);
             }
             else if (g2_leftstick_y > 0 && liftMotor.getCurrentPosition() < 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(g2_leftstick_y);
+                liftMotor.setPower(Math.pow(g2_leftstick_y,3));
             }
             else if (g2_dpad_down) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(1);
+                liftMotor.setPower(-1);
             }
             else if (gamepad2.x) {
                 liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
