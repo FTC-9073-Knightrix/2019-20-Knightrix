@@ -11,7 +11,9 @@ public class AutoEncoders extends AutoMethods {
         initRobot();
         waitForStart();
 
-        while (Math.abs(intakeLeft.getCurrentPosition()) < 30000 && Math.abs(intakeRight.getCurrentPosition()) < 30000) {
+        final double encoderCM = 30000/252.0;
+
+        /*while (Math.abs(intakeLeft.getCurrentPosition()) < 30000 || Math.abs(intakeRight.getCurrentPosition()) < 30000) {
             if (Math.abs(intakeLeft.getCurrentPosition()) < 30000) {
                 leftFrontDrive.setPower(0.1);
                 leftBackDrive.setPower(0.1);
@@ -27,13 +29,13 @@ public class AutoEncoders extends AutoMethods {
             else {
                 rightFrontDrive.setPower(0);
                 rightBackDrive.setPower(0);
-            }
+            }*/
 
-            telemetry.addData("LeftPos", intakeLeft.getCurrentPosition());
-            telemetry.addData("LeftPos%", (Math.abs(intakeLeft.getCurrentPosition())/30000.0));
-            telemetry.addData("RightPos", intakeRight.getCurrentPosition());
-            telemetry.addData("RightPos%", (Math.abs(intakeRight.getCurrentPosition())/30000.0));
+        gyroMoveSide(0, 1, 304.8,0);
 
+        while(opModeIsActive()) {
+            telemetry.addData("Should be", 304.8*encoderCM);
+            telemetry.addData("Real position", (Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0);
             telemetry.update();
         }
     }

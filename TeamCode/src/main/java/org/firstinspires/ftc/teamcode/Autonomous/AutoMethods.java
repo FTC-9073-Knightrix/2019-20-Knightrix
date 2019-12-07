@@ -136,6 +136,42 @@ public abstract class AutoMethods extends AutoHardwareMap {
         sleep(wait);
     }
 
+    //USING SIDE ENCODERS Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
+    public void gyroMoveSide(int direction, double power, double distance, int wait){
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        int StartingOrientation = (int) orientation.firstAngle;
+
+        resetEncoders();
+        distance *= 30000/252.0; //converts cm to encoder rotations
+        while(opModeIsActive() &&  (distance > ((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0))) {
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            int gyroDegrees = (int) orientation.firstAngle;
+
+            if (gyroDegrees < -359) {
+                gyroDegrees += 360;
+            }
+
+            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            float myrot = (float)(CorrectionDegrees / 180.0) * -1;
+
+            //=ABS(C2*(((C4-F12)/(C4/10))))
+            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0)) / (distance / 10.0)))),0.1,1);
+            //double newPower = (power/power) * Range.clip(Math.abs(power*(1-(((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0) / distance))), 0.1, 1);
+
+            move(direction, (float) newPower, myrot);
+
+            telemetry.addData("Percent", ((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0) / distance);
+            telemetry.update();
+        }
+
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        sleep(wait);
+    }
+
     //Create the move method to move the robot based off the angle, power, and rotation of the robot applied
     public void move (double myangle, float mypower, float myrot) {
 
@@ -178,11 +214,15 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        intakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     //Create the method to turn the robot based on the degree value set and the current position of the robot
