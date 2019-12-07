@@ -25,6 +25,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
+        BackEncoder = hardwareMap.dcMotor.get("BE");
 
         //Servos
         blockServo = hardwareMap.servo.get("BS");
