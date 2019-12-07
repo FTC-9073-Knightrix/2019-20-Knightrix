@@ -155,11 +155,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
             //=ABS(C2*(((C4-F12)/(C4/10))))
-            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0)) / (distance / 10.0)))),0.1,1);
-            //double newPower = (power/power) * Range.clip(Math.abs(power*(1-(((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0) / distance))), 0.1, 1);
+            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0)) / (4*distance / 10.0)))),0.1,1);
 
             move(direction, (float) newPower, myrot);
 
+            telemetry.addData("Left", Math.abs(intakeLeft.getCurrentPosition()));
+            telemetry.addData("Right", Math.abs(intakeRight.getCurrentPosition()));
             telemetry.addData("Percent", ((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0) / distance);
             telemetry.update();
         }
