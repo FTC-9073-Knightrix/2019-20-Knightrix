@@ -57,12 +57,14 @@ public class TeleOp extends TeleOpMethods {
             initRun = true;
             ready = true;
         }
+
         if (g1_dpad_up) {
             sideDown = true;
         }
         else if (g1_dpad_down) {
             sideDown = false;
         }
+
         if (sideDown) {
             siteServo.setPosition(1);
         }
@@ -79,6 +81,7 @@ public class TeleOp extends TeleOpMethods {
         // #######################################
 
 
+        // ### Lift Mechanism  ######
         if(initRun) {
             if (stage == 0) {                                   //Lift Motor
                 liftMotor.setPower(0.2);
@@ -111,6 +114,37 @@ public class TeleOp extends TeleOpMethods {
         else {
             moveArm();
 
+            // Lift. Expressed in negative form (higher is negative)
+            double liftposition = liftMotor.getCurrentPosition();
+            double LiftPower = 0;
+            String LiftMode = 'RUN_USING_ENCODER';
+            String PriorLiftMode = 'RUN_USING_ENCODER';
+
+
+            // Use joystick to move Lift
+            if (g2_leftstick_y < 0 ) {
+                //Joystick is negative, Go UP
+                LiftPower = Math.pow(g2_leftstick_y/1.3,3); // Slower speed going up
+                LiftMode = 'RUN_USING_ENCODER';
+            } else if (g2_leftstick_y > 0) {
+                //Joystick is positive, Go DOWN
+                LiftPower = Math.pow(g2_leftstick_y,3); // Fast speed going down
+                LiftMode = 'RUN_USING_ENCODER';
+            }
+
+            // Update LiftModes for the Motor if different from prior
+            if (LiftMode <> PriorLiftMode) {
+                if (LiftMode = 'RUN_USING_ENCODER') {liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
+                else {liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
+                // swap lift modes
+                PriorLiftMode = LiftMode;
+            }
+
+            // Move using encoder
+            if (LiftMode = 'RUN_USING_ENCODER') {liftMotor.setPower(LiftPower);}
+
+
+            // Nick Code
             if (g2_leftstick_y < 0 && liftMotor.getCurrentPosition() > -3700) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
