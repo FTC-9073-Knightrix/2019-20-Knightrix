@@ -17,7 +17,8 @@ public class TeleOp extends TeleOpMethods {
         getController();
         drive();
 
-        // Logic
+        // 3. Update variables and do IF Statements
+
 
         // #########  Intake Mechanism  #########
         double IntakePower = 0;
@@ -40,14 +41,18 @@ public class TeleOp extends TeleOpMethods {
         // #######################################
 
 
-
+        // #########  Slow Motion  #########
         if (g1_b) {
             slowmode = false;
         }
         else if (g1_a){
             slowmode = true;
         }
+        // #######################################
 
+
+
+        // #########  Swap Skystone Servo and ARM  #########
         if (gamepad2.start && !ready) {
             initRun = true;
             ready = true;
@@ -64,18 +69,23 @@ public class TeleOp extends TeleOpMethods {
         else {
             siteServo.setPosition(0);
         }
+        // #######################################
 
+
+        // ### Block/Skystone servo  ######
         if (gamepad2.back) {
-            blockServo.setPosition(0.7);
+            blockServo.setPosition(0.7);   // Move plate OUT of the robot
         }
+        // #######################################
+
 
         if(initRun) {
-            if (stage == 0) {
+            if (stage == 0) {                                   //Lift Motor
                 liftMotor.setPower(0.2);
                 liftMotor.setTargetPosition(-3100);
                 stage++;
             }
-            else if (stage == 1) {
+            else if (stage == 1) {                              // Move Servo IN
                 if (liftMotor.getCurrentPosition() < -3000) {
                     blockServo.setPosition(0);
                     liftMotor.setPower(0.3);
@@ -86,13 +96,13 @@ public class TeleOp extends TeleOpMethods {
                     liftMotor.setPower(1);
                 }
             }
-            else if (stage == 2) {
+            else if (stage == 2) {                              //
                 if (liftMotor.getCurrentPosition() > -2800) {
                     liftMotor.setPower(1);
                     stage++;
                 }
             }
-            else {
+            else {                                              // Resets variables
                 if (liftMotor.getCurrentPosition() > -25) {
                     initRun = false;
                 }
@@ -105,7 +115,7 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
             }
-            else if (g2_dpad_up) {
+            else if (g2_dpad_down) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(1/1.5);
             }
@@ -113,7 +123,7 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(Math.pow(g2_leftstick_y,3));
             }
-            else if (g2_dpad_down) {
+            else if (g2_dpad_up) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(-1);
             }
@@ -133,6 +143,6 @@ public class TeleOp extends TeleOpMethods {
 
 
         // Telemetry Section
-
+        telemetry.addData("Lift Position: ", liftMotor.getCurrentPosition());
     }
 }

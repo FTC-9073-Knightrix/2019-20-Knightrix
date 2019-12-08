@@ -163,7 +163,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
 
         telemetry.addData("servo", bodyTwistServo.getPosition());
-        telemetry.update();
+        //telemetry.update();
 
         if (g2_left_bumper) {
             blockTwistServo.setPosition(1);
