@@ -8,21 +8,38 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
+        // Basic Code loop
+        // 1. Get values from gamepad
+        // 2. Get values from the hardware
+        // 3. Update variables and do IF Statements
+        // 4. Update hardware values
+
         getController();
         drive();
 
+        // Logic
+
+        // #########  Intake Mechanism  #########
+        double IntakePower = 0;
+        // If Driver OR Gunner buttons pressed, IN take
         if (g1_right_bumper || g2_a) {
-            intakeLeft.setPower(1);
-            intakeRight.setPower(1);
+            IntakePower = 1;
         }
+        // Driver or Gunner buttons pressed, OUT take
         else if (g1_left_bumper || g2_b) {
-            intakeLeft.setPower(-1);
-            intakeRight.setPower(-1);
+            IntakePower = -1;
         }
+        // No buttons pressed, STOP motors
         else {
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
+            IntakePower = 0;
         }
+
+        // Apply variables
+        intakeLeft.setPower(IntakePower);
+        intakeRight.setPower(IntakePower);
+        // #######################################
+
+
 
         if (g1_b) {
             slowmode = false;
@@ -109,5 +126,13 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
         }
+
+
+        // Push the logic into the hardware world
+        // Update motors and sensors
+
+
+        // Telemetry Section
+
     }
 }
