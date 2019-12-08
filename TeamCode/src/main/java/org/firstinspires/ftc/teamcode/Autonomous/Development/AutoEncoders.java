@@ -31,12 +31,14 @@ public class AutoEncoders extends AutoMethods {
                 rightBackDrive.setPower(0);
             }*/
 
-        gyroMoveSide(0, 1, 304.8,0);
+        //gyroMoveSide(0, 1, 304.8,0);
 
         while(opModeIsActive()) {
-            telemetry.addData("Should be", 304.8*encoderCM);
-            telemetry.addData("Real position", (Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0);
-            telemetry.update();
+//            telemetry.addData("Should be", 304.8*encoderCM);
+           telemetry.addData("Left  Encoder :", intakeLeft.getCurrentPosition());
+           telemetry.addData("Right Encoder :", intakeRight.getCurrentPosition() );
+           telemetry.addData("Back  Encoder :", BackEncoder.getCurrentPosition() );
+           telemetry.update();
         }
     }
 }
