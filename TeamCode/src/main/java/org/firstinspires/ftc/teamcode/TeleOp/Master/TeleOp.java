@@ -17,7 +17,11 @@ public class TeleOp extends TeleOpMethods {
         getController();
         drive();
 
+        // 2. Get values from the hardware
+        int liftposition = liftMotor.getCurrentPosition();
+
         // 3. Update variables and do IF Statements
+        double Lift_Power = 0; // Lift
 
 
         // #########  Intake Mechanism  #########
@@ -114,37 +118,39 @@ public class TeleOp extends TeleOpMethods {
         else {
             moveArm();
 
-            // Lift. Expressed in negative form (higher is negative)
-            double liftposition = liftMotor.getCurrentPosition();
-            double LiftPower = 0;
-            String LiftMode = 'RUN_USING_ENCODER';
-            String PriorLiftMode = 'RUN_USING_ENCODER';
-
-
+            /** Lift. Expressed in negative form (higher is negative) */
             // Use joystick to move Lift
-            if (g2_leftstick_y < 0 ) {
+            if (g2_leftstick_y < -0.1 ) {  //using 0.1 to avoid values like 0.0002 messing with code
                 //Joystick is negative, Go UP
-                LiftPower = Math.pow(g2_leftstick_y/1.3,3); // Slower speed going up
-                LiftMode = 'RUN_USING_ENCODER';
-            } else if (g2_leftstick_y > 0) {
+                Lift_Power = Math.pow(g2_leftstick_y/1.3,3); // Slower speed going up (about 0.45 Max)
+            } else if (g2_leftstick_y > 0.1) {
                 //Joystick is positive, Go DOWN
-                LiftPower = Math.pow(g2_leftstick_y,3); // Fast speed going down
-                LiftMode = 'RUN_USING_ENCODER';
+                Lift_Power = Math.pow(g2_leftstick_y,3); // Fast speed going down
+                if (liftposition >= 0) {Lift_Power =0; }   // Prevents moving bellow ZERO
             }
 
-            // Update LiftModes for the Motor if different from prior
+            // OVERRIDE Down if DPad is pressed
+            if (gamepad2.x ) {
+                // Down Dpad, go DOWN
+                Lift_Power = 0.1; // Fast speed going down
+                liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            } ;
+
+            /* Update LiftModes for the Motor if different from prior
             if (LiftMode <> PriorLiftMode) {
                 if (LiftMode = 'RUN_USING_ENCODER') {liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);}
                 else {liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);}
                 // swap lift modes
                 PriorLiftMode = LiftMode;
             }
+            */
 
-            // Move using encoder
-            if (LiftMode = 'RUN_USING_ENCODER') {liftMotor.setPower(LiftPower);}
+            // Move Motor
+            liftMotor.setPower(Lift_Power);
 
 
-            // Nick Code
+            /** Nick Code
             if (g2_leftstick_y < 0 && liftMotor.getCurrentPosition() > -3700) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
@@ -169,6 +175,7 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setTargetPosition(liftMotor.getCurrentPosition());
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+             */
         }
 
 
@@ -177,6 +184,21 @@ public class TeleOp extends TeleOpMethods {
 
 
         // Telemetry Section
-        telemetry.addData("Lift Position: ", liftMotor.getCurrentPosition());
+        telemetry.addData("Should be false (Init): ", initRun);
+        telemetry.addData("Lift Position: ", liftposition); // moves between ABS(10) and zero
+        telemetry.addData("Lift Power:", Lift_Power);
+        telemetry.addData("Joystick: ", g2_leftstick_y);
+        telemetry.addData("Gpad 2 Down: ", g2_dpad_down);
+
+        telemetry.addData("DOWN: ",g2_dpad_down);
+        telemetry.addData("UP:   ",g2_dpad_up);
+        telemetry.addData("Right:", g2_dpad_right);
+        telemetry.addData("left: ",g2_dpad_left);
+        telemetry.addData("A: ",g2_a);
+        telemetry.addData("B: ", g2_b);
+        telemetry.addData("Y: ",g2_y);
+        telemetry.addData("X: ",gamepad2.x);
+
+
     }
 }
