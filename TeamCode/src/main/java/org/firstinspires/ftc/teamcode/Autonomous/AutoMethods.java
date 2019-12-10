@@ -136,6 +136,36 @@ public abstract class AutoMethods extends AutoHardwareMap {
         sleep(wait);
     }
 
+    public void newGyroMove(int direction, double power, double distance, int wait){
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        int StartingOrientation = (int) orientation.firstAngle;
+
+        resetEncoders();
+        distance *= ENCCM; //converts cm to encoder rotations
+        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) {
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            int gyroDegrees = (int) orientation.firstAngle;
+
+            if (gyroDegrees < -359) {
+                gyroDegrees += 360;
+            }
+
+            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            float myrot = (float)(CorrectionDegrees / 180.0) * -1;
+
+            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (4*distance / 10.0)))),0.1,1);
+
+            move(direction, (float) newPower, myrot);
+        }
+
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        sleep(wait);
+    }
+
     //USING SIDE ENCODERS Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
     public void gyroMoveSide(int direction, double power, double distance, int wait){
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
@@ -158,6 +188,40 @@ public abstract class AutoMethods extends AutoHardwareMap {
             double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0)) / (4*distance / 10.0)))),0.1,1);
 
             move(direction, (float) newPower, myrot);
+
+            telemetry.addData("Left", Math.abs(intakeLeft.getCurrentPosition()));
+            telemetry.addData("Right", Math.abs(intakeRight.getCurrentPosition()));
+            telemetry.addData("Percent", ((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0) / distance);
+            telemetry.update();
+        }
+
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        sleep(wait);
+    }
+
+    //USING SIDE ENCODERS Move for a number of clicks based on the Gyro, Power/Speed, and desired direction of the robot
+    public void gyroMoveSideNO(int direction, double power, double distance, int wait){
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        int StartingOrientation = (int) orientation.firstAngle;
+
+        resetEncoders();
+        distance *= 30000/252.0; //converts cm to encoder rotations
+        while(opModeIsActive() &&  (distance > ((Math.abs(intakeLeft.getCurrentPosition()) + Math.abs(intakeRight.getCurrentPosition())) / 2.0))) {
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            int gyroDegrees = (int) orientation.firstAngle;
+
+            if (gyroDegrees < -359) {
+                gyroDegrees += 360;
+            }
+
+            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            float myrot = (float)(CorrectionDegrees / 180.0) * -1;
+
+            move(direction, (float) power, myrot);
 
             telemetry.addData("Left", Math.abs(intakeLeft.getCurrentPosition()));
             telemetry.addData("Right", Math.abs(intakeRight.getCurrentPosition()));

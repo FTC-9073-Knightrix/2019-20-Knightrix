@@ -4,9 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
-@Autonomous(name="Fast Short", group = "Development")
+@Autonomous(name="Normal Short", group = "Development")
 
-public class AutoEncodersFastshort extends AutoMethods {
+public class AutoEncodersShort extends AutoMethods {
     public void runOpMode() {
         initRobot();
         waitForStart();
@@ -31,8 +31,8 @@ public class AutoEncodersFastshort extends AutoMethods {
                 rightBackDrive.setPower(0);
             }*/
 
-        //gyroMoveSide(0, 1, 100,0);
-        newGyroMove(0, 1, 100,0);
+        //gyroMoveSideNO(0, 1, 100,0);
+        gyroMove(0, 1, 100,0);
 
         while(opModeIsActive()) {
             telemetry.addData("Should be", 100*encoderCM);
