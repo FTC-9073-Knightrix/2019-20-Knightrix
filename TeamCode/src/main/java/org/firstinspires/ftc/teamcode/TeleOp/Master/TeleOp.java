@@ -123,14 +123,20 @@ public class TeleOp extends TeleOpMethods {
             if (g2_leftstick_y < -0.1 ) {  //using 0.1 to avoid values like 0.0002 messing with code
                 //Joystick is negative, Go UP
                 Lift_Power = Math.pow(g2_leftstick_y/1.3,3); // Slower speed going up (about 0.45 Max)
-            } else if (g2_leftstick_y > 0.1) {
+            }
+            else if (g2_leftstick_y > 0.1) {
                 //Joystick is positive, Go DOWN
                 Lift_Power = Math.pow(g2_leftstick_y,3); // Fast speed going down
-                if (liftposition >= 0) {Lift_Power =0; }   // Prevents moving bellow ZERO
+                if (liftposition >= 0) {
+                    Lift_Power = 0;
+                }   // Prevents moving below ZERO
+            }
+            else {
+                Lift_Power = -0.063;
             }
 
             // OVERRIDE Down if DPad is pressed
-            if (gamepad2.x ) {
+            if (gamepad2.x) {
                 // Down Dpad, go DOWN
                 Lift_Power = 0.1; // Fast speed going down
                 liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
