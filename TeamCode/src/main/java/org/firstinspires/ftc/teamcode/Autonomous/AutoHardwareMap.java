@@ -28,6 +28,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
 
     public Servo blockServo;
     public Servo sideServo;
+    public Servo blockGrabServo;
 
     //Create the gyroscope
     public BNO055IMU gyro;
