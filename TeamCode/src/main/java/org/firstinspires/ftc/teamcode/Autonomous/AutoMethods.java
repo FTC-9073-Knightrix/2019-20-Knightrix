@@ -248,6 +248,16 @@ public abstract class AutoMethods extends AutoHardwareMap {
         sleep(wait);
     }
 
+    public void straighten (int angle, double power) {
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        if (angle > (int) orientation.firstAngle) {
+            turn (angle, power);
+        }
+        if (angle < (int) orientation.firstAngle) {
+            turn (angle, -1 * power);
+        }
+    }
+
     //Create the move method to move the robot based off the angle, power, and rotation of the robot applied
     public void move (double myangle, float mypower, float myrot) {
 
