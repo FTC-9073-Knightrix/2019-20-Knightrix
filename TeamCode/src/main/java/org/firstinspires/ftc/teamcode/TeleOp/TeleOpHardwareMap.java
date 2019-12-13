@@ -100,11 +100,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         liftMotor = hardwareMap.dcMotor.get("LM");
 
         //Add servos to the configuration on the phones
-        bodyTwistServo = hardwareMap.servo.get("BodyS");
-        blockTwistServo = hardwareMap.servo.get("BlockS");
-        clampServo = hardwareMap.servo.get("CS");
-        blockServo = hardwareMap.servo.get("BS");
-        siteServo = hardwareMap.servo.get("SS");
+        bodyTwistServo = hardwareMap.servo.get("BodyS");   // Turns Skystone from front to back of robot
+        blockTwistServo = hardwareMap.servo.get("BlockS"); // Turns Skystone Left and right 90 degrees
+        clampServo = hardwareMap.servo.get("CS"); // Grabs the Skystone from the top. Located in the arm
+        blockServo = hardwareMap.servo.get("BS"); // Placed on the side, for autonomous SKYSTONE selection
+        siteServo = hardwareMap.servo.get("SS");  // Placed at the back of the robot, to grab the platform
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F
@@ -112,18 +112,19 @@ public abstract class TeleOpHardwareMap extends OpMode {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // R
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);  // R
         intakeLeft.setDirection(DcMotor.Direction.REVERSE);
+
         //Set the mode the motors are going to be running in
         leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        liftMotor.setTargetPosition(0);
-        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        liftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Add the gyroscope to the configuration on the phones
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
