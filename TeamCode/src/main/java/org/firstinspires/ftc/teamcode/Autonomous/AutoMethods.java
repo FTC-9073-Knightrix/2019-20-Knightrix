@@ -137,9 +137,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
         sleep(wait);
     }
 
-    public void newGyroMove(int direction, double power, double distance, int wait){
+    public void newGyroMove(int direction, double power, double distance, int stopping, int wait){
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
+
+        //get the percent to start stopping at
+        stopping = 100 - stopping;
 
         resetEncoders();
         distance *= ENCCM; //converts cm to encoder rotations
@@ -154,7 +157,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
-            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (4*distance / 10.0)))),0.1,1);
+            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
 
             move(direction, (float) newPower, myrot);
         }

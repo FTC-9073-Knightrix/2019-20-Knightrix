@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Master;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
@@ -79,9 +80,23 @@ public class TeleOp extends TeleOpMethods {
 
 
         // ### Block/Skystone servo  ######
-        if (gamepad2.back) {
+        /*if (gamepad2.back) {
             blockServo.setPosition(0.7);   // Move plate OUT of the robot
+        }*/
+
+        if (gamepad2.back) {
+            blockServo.setPosition(.23);
         }
+        else {
+            blockServo.setPosition(Range.clip(gamepad2.left_trigger, .23, .81));
+        }
+        if (gamepad2.left_trigger >= 0.73) {
+            blockGrabServo.setPosition(Range.clip((1 - gamepad2.left_trigger) * 2, 0, .54));
+        }
+        else {
+            blockGrabServo.setPosition(.54);
+        }
+
         // #######################################
 
 
@@ -183,6 +198,8 @@ public class TeleOp extends TeleOpMethods {
             }
              */
         }
+
+
 
 
         // Push the logic into the hardware world

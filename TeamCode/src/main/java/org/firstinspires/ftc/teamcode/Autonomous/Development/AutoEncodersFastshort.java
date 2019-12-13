@@ -32,7 +32,7 @@ public class AutoEncodersFastshort extends AutoMethods {
             }*/
 
         //gyroMoveSide(0, 1, 100,0);
-        newGyroMove(0, 1, 100,0);
+        newGyroMove(0, 1, 100, 60,0);
 
         while(opModeIsActive()) {
             telemetry.addData("Should be", 100*encoderCM);
