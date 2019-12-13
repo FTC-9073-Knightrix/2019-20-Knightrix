@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -25,11 +26,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
         leftBackDrive = hardwareMap.dcMotor.get("LB");
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
+        liftMotor = hardwareMap.dcMotor.get("LM");
 
         //Servos
         blockServo = hardwareMap.servo.get("BS");
         sideServo = hardwareMap.servo.get("SS");
         blockGrabServo = hardwareMap.servo.get("BGS");
+
+        rightRange = hardwareMap.get(DistanceSensor.class, "RR");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -43,6 +47,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        liftMotor.setTargetPosition(0);
+        liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         //Add the gyroscope to the configuration on the phones
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
@@ -157,7 +164,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
-            double newPower = (power/power) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
+            double newPower = (power/Math.abs(power)) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
 
             move(direction, (float) newPower, myrot);
         }
