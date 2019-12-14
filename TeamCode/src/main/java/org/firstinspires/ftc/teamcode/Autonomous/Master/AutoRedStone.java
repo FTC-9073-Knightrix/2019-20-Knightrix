@@ -16,6 +16,7 @@ public class AutoRedStone extends AutoMethods {
         initVuStone();
         //Wait until "Start" is pressed
         waitForStart();
+        blockGrabServo.setPosition(.54);
         ///FIRST STONE
         //Move forwards to the line of stones
         newGyroMove(0, 1,35,60, 500);

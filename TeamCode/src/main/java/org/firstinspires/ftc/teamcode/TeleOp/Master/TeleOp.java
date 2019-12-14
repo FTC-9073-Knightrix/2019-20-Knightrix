@@ -58,10 +58,10 @@ public class TeleOp extends TeleOpMethods {
 
 
         // #########  Swap Skystone Servo and ARM  #########
-        if (gamepad2.start && !ready) {
+        /*if (gamepad2.start && !ready) {
             initRun = true;
             ready = true;
-        }
+        }*/
 
         if (g1_dpad_up) {
             sideDown = true;
@@ -97,6 +97,9 @@ public class TeleOp extends TeleOpMethods {
             //
             blockGrabServo.setPosition(Range.clip((1 - gamepad2.left_trigger) * 2, 0, .54));
         }
+        else if (gamepad2.left_trigger >= 0.3) {
+            blockGrabServo.setPosition(.54);
+        }
         else {
             blockGrabServo.setPosition(.30); //Was 0.55 before (Flat)
         }
@@ -106,7 +109,7 @@ public class TeleOp extends TeleOpMethods {
 
 
         // ### Lift Mechanism  ######
-        if(initRun) {
+        /*if(initRun) {
             if (stage == 0) {                                   //Lift Motor
                 liftMotor.setPower(0.2);
                 liftMotor.setTargetPosition(-3100);
@@ -135,7 +138,7 @@ public class TeleOp extends TeleOpMethods {
                 }
             }
         }
-        else {
+        else {*/
             moveArm();
 
             /** Lift. Expressed in negative form (higher is negative) */
@@ -151,9 +154,9 @@ public class TeleOp extends TeleOpMethods {
                     Lift_Power = 0;
                 }   // Prevents moving below ZERO
             }
-            else {
+            /*else {
                 Lift_Power = -0.063;
-            }
+            }*/
 
             // OVERRIDE Down if DPad is pressed
             if (gamepad2.x) {
@@ -202,7 +205,7 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
              */
-        }
+        //}
 
 
 
