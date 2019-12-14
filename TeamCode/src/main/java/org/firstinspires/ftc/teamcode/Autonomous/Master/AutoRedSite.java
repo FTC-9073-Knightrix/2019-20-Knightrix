@@ -12,19 +12,25 @@ public class AutoRedSite extends AutoMethods {
         waitForStart();
 
         //Move towards build site
-        gyroMove(0, -0.5, 50, 500);
+        newGyroMove(0, -0.3, 53, 70,0);
         //Drop blockservo
         sideServo.setPosition(1);
         sleep(1500);
         //Pull back buildsite
-        gyroMove(0, 0.6, 50, 500);
+        newGyroMove(0, 0.2, 40, 70, 0);
         sideServo.setPosition(0);
         sleep(1000);
-        gyroMove(90, -0.5, 60, 0);
-        gyroMove(0, -0.5, 30, 0);
-        gyroMove(90, 0.5, 30, 0);
-        gyroMove(0, 0.5, 30, 0);
-        gyroMove(90, -0.5, 60, 0);
+        straighten(0, 0.5);
+        newGyroMove(90, -0.2, 50, 70, 0);
+        straighten(0, 0.5);
+        newGyroMove(0, -0.2, 70, 70, 0);
+        straighten(0, 0.5);
+        newGyroMove(90, 0.2, 60, 70, 0);
+        newGyroMove(0, 0.2, 30, 70, 0);
+        straighten(0, 0.5);
+        newGyroMove(90, -0.2, 60, 70, 0);
         turn(180, 0.5);
+        newGyroMove(0, -0.3, 60, 70, 0);
+        newGyroMove(90, -0.2, 10, 70, 0);
     }
 }
