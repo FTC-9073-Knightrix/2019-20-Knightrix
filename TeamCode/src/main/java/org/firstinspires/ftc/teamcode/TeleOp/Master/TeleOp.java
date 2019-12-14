@@ -91,10 +91,14 @@ public class TeleOp extends TeleOpMethods {
             blockServo.setPosition(Range.clip(gamepad2.left_trigger, 0, .81));
         }
         if (gamepad2.left_trigger >= 0.73) {
+            // 0 = inside overgrabbing
+            // 0.22 = 90 degrees
+            // 0.54 is Flat out
+            //
             blockGrabServo.setPosition(Range.clip((1 - gamepad2.left_trigger) * 2, 0, .54));
         }
         else {
-            blockGrabServo.setPosition(.54);
+            blockGrabServo.setPosition(.30); //Was 0.55 before (Flat)
         }
         telemetry.addData("Trigger", gamepad2.left_trigger);
 
