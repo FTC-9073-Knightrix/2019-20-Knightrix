@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
@@ -15,15 +16,18 @@ public class AutoBlueStone extends AutoMethods {
         initVuStone();
         //Wait until "Start" is pressed
         waitForStart();
+        blockGrabServo.setPosition(.54);
         ///FIRST STONE
         //Move forwards to the line of stones
-        gyroMove(0, 0.6, 35, 500);
+        newGyroMove(0, 1,35,60, 500);
         //Turn to face stones with camera
         turn(90, 0.5);
+        newGyroMove(0, -0.4, 8,60, 0);
         //Move to the first stone
-        gyroMove(0, -0.4, 5, 0);
+        //newGyroMove(0, 0.4, 2,60, 0);
+        //newGyroMove(0, 0.4, 1,60, 0);
         //Set the maximum time to look at the stone to 1.5 seconds
-        timer = getRuntime() + 1.5;
+        timer = getRuntime() + 1.3;
         //Run Vuforia until either the skystone has been detected or 1.5 seconds have passed
         while (opModeIsActive() && !((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible() && getRuntime() < timer) {
             runVuforia();
@@ -33,9 +37,9 @@ public class AutoBlueStone extends AutoMethods {
             //Mark that it is the second stone
             setup++;
             //Move right, to the second stone
-            gyroMove(0, -0.4, 8, 0);
+            newGyroMove(0, -0.4, 15,60, 0);
             //Set the maximum time to look at the stone to 1.5 seconds
-            timer = getRuntime() + 1.5;
+            timer = getRuntime() + 1.3;
             //Run Vuforia until either the skystone has been detected or 1.5 seconds have passed
             while (opModeIsActive() && !((VuforiaTrackableDefaultListener)stoneTarget.getListener()).isVisible() && getRuntime() < timer) {
                 runVuforia();
@@ -45,59 +49,153 @@ public class AutoBlueStone extends AutoMethods {
                 //Mark that it is the third stone
                 setup++;
                 //Move to the third stone
-                gyroMove(0, -0.4, 13, 0);
+                newGyroMove(0, -0.4, 13,60, 0);
             }
+            //Adjust so that the arm grabs from the middle of the stone
+            ///newGyroMove(0, 0.4, 2, 0);
+            blockServo.setPosition(0.75);
+            sleep(500);
+            //Approach the stone
+            //newGyroMove(90, -0.8, 6,60, 0);
+            while (rightRange.getDistance(DistanceUnit.CM) > 9 && opModeIsActive()) {
+                move(90, (float)-0.3, 0);
+            }
+            move(0,0,0);
         }
-        //Adjust so that the arm grabs from the middle of the stone
-        gyroMove(0, 0.4, 2, 0);
-        //Approach the stone
-        gyroMove(90, -0.4, 11, 0);
+        else {
+            //Adjust so that the arm grabs from the middle of the stone
+            ///newGyroMove(0, 0.4, 2, 0);
+            blockServo.setPosition(0.75);
+            sleep(1000);
+            //Approach the stone
+            //newGyroMove(90, -0.8, 6,60, 0);
+            newGyroMove(0,-0.4,12,60,0); //here move back, to then approach blocks, to then move forwards again and then proceed to leave else statement to pick up block.
+            straighten(90, 0.5);
+            while (rightRange.getDistance(DistanceUnit.CM) > 13 && opModeIsActive()) {
+                move(90, (float)-0.3, 0);
+            }
+            move(0,0,0);
+            newGyroMove(0,0.4,14,60,0);
+        }
         //Set the arm down
-        blockServo.setPosition(1);
+        blockServo.setPosition(0.81);
+        blockGrabServo.setPosition(0);
         //Wait for the arm to fully go down
         sleep(500);
+        blockServo.setPosition(0.23);
+        sleep(500);
         //Move a bit so the arm can adjust in case it gets stuck on either side of gap
-        gyroMove(0, -0.4, 1, 0);
+        //newGyroMove(0, 1, 2,60, 0);
         //Pull the stone out
-        gyroMove(90, 0.5, 21, 0);
+        newGyroMove(90, 0.8, 9,60, 0);
+        straighten(90, 0.5);
         //Move to the other side of the field
-        gyroMove(0,0.6,80 + ((setup-2)*10),0);
+        newGyroMove(0,1,80 + ((setup-1)*10)+17,60,0);
         //Let go of the stone
-        blockServo.setPosition(0);
+        blockServo.setPosition(0.81);
         //Wait for the arm to fully go up
         sleep(500);
+        blockGrabServo.setPosition(0.54);
+        //If it is the left or middle stone
+        sleep(500);
+        blockServo.setPosition(0.23);
         if (setup < 3) {
-            gyroMove(90, -0.4, 1, 0);
+            //Wait for the arm to fully go up
+            sleep(500);
+            straighten(90,0.5);
             //Move to the second skystone
-            gyroMove(0, -0.7, 80 + ((setup + 2) * 10), 0);
+            newGyroMove(0, -1, 85 + ((setup + 2) * 10)+17,60, 0);
             //Approach the stone
-            gyroMove(90, -0.4, 16, 0);
+            blockServo.setPosition(0.75);
+            sleep(500);
+            while (rightRange.getDistance(DistanceUnit.CM) < 5 && opModeIsActive()) {
+                move(90, (float)0.3, 0);
+            }
+            while (rightRange.getDistance(DistanceUnit.CM) > 9 && opModeIsActive()) {
+                move(90, (float)-0.3, 0);
+            }
+            move(0,0,0);
+            //newGyroMove(90, -0.8, 12,60, 0);
             //Set the arm down
-            blockServo.setPosition(1);
+            blockServo.setPosition(0.81);
+            blockGrabServo.setPosition(0);
             //Wait for the arm to fully go down
             sleep(500);
-            //If it is the left or middle stone
-            //Move a bit to adjust the arm in case it gets stuck on either side of gap
-            gyroMove(0, -0.4, 1, 0);
-            //Pull the stone out
-            gyroMove(90, 0.5, 20, 0);
-            //Take the skystone to the other side of the field
-            gyroMove(0, 1, 80 + ((setup + 2) * 10), 0);
-            //Let go of the arm
-            blockServo.setPosition(0);
-            //Wait until the arm is fully up
+            blockServo.setPosition(0.23);
             sleep(500);
+            //Move a bit to adjust the arm in case it gets stuck on either side of gap
+            //newGyroMove(0, 1, 2,60, 0);
+            //Pull the stone out
+            newGyroMove(90, 1, 7,60, 0);
+            straighten(90,0.5);
+            //Take the skystone to the other side of the field
+            newGyroMove(0, 1, 82 + ((setup+3) * 10),60, 0);
+            //Let go of the arm
+            blockServo.setPosition(0.81);
+            //Wait for the arm to fully go up
+            sleep(500);
+            blockGrabServo.setPosition(0.54);
+            liftMotor.setPower(1);
+            liftMotor.setTargetPosition(-2500);
+            while(liftMotor.getCurrentPosition() > -2300 && opModeIsActive()) {
+                //wait
+            }
+            blockServo.setPosition(0);
+            //Wait for the arm to fully go up
+            sleep(500);
+            liftMotor.setTargetPosition(0);
             //Turn to get ready for the drivers
+            newGyroMove(90, 1, 5,60, 0);
             turn(0, -0.5);
             //Go park
-            gyroMove(90, -1, 20, 0);
+            newGyroMove(90, -1, 20,60, 0);
         }
         //If it is the right stone
         else {
+            newGyroMove(0, -0.8, 95, 60, 0);
+            blockServo.setPosition(0.75);
+            sleep(500);
+            while (rightRange.getDistance(DistanceUnit.CM) < 5 && opModeIsActive()) {
+                move(90, (float) 0.3, 0);
+            }
+            while (rightRange.getDistance(DistanceUnit.CM) > 9 && opModeIsActive()) {
+                move(90, (float) -0.3, 0);
+            }
+            move(0, 0, 0);
+            //newGyroMove(0, 0.3, 2, 60, 0);
+            //newGyroMove(90, -0.8, 12,60, 0);
+            //Set the arm down
+            blockServo.setPosition(0.81);
+            blockGrabServo.setPosition(0);
+            //Wait for the arm to fully go down
+            sleep(500);
+            blockServo.setPosition(0.23);
+            sleep(500);
+            //Move a bit to adjust the arm in case it gets stuck on either side of gap
+            //newGyroMove(0, 1, 2,60, 0);
+            //Pull the stone out
+            newGyroMove(90, 0.8, 7, 60, 0);
+            straighten(90, 0.5);
+            newGyroMove(0, 0.8, 85, 60, 0);
+
+            blockServo.setPosition(0.81);
+            //Wait for the arm to fully go up
+            sleep(500);
+            blockGrabServo.setPosition(0.54);
             //Turn to get ready for the drivers
-            turn(0,-0.5);
+            liftMotor.setPower(1);
+            liftMotor.setTargetPosition(-2500);
+            while (liftMotor.getCurrentPosition() > -2300 && opModeIsActive()) {
+                //wait
+            }
+            blockServo.setPosition(0);
+            //Wait for the arm to fully go up
+            sleep(500);
+            liftMotor.setTargetPosition(0);
+            newGyroMove(90, 1, 5, 60, 0);
+            turn(0, -0.5);
             //Go park
-            gyroMove(90, -1, 10, 0);
+            newGyroMove(90, -1, 15, 60, 0);
         }
     }
 }
