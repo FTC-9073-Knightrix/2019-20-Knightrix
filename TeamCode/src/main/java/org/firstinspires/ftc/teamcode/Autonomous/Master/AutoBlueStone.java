@@ -106,15 +106,15 @@ public class AutoBlueStone extends AutoMethods {
             //Move to the second skystone
             newGyroMove(0, -1, 85 + ((setup + 2) * 10)+17,60, 0);
             //Approach the stone
-            blockServo.setPosition(0.75);
-            sleep(500);
-            while (rightRange.getDistance(DistanceUnit.CM) < 5 && opModeIsActive()) {
+            while (rightRange.getDistance(DistanceUnit.CM) < 9 && opModeIsActive()) {
                 move(90, (float)0.3, 0);
             }
             while (rightRange.getDistance(DistanceUnit.CM) > 9 && opModeIsActive()) {
                 move(90, (float)-0.3, 0);
             }
             move(0,0,0);
+            blockServo.setPosition(0.75);
+            sleep(500);
             //newGyroMove(90, -0.8, 12,60, 0);
             //Set the arm down
             blockServo.setPosition(0.81);
@@ -155,7 +155,7 @@ public class AutoBlueStone extends AutoMethods {
             newGyroMove(0, -0.8, 95, 60, 0);
             blockServo.setPosition(0.75);
             sleep(500);
-            while (rightRange.getDistance(DistanceUnit.CM) < 5 && opModeIsActive()) {
+            while (rightRange.getDistance(DistanceUnit.CM) < 9 && opModeIsActive()) {
                 move(90, (float) 0.3, 0);
             }
             while (rightRange.getDistance(DistanceUnit.CM) > 9 && opModeIsActive()) {
