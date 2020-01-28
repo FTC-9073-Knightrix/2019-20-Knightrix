@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
+import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -21,8 +22,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp
-@Disabled
+@TeleOp (name="WebcamExample")
+
 public class WebcamExample extends LinearOpMode
 {
     OpenCvCamera phoneCam;
@@ -51,6 +52,7 @@ public class WebcamExample extends LinearOpMode
         while (opModeIsActive())
         {
             telemetry.addData("Num contours found", stageSwitchingPipeline.getNumContoursFound());
+            telemetry.addData("Skystone", stageSwitchingPipeline.skystone());
             telemetry.update();
             sleep(100);
         }
@@ -67,6 +69,8 @@ public class WebcamExample extends LinearOpMode
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
         Mat contoursOnFrameMat = new Mat();
+        Mat croppedMat = new Mat();
+        Rect cropArea = new Rect(70,30,490,110);
         List<MatOfPoint> contoursList = new ArrayList<>();
         int numContoursFound;
 
@@ -117,18 +121,21 @@ public class WebcamExample extends LinearOpMode
             numContoursFound = contoursList.size();
             input.copyTo(contoursOnFrameMat);
             Imgproc.drawContours(contoursOnFrameMat, contoursList, -1, new Scalar(0, 0, 255), 3, 8);
+            croppedMat = thresholdMat.submat(cropArea);
 
             switch (stageToRenderToViewport)
             {
-                case YCbCr_CHAN2:
+                /*case YCbCr_CHAN2:
                 {
                     return yCbCrChan2Mat;
-                }
+                }*/
 
                 case THRESHOLD:
                 {
                     return thresholdMat;
                 }
+
+                /*}
 
                 case CONTOURS_OVERLAYED_ON_FRAME:
                 {
@@ -138,11 +145,12 @@ public class WebcamExample extends LinearOpMode
                 case RAW_IMAGE:
                 {
                     return input;
-                }
+                }*/
 
                 default:
                 {
-                    return input;
+                    //return input;
+                    return croppedMat;
                 }
             }
         }
@@ -150,6 +158,36 @@ public class WebcamExample extends LinearOpMode
         public int getNumContoursFound()
         {
             return numContoursFound;
+        }
+
+        public String skystone()
+        {
+            if (croppedMat != null) {
+                //Left
+                double[] left = croppedMat.get(55, 110);
+                //Center
+                double[] center = croppedMat.get(55, 270);
+                //Right
+                double[] right = croppedMat.get(55, 380);
+                //Calculate: black = 0
+                if (left[0] > center[0]) {
+                    if (center[0] > right[0]) {
+                        return "Right";
+                    }
+                    else {
+                        return "Center";
+                    }
+                }
+                else {
+                    if (left[0] > right[0]) {
+                        return "Right";
+                    }
+                    else {
+                        return "Left";
+                    }
+                }
+            }
+            return "";
         }
     }
 }
