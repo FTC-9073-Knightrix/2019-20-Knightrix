@@ -121,21 +121,19 @@ public class WebcamExample extends LinearOpMode
             numContoursFound = contoursList.size();
             input.copyTo(contoursOnFrameMat);
             Imgproc.drawContours(contoursOnFrameMat, contoursList, -1, new Scalar(0, 0, 255), 3, 8);
-            croppedMat = thresholdMat.submat(cropArea);
+            croppedMat = yCbCrChan2Mat.submat(cropArea);
 
             switch (stageToRenderToViewport)
             {
-                /*case YCbCr_CHAN2:
+                case YCbCr_CHAN2:
                 {
                     return yCbCrChan2Mat;
-                }*/
+                }
 
-                case THRESHOLD:
+                /*case THRESHOLD:
                 {
                     return thresholdMat;
                 }
-
-                /*}
 
                 case CONTOURS_OVERLAYED_ON_FRAME:
                 {
@@ -170,8 +168,8 @@ public class WebcamExample extends LinearOpMode
                 //Right
                 double[] right = croppedMat.get(55, 380);
                 //Calculate: black = 0
-                if (left[0] > center[0]) {
-                    if (center[0] > right[0]) {
+                if (left[0] < center[0]) {
+                    if (center[0] < right[0]) {
                         return "Right";
                     }
                     else {
@@ -179,7 +177,7 @@ public class WebcamExample extends LinearOpMode
                     }
                 }
                 else {
-                    if (left[0] > right[0]) {
+                    if (left[0] < right[0]) {
                         return "Right";
                     }
                     else {
