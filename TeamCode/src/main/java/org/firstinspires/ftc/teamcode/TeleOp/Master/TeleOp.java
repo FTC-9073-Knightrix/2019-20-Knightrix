@@ -16,6 +16,7 @@ public class TeleOp extends TeleOpMethods {
         // 4. Update hardware values
 
         getController();
+        getHardware();
         drive();
 
         // 2. Get values from the hardware

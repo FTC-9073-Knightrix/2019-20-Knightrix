@@ -43,39 +43,15 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g2_left_trigger = gamepad2.left_trigger;
     }
 
-    public void move (double myangle, float mypower, float myrot) {
-
-        // Record variables
-        float Orig_power = mypower;
-
-        //To maximize the motor power, first calculate the maximum absolute power from Trig, then increase power to match 100% (Disregarding rotation values)
-        double LeftPower = Math.max( Math.abs(Math.sin((myangle + 135) / 180 * Math.PI)),Math.abs(Math.sin((myangle + 45) / 180 * Math.PI)));
-        double RightPower = Math.max( Math.abs(Math.sin((myangle + 45) / 180 * Math.PI)),Math.abs(Math.sin((myangle + 135) / 180 * Math.PI)));
-        double RobotPower = Math.max(Math.abs(LeftPower),Math.abs(RightPower));
-        mypower = (float) (1/ RobotPower) * Orig_power; // Determine the new power to apply so that wheels are always running at the Power speed
-
-        //Check for errors
-        if (Double.isNaN(RobotPower )) {RobotPower = 0;}
-        if (Float.isNaN(Orig_power )) {Orig_power = 0;}
-        if (Float.isNaN(myrot )) {myrot = 0;}
-        if (RobotPower==0) {mypower =0;}
-        //Since mypower is -1/+1 and myrot can also be -1/+1, need to trim both down to ensure mypower + myrot are between -1/+1
-        myrot = myrot * (Math.abs(myrot) / (Math.abs(myrot)+Math.abs(Orig_power)));
-        mypower = mypower * (Math.abs(Orig_power) / (Math.abs(myrot)+Math.abs(Orig_power)));
-
-        //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
-        if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
-            leftFrontDrive.setPower( Range.clip(( myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
-            leftBackDrive.setPower(  Range.clip(( myrot + (mypower * ((Math.sin((myangle +  45) / 180 * Math.PI))))), -1, 1));
-            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle +  45) / 180 * Math.PI))))), -1, 1));
-            rightBackDrive.setPower( Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
-        }
-    }
-
-    public void drive() {
+    public void getHardware(){
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         gyroDegrees = (int) orientation.firstAngle;
+
+    }
+
+
+    public void drive() {
 
         //Get the rotation of the robot based off the position of the right joystick x
         if (!slowmode) {
@@ -138,6 +114,35 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         move(myangle,mypower,myrot);
     }
 
+    public void move (double myangle, float mypower, float myrot) {
+
+        // Record variables
+        float Orig_power = mypower;
+
+        //To maximize the motor power, first calculate the maximum absolute power from Trig, then increase power to match 100% (Disregarding rotation values)
+        double LeftPower = Math.max( Math.abs(Math.sin((myangle + 135) / 180 * Math.PI)),Math.abs(Math.sin((myangle + 45) / 180 * Math.PI)));
+        double RightPower = Math.max( Math.abs(Math.sin((myangle + 45) / 180 * Math.PI)),Math.abs(Math.sin((myangle + 135) / 180 * Math.PI)));
+        double RobotPower = Math.max(Math.abs(LeftPower),Math.abs(RightPower));
+        mypower = (float) (1/ RobotPower) * Orig_power; // Determine the new power to apply so that wheels are always running at the Power speed
+
+        //Check for errors
+        if (Double.isNaN(RobotPower )) {RobotPower = 0;}
+        if (Float.isNaN(Orig_power )) {Orig_power = 0;}
+        if (Float.isNaN(myrot )) {myrot = 0;}
+        if (RobotPower==0) {mypower =0;}
+        //Since mypower is -1/+1 and myrot can also be -1/+1, need to trim both down to ensure mypower + myrot are between -1/+1
+        myrot = myrot * (Math.abs(myrot) / (Math.abs(myrot)+Math.abs(Orig_power)));
+        mypower = mypower * (Math.abs(Orig_power) / (Math.abs(myrot)+Math.abs(Orig_power)));
+
+        //If none of the motors are null, run each motor to an individual value based off the values inputted from the joystick
+        if (leftFrontDrive != null && leftBackDrive != null && rightFrontDrive != null && rightBackDrive != null) {
+            leftFrontDrive.setPower( Range.clip(( myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
+            leftBackDrive.setPower(  Range.clip(( myrot + (mypower * ((Math.sin((myangle +  45) / 180 * Math.PI))))), -1, 1));
+            rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle +  45) / 180 * Math.PI))))), -1, 1));
+            rightBackDrive.setPower( Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
+        }
+    }
+
     public void moveArm() {
         clampServo.setPosition(g2_right_trigger);
 
@@ -176,8 +181,4 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         }
     }
 
-    // Create a method to get values from Hardware
-    // public void Get_Hardware_Values(MyGyro){
-
-    //}
 }
