@@ -16,6 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+import org.openftc.easyopencv.OpenCvCamera;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
     public DcMotor liftMotor;
+
+    public OpenCvCamera phoneCam;
+    public WebcamCV.StageSwitchingPipeline stageSwitchingPipeline;
 
     public Servo blockServo;
     public Servo sideServo;

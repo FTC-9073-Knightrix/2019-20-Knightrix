@@ -15,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 
 public abstract class AutoMethods extends AutoHardwareMap {
     //Create the initialization method to run at the start of the programs
@@ -27,6 +29,16 @@ public abstract class AutoMethods extends AutoHardwareMap {
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
         liftMotor = hardwareMap.dcMotor.get("LM");
+
+        //camera initialization
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        //phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        phoneCam.openCameraDevice();
+        stageSwitchingPipeline = new WebcamCV.StageSwitchingPipeline();
+        phoneCam.setPipeline(stageSwitchingPipeline);
+        phoneCam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
 
         //Servos
         blockServo = hardwareMap.servo.get("BS");
