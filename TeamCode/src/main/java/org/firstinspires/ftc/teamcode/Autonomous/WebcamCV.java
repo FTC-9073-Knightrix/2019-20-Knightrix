@@ -35,15 +35,15 @@ public abstract class WebcamCV extends AutoMethods
          */
 
 
-        waitForStart();
+        //waitForStart();
 
-        while (opModeIsActive())
+        /*while (opModeIsActive())
         {
             telemetry.addData("Num contours found", stageSwitchingPipeline.getNumContoursFound());
             telemetry.addData("Skystone", stageSwitchingPipeline.skystone());
             telemetry.update();
             sleep(100);
-        }
+        }*/
     }
 
     /*
@@ -168,8 +168,11 @@ public abstract class WebcamCV extends AutoMethods
                     if (left[0] < right[0]) {
                         return "Right";
                     }
-                    else {
+                    else if (left[0] > right[0]) {
                         return "Left";
+                    }
+                    else {
+                        return "";
                     }
                 }
             }
