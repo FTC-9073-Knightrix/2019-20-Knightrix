@@ -1,10 +1,8 @@
 //THIS IS WITH INIT3, NAIVE, WEBCAM
 
 
-package org.firstinspires.ftc.teamcode.Autonomous.Development;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +17,11 @@ import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@TeleOp (name="WebcamExample")
+@TeleOp (name="WebcamCV")
 
-public class WebcamExample extends LinearOpMode
+public abstract class WebcamCV extends AutoMethods
 {
     OpenCvCamera phoneCam;
     StageSwitchingPipeline stageSwitchingPipeline;
@@ -36,7 +33,7 @@ public class WebcamExample extends LinearOpMode
          * NOTE: Many comments have been omitted from this sample for the
          * sake of conciseness. If you're just starting out with EasyOpenCv,
          * you should take a look at {@link InternalCameraExample} or its
-         * webcam counterpart, {@link WebcamExample} first.
+         * webcam counterpart, {@link WebcamCV} first.
          */
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
