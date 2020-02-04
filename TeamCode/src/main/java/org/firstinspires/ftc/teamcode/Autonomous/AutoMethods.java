@@ -46,6 +46,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         blockGrabServo = hardwareMap.servo.get("BGS");
 
         rightRange = hardwareMap.get(DistanceSensor.class, "RR");
+        leftRange = hardwareMap.get(DistanceSensor.class, "LR");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
