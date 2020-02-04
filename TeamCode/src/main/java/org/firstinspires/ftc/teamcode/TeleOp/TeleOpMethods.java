@@ -142,7 +142,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         clampServo.setPosition(g2_right_trigger);
 
         if (liftMotor.getCurrentPosition() < -1300) {
-            if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.03 <= 0.75) {
+            bodyTwistServo.setPower(0.1*g2_rightstick_x);
+            /*if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.03 <= 0.75) {
                 bodyTwistServo.setPosition(bodyTwistServo.getPosition() + .03);
             }
             else if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.01 <= 1) {
@@ -159,10 +160,9 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             }
             else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.03 < 0) {
                 bodyTwistServo.setPosition(0);
-            }
+            }*/
         }
-
-        telemetry.addData("servo", bodyTwistServo.getPosition());
+        //telemetry.addData("servo", bodyTwistServo.getPosition());
         //telemetry.update();
 
         if (g2_left_bumper) {
