@@ -113,7 +113,7 @@ public abstract class WebcamCV extends AutoMethods
 
             switch (stageToRenderToViewport)
             {
-                case YCbCr_CHAN2:
+                /*case YCbCr_CHAN2:
                 {
                     return yCbCrChan2Mat;
                 }
