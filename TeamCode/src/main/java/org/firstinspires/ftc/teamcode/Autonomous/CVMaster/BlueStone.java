@@ -39,13 +39,17 @@ public class BlueStone extends WebcamCV {
                 LeftRangeValue = leftRange.getDistance(DistanceUnit.CM);
                 ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
                 float MyPower = 0;
-                if (LeftRangeValue > 25) { MyPower = -0.6; } //go fast
-                if (LeftRangeValue > 20) { MyPower = -0.4; } //go slower
-                if (LeftRangeValue < 17) { MyPower = 0.4; }  // you are too close move away
+                if (LeftRangeValue > 25) { MyPower = (float) -0.6; } //go fast
+                if (LeftRangeValue > 20) { MyPower = (float) -0.4; } //go slower
+                if (LeftRangeValue < 17) { MyPower = (float) 0.4; }  // you are too close move away
                 if (LeftRangeValue > 17 && LeftRangeValue < 20) {     // you are right where I wanted
                     MyPower = 0;
-                    TaskCompleted = true;
+//                    TaskCompleted = true;
                 }
+
+                telemetry.addData("Distance (CM): ", LeftRangeValue);
+                telemetry.addData("Power        : ", MyPower);
+                telemetry.update();
                 move(90, MyPower, 0);
             }
             // Move End
