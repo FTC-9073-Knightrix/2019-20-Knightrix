@@ -21,14 +21,12 @@ public class BlueStone extends WebcamCV {
                 sleep(100);
                 skystone = stageSwitchingPipeline.skystone();
             }
-
-            while (leftRange.getDistance(DistanceUnit.CM) < 17 && opModeIsActive()) {
+            phoneCam.closeCameraDevice();
+            blockServo.setPosition(0.7);
+            while (leftRange.getDistance(DistanceUnit.CM) > 30 && opModeIsActive()) {
                 move(90, (float)-0.6, 0);
             }
-            while (leftRange.getDistance(DistanceUnit.CM) > 25 && opModeIsActive()) {
-                move(90, (float)-0.6, 0);
-            }
-            while (leftRange.getDistance(DistanceUnit.CM) > 17 && opModeIsActive()) {
+            while (leftRange.getDistance(DistanceUnit.CM) > 20 && opModeIsActive()) {
                 move(90, (float)-0.2, 0);
             }
             move(0,0,0);
@@ -39,11 +37,11 @@ public class BlueStone extends WebcamCV {
                 newGyroMove(135,-0.5,15,0,0);
             }
             else {
-                newGyroMove(0, 0.3, 3, 60, 0);
+                newGyroMove(0, 0.3, 5, 60, 0);
             }
             //Set the arm down
             blockServo.setPosition(1);
-            sleep(600);
+            sleep(200);
             blockGrabServo.setPosition(0);
             //Wait for the arm to fully go down
             sleep(600);
@@ -58,20 +56,21 @@ public class BlueStone extends WebcamCV {
                 newGyroMove(135,0.5,15,0,0);
             }
             straighten(0, 0.5);
-            newGyroMove(0,1,140,60,0);
-            straighten(0, 0.5);
-            newGyroMove(90,-0.3,15,60,0);
+            newGyroMove(0,1,110,60,0);
+            /*straighten(0, 0.5);
+            newGyroMove(90,-0.3,15,60,0);*/
             blockServo.setPosition(1);
             //Wait for the arm to fully go up
             sleep(600);
             blockGrabServo.setPosition(0.54);
             //If it is the left or middle stone
-            sleep(600);
+            sleep(300);
             blockServo.setPosition(0.23);
-            sleep(600);
-            newGyroMove(90,0.3,15,60,0);
-            straighten(0, 0.5);
-            newGyroMove(0,-1,182,75,0);
+            sleep(300);
+            /*newGyroMove(90,0.3,15,60,0);
+            straighten(0, 0.5);*/
+            turn(180,0.5);
+            /*newGyroMove(0,1,182,75,0);
             straighten(0, 0.5);
             while (rightRange.getDistance(DistanceUnit.CM) < 15 && opModeIsActive()) {
                 move(90, (float)-0.6, 0);
@@ -106,6 +105,26 @@ public class BlueStone extends WebcamCV {
             blockServo.setPosition(0.23);
             sleep(600);
             newGyroMove(90,0.3,15,60,0);
+            stop();*/
+            newGyroMove(0,1,130,75,0);
+            turn(-135,0.5);
+            intakeLeft.setPower(1);
+            intakeRight.setPower(1);
+            newGyroMove(0, 0.3, 12, 60, 0);
+            sleep(600);
+            newGyroMove(0, -0.3, 12, 60, 0);
+            turn(-180,-0.5);
+            intakeLeft.setPower(0);
+            intakeRight.setPower(0);
+            sleep(200);
+            newGyroMove(0,-1,70,100,0);
+            intakeLeft.setPower(-0.6);
+            intakeRight.setPower(-0.6);
+            newGyroMove(0,-1,40,75,0);
+            intakeLeft.setPower(0);
+            intakeRight.setPower(0);
+            turn(-90,0.5);
+            //newGyroMove(0,-1,20,75,0);
             stop();
         }
     }
