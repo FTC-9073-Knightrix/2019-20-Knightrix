@@ -27,24 +27,25 @@ public class BlueStone extends WebcamCV {
             }
 
             // Enable to debug Range values
-            File LeftRangeFile = AppUtil.getInstance().getSettingsFile("LeftRangeFile.txt");
+            //File LeftRangeFile = AppUtil.getInstance().getSettingsFile("LeftRangeFile.txt");
 
 
             // Move robot to a certain distance of blocks
-            boolean TaskCompleted = false;
+            boolean TaskPending = true;
             double LeftRangeValue = 0;
 
-            while (opModeIsActive() && TaskCompleted) {
+            while (opModeIsActive() && TaskPending) {
                 // Read leftRange Sensor
+                // that is located on the back of the robot
                 LeftRangeValue = leftRange.getDistance(DistanceUnit.CM);
-                ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
+                //ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
                 float MyPower = 0;
-                if (LeftRangeValue > 25) { MyPower = (float) -0.6; } //go fast
-                if (LeftRangeValue > 20) { MyPower = (float) -0.4; } //go slower
-                if (LeftRangeValue < 17) { MyPower = (float) 0.4; }  // you are too close move away
-                if (LeftRangeValue > 17 && LeftRangeValue < 20) {     // you are right where I wanted
+                if (LeftRangeValue > 20) { MyPower = (float) -0.2; } //go slower
+                if (LeftRangeValue > 28) { MyPower = (float) -0.4; } //go fast
+                if (LeftRangeValue < 17) { MyPower = (float) 0.2; }  // you are too close move away
+                if (LeftRangeValue >= 17 && LeftRangeValue <= 20) {  // you are right where I wanted
                     MyPower = 0;
-//                    TaskCompleted = true;
+                    TaskPending = false;
                 }
 
                 telemetry.addData("Distance (CM): ", LeftRangeValue);
@@ -52,22 +53,20 @@ public class BlueStone extends WebcamCV {
                 telemetry.update();
                 move(90, MyPower, 0);
             }
+            straighten(0, 0.5);
             // Move End
 
 
-            /*
-            while (leftRange.getDistance(DistanceUnit.CM) < 17 && opModeIsActive()) {
-                move(90, (float)-0.6, 0);
-            }
-            while (leftRange.getDistance(DistanceUnit.CM) > 25 && opModeIsActive()) {
-                move(90, (float)-0.6, 0);
-            }
-            while (leftRange.getDistance(DistanceUnit.CM) > 17 && opModeIsActive()) {
-                move(90, (float)-0.2, 0);
-            }
-            move(0,0,0);
-            */
 
+            // Marker to stop the program here and keep testing
+            /*
+            TaskPending = true;
+            while (opModeIsActive() && TaskPending) {
+                telemetry.addLine("-- Stopped -- ");
+                telemetry.update();
+                move(90, 0, 0);
+            }
+            */
 
             if (skystone.equals("Left")) {
                 newGyroMove(45,-0.5,15,0,0);
