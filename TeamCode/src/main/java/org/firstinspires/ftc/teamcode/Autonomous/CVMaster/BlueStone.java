@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous.CVMaster;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
+
+import java.io.File;
 
 @Autonomous(name = "BlueStoneCV", group = "CV")
 
@@ -22,6 +26,32 @@ public class BlueStone extends WebcamCV {
                 skystone = stageSwitchingPipeline.skystone();
             }
 
+            // Enable to debug Range values
+            File LeftRangeFile = AppUtil.getInstance().getSettingsFile("LeftRangeFile.txt");
+
+
+            // Move robot to a certain distance of blocks
+            boolean TaskCompleted = false;
+            double LeftRangeValue = 0;
+
+            while (opModeIsActive() && TaskCompleted) {
+                // Read leftRange Sensor
+                LeftRangeValue = leftRange.getDistance(DistanceUnit.CM);
+                ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
+                float MyPower = 0;
+                if (LeftRangeValue > 25) { MyPower = -0.6; } //go fast
+                if (LeftRangeValue > 20) { MyPower = -0.4; } //go slower
+                if (LeftRangeValue < 17) { MyPower = 0.4; }  // you are too close move away
+                if (LeftRangeValue > 17 && LeftRangeValue < 20) {     // you are right where I wanted
+                    MyPower = 0;
+                    TaskCompleted = true;
+                }
+                move(90, MyPower, 0);
+            }
+            // Move End
+
+
+            /*
             while (leftRange.getDistance(DistanceUnit.CM) < 17 && opModeIsActive()) {
                 move(90, (float)-0.6, 0);
             }
@@ -32,6 +62,9 @@ public class BlueStone extends WebcamCV {
                 move(90, (float)-0.2, 0);
             }
             move(0,0,0);
+            */
+
+
             if (skystone.equals("Left")) {
                 newGyroMove(45,-0.5,15,0,0);
             }
