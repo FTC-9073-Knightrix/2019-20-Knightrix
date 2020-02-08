@@ -28,7 +28,8 @@ public class TeleOp extends TeleOpMethods {
 
 
         // Logic
-
+        liftencoderValue = liftMotor.getCurrentPosition();
+        oldValue = liftencoderValue;
 
         // #########  Intake Mechanism  #########
         double IntakePower = 0;
@@ -120,20 +121,21 @@ public class TeleOp extends TeleOpMethods {
 
 
 
-            moveArm(); // g2_; bumper; clamp  AND input was height of the LIFT
+            moveArm(liftencoderValue); // g2_; bumper; clamp  AND input was height of the LIFT
 
             //hard limit at 3700 - should go higher
             if (g2_leftstick_y < 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 if(Math.abs(g2_leftstick_y) > 0.3  && (getRuntime()-oldTime) > 0.2){
-                    rateOfChange = Math.abs((encoderValue-oldValue)/(getRuntime()-oldTime));
+
+                    rateOfChange = Math.abs((liftencoderValue-oldValue)/(getRuntime()-oldTime));
                     if(rateOfChange < 200){
                         liftMotor.setPower(0);
                     }
                     else{
                         liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
                         oldTime = getRuntime();
-                        oldValue = encoderValue;
+                        oldValue = liftencoderValue;
                     }
                 }
                 else if(Math.abs(g2_leftstick_y) > 0.5){
@@ -142,7 +144,7 @@ public class TeleOp extends TeleOpMethods {
                 else{
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
                     oldTime = getRuntime();
-                    oldValue = encoderValue;
+                    oldValue = liftencoderValue;
                 }
             }
 
@@ -154,17 +156,17 @@ public class TeleOp extends TeleOpMethods {
             else if (g2_leftstick_y > 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 if(Math.abs(g2_leftstick_y) > 0.5  && getRuntime()-oldTime > 0.2){
-                    rateOfChange = Math.abs((encoderValue-oldValue)/(getRuntime()-oldTime));
+                    rateOfChange = Math.abs((liftencoderValue-oldValue)/(getRuntime()-oldTime));
                     if(rateOfChange < 500){
                         liftMotor.setPower(0.1);
                     }
                     else{
                         liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
                         oldTime = getRuntime();
-                        oldValue = encoderValue;
+                        oldValue = liftencoderValue;
                     }
                     oldTime = getRuntime();
-                    oldValue = encoderValue;
+                    oldValue = liftencoderValue;
                 }
                 else if(Math.abs(g2_leftstick_y) > 0.5){
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
@@ -172,7 +174,7 @@ public class TeleOp extends TeleOpMethods {
                 else{
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
                     oldTime = getRuntime();
-                    oldValue = encoderValue;
+                    oldValue = liftencoderValue;
                 }
             }
             else if (g2_dpad_down) {
@@ -191,7 +193,7 @@ public class TeleOp extends TeleOpMethods {
 
             if(g2_leftstick_y == 0){
                 oldTime = getRuntime();
-                oldValue = encoderValue;
+                oldValue = liftencoderValue;
             }
         }
 

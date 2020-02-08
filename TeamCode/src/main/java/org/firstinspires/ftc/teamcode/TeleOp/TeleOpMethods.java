@@ -138,26 +138,26 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         move(myangle,mypower,myrot);
     }
 
-    public void moveArm() {
+    public void moveArm(int liftencoder) {
         clampServo.setPosition(g2_right_trigger);
-
-        if (liftMotor.getCurrentPosition() < -1300) {
-            if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.03 <= 0.75) {
-                bodyTwistServo.setPosition(bodyTwistServo.getPosition() + .03);
+        double twistPosition = bodyTwistServo.getPosition();
+        if (liftencoder < -1300) {
+            if (g2_rightstick_x > 0 && twistPosition + 0.03 <= 0.75) {
+                bodyTwistServo.setPosition(twistPosition + .03);
             }
-            else if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.01 <= 1) {
-                bodyTwistServo.setPosition(bodyTwistServo.getPosition() + .01);
+            else if (g2_rightstick_x > 0 && twistPosition + 0.01 <= 1) {
+                bodyTwistServo.setPosition(twistPosition + .01);
             }
-            else if (g2_rightstick_x > 0 && bodyTwistServo.getPosition() + 0.01 > 1) {
+            else if (g2_rightstick_x > 0 && twistPosition + 0.01 > 1) {
                 bodyTwistServo.setPosition(1);
             }
-            else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.01 > 0.75) {
-                bodyTwistServo.setPosition(bodyTwistServo.getPosition() - .01);
+            else if (g2_rightstick_x < 0 && twistPosition - 0.01 > 0.75) {
+                bodyTwistServo.setPosition(twistPosition - .01);
             }
-            else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.03 >= 0) {
-                bodyTwistServo.setPosition(bodyTwistServo.getPosition() - .03);
+            else if (g2_rightstick_x < 0 && twistPosition - 0.03 >= 0) {
+                bodyTwistServo.setPosition(twistPosition - .03);
             }
-            else if (g2_rightstick_x < 0 && bodyTwistServo.getPosition() - 0.03 < 0) {
+            else if (g2_rightstick_x < 0 && twistPosition - 0.03 < 0) {
                 bodyTwistServo.setPosition(0);
             }
         }
