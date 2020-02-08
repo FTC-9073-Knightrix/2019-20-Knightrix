@@ -22,14 +22,14 @@ public class BlueStone extends WebcamCV {
                 skystone = stageSwitchingPipeline.skystone();
             }
             phoneCam.closeCameraDevice();
-            sleep(2000);
+            //sleep(2000);
 
 
             // Set Grabber Fully Open
             blockGrabServo.setPosition(0.54);
             // Set Servo UP
             blockServo.setPosition(0.7);
-            sleep(2000);
+            //sleep(2000);
 
 
             // Get Closer to skystone wall
@@ -42,9 +42,15 @@ public class BlueStone extends WebcamCV {
                 LeftRangeValue = leftRange.getDistance(DistanceUnit.CM);
                 //ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
                 float MyPower = 0;
-                if (LeftRangeValue > 20) { MyPower = (float) -0.2; } //go slower
-                if (LeftRangeValue > 28) { MyPower = (float) -0.4; } //go fast
-                if (LeftRangeValue < 17) { MyPower = (float) 0.2; }  // you are too close move away
+                if (LeftRangeValue > 20) { //go slower
+                    MyPower = (float) -0.2;
+                }
+                if (LeftRangeValue > 28) { //go fast
+                    MyPower = (float) -0.4;
+                }
+                if (LeftRangeValue < 17) { // you are too close move away
+                    MyPower = (float) 0.2;
+                }
                 if (LeftRangeValue >= 17 && LeftRangeValue <= 20) {  // you are right where I wanted
                     MyPower = 0;
                     TaskPending = false;
@@ -53,25 +59,35 @@ public class BlueStone extends WebcamCV {
             }
             straighten(0, 0.5);
             // Move End
-            sleep(2000);
+            //sleep(2000);
 
 
             // Move robot forwards/backwards based on skystone position
             float MyPower = (float) 0.3;
             float MyDistance = 5;
-            if (     skystone.equals("Left"))  {MyPower = (float) 0.3; MyDistance = 20;} // Go Forwards
-            else if (skystone.equals("Right")) {MyPower = (float)-0.3; MyDistance = 10;} // Go Backwards
-            else {                              MyPower = (float) 0.3; MyDistance =  5;} // Center, move forwards a little
+            if (skystone.equals("Left")) { // Go Forwards
+                MyPower = (float) 0.3;
+                MyDistance = 20;
+            }
+            else if (skystone.equals("Right")) { // Go Backwards
+                MyPower = (float)-0.3;
+                MyDistance = 10;
+            }
+            else { // Center, move forwards a little
+                MyPower = (float) 0.3;
+                MyDistance =  5;
+            }
             newGyroMove(0, MyPower, MyDistance, 60, 0);
-            sleep(2000);
+            //sleep(2000);
 
 
             // ########## Grabs the stone ###########
             //Set the arm down
-            blockServo.setPosition(1);
-            // Move closer to the stone
-            newGyroMove(90,-0.2,3,60,0);
 
+            // Move closer to the stone
+            newGyroMove(90,-0.2,5,60,0);
+            blockServo.setPosition(1);
+            sleep(300);
             // Closes the hand
             blockGrabServo.setPosition(0);
             sleep(600);
@@ -82,7 +98,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(90, 0.4, 9,60, 0);
             straighten(0, 0.5);
             // ####  END Grabbing Stone #####
-            sleep(2000);
+            //sleep(2000);
 
 
 
@@ -95,7 +111,7 @@ public class BlueStone extends WebcamCV {
             else {
                 newGyroMove(0,1,110,60,0);
             }
-            sleep(2000);
+            //sleep(2000);
 
 
             // Drop the skystone
@@ -109,11 +125,11 @@ public class BlueStone extends WebcamCV {
             // Raises the hand
             blockServo.setPosition(0.23);
             sleep(300);
-            sleep(2000);
+            //sleep(2000);
 
             // Turn 180 degrees
             turn(180,0.5);
-            sleep(2000);
+            //sleep(2000);
 
 
             // Goes back into stone zone based on three different distances
@@ -124,33 +140,33 @@ public class BlueStone extends WebcamCV {
                 newGyroMove(0,1,145,75,0);
             }
             else {
-                newGyroMove(0,1,130,75,0);
+                newGyroMove(0,1,128,75,0);
             }
-            sleep(2000);
+            //sleep(2000);
 
             // Goes at an angle to skystone
             turn(-135,0.5);
-            sleep(2000);
+            //sleep(2000);
 
             // Turn on the intake
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
-            sleep(2000);
+            //sleep(2000);
 
             // Capture the skystone
             newGyroMove(0, 0.3, 12, 60, 0);
             sleep(600);
             newGyroMove(0, -0.3, 12, 60, 0);
-            sleep(2000);
+            //sleep(2000);
 
             // Aligh back to be straight to the walls
             turn(-180,-0.5);
-            sleep(2000);
+            //sleep(2000);
 
             // Turn OFF the intake
             intakeLeft.setPower(0);
             intakeRight.setPower(0);
-            sleep(2000);
+            //sleep(2000);
 
             // Move to the Construction Area
             if (skystone.equals("Left")) {
@@ -162,21 +178,21 @@ public class BlueStone extends WebcamCV {
             else {
                 newGyroMove(0,-1,70,100,0);
             }
-            sleep(2000);
+            //sleep(2000);
 
             // Drop the skystone
             intakeLeft.setPower(-0.6);
             intakeRight.setPower(-0.6);
-            sleep(2000);
+            //sleep(2000);
 
             // Continues moving backward
             newGyroMove(0,-1,40,75,0);
-            sleep(2000);
+            //sleep(2000);
 
             // Turn OFF the intake
             intakeLeft.setPower(0);
             intakeRight.setPower(0);
-            sleep(2000);
+            //sleep(2000);
 
             stop();
         }
