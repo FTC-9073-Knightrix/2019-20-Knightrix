@@ -79,19 +79,19 @@ public class TeleOp extends TeleOpMethods {
         }
 
         if(initRun) {
-            if (stage == 0) {
+            /*if (stage == 0) {
                 liftMotor.setPower(0.2);
-                liftMotor.setTargetPosition(-3100);
+                liftMotor.setTargetPosition(-2300);
                 stage++;
             }
             else if (stage == 1) {
-                if (liftMotor.getCurrentPosition() < -3000) {
+                if (liftMotor.getCurrentPosition() < -2000) {
                     blockServo.setPosition(0);
                     liftMotor.setPower(0.3);
                     liftMotor.setTargetPosition(0);
                     stage++;
                 }
-                else if (liftMotor.getCurrentPosition() < -200) {
+                else if (liftMotor.getCurrentPosition() < -300) {
                     liftMotor.setPower(1);
                 }
             }
@@ -105,7 +105,7 @@ public class TeleOp extends TeleOpMethods {
                 if (liftMotor.getCurrentPosition() > -25) {
                     initRun = false;
                 }
-            }
+            }*/
         }
         else { // No Karate Move; Driver can move the Robot freely
 
@@ -132,6 +132,8 @@ public class TeleOp extends TeleOpMethods {
                     }
                     else{
                         liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                        oldTime = getRuntime();
+                        oldValue = encoderValue;
                     }
                 }
                 else if(Math.abs(g2_leftstick_y) > 0.5){
@@ -158,6 +160,8 @@ public class TeleOp extends TeleOpMethods {
                     }
                     else{
                         liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                        oldTime = getRuntime();
+                        oldValue = encoderValue;
                     }
                     oldTime = getRuntime();
                     oldValue = encoderValue;
