@@ -17,7 +17,7 @@ public class BlueStone extends WebcamCV {
         {
             blockGrabServo.setPosition(0.54);
             String skystone = stageSwitchingPipeline.skystone();
-            while(skystone.equals("")) {
+            while(opModeIsActive() && skystone.equals("")) {
                 sleep(100);
                 skystone = stageSwitchingPipeline.skystone();
             }
@@ -141,7 +141,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(0,-1,40,75,0);
             intakeLeft.setPower(0);
             intakeRight.setPower(0);
-            turn(-90,0.5);
+            //turn(-90,0.5);
             //newGyroMove(0,-1,20,75,0);
             stop();
         }

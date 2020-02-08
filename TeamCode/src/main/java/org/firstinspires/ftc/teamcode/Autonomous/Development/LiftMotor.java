@@ -12,9 +12,11 @@ public class LiftMotor extends AutoMethods {
 
         waitForStart();
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        liftMotor.setTargetPosition(100);
-        liftMotor.setPower(1);
-        sleep(2000);
+        liftMotor.setTargetPosition(1000);
+        liftMotor.setPower(0.7);
+        while (opModeIsActive() && liftMotor.getCurrentPosition() < 1000) { }
         liftMotor.setTargetPosition(0);
+        while (opModeIsActive() && liftMotor.getCurrentPosition() > 0) { }
+        stop();
     }
 }
