@@ -120,8 +120,13 @@ public class TeleOp extends TeleOpMethods {
                     oldTime = getRuntime();
                     oldValue = encoderValue;
                 }
+                else if(Math.abs(g2_leftstick_y) > 0.5){
+                    liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                }
                 else{
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                    oldTime = getRuntime();
+                    oldValue = encoderValue;
                 }
             }
             if (g2_dpad_up) {
@@ -141,8 +146,13 @@ public class TeleOp extends TeleOpMethods {
                     oldTime = getRuntime();
                     oldValue = encoderValue;
                 }
+                else if(Math.abs(g2_leftstick_y) > 0.5){
+                    liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                }
                 else{
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                    oldTime = getRuntime();
+                    oldValue = encoderValue;
                 }
             }
             else if (g2_dpad_down) {
