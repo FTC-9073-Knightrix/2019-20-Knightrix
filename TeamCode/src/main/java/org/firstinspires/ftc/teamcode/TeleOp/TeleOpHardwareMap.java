@@ -82,11 +82,12 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public float myrot = 0;
     //Create slowmode variable
     public boolean slowmode = false;
-
+    public int encoderValue = liftMotor.getCurrentPosition();
     public boolean ready = false;
     public boolean initRun = false;
     public int stage = 0;
-
+    public int oldValue = liftMotor.getCurrentPosition();
+    public double oldTime = getRuntime();
     public boolean sideDown = false;
 
     //Initialize the defined objects

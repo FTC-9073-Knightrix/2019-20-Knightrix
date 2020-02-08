@@ -8,11 +8,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
-        int encoderValue;
-        double oldTime = getRuntime();
-        double timeChange = 0.2;
-        double rateOfChange;
-        int oldValue = liftMotor.getCurrentPosition();
+
         // Basic Code loop
         // 1. Get values from gamepad
         // 2. Get values from the hardware
@@ -20,9 +16,19 @@ public class TeleOp extends TeleOpMethods {
         // 4. Update hardware values
 
         getController();
+
+        // Define SlowMotion status
+        if (g1_b) {
+            slowmode = false;
+        }
+        else if (g1_a){
+            slowmode = true;
+        }
         drive();
 
+
         // Logic
+
 
         // #########  Intake Mechanism  #########
         double IntakePower = 0;
@@ -44,34 +50,32 @@ public class TeleOp extends TeleOpMethods {
         intakeRight.setPower(IntakePower);
         // #######################################
 
-
-
-        if (g1_b) {
-            slowmode = false;
-        }
-        else if (g1_a){
-            slowmode = true;
-        }
-
-        if (gamepad2.start && !ready) {
-            initRun = true;
-            ready = true;
-        }
+        // Code to Move the side arm during the TeleOp
+        // ???
         if (g1_dpad_up) {
             sideDown = true;
         }
         else if (g1_dpad_down) {
             sideDown = false;
         }
+        // ???
         if (sideDown) {
             siteServo.setPosition(1);
         }
         else {
             siteServo.setPosition(0);
         }
-
+        // ???
         if (gamepad2.back) {
             blockServo.setPosition(0.7);
+        }
+        // END OF Arm Code
+
+
+        // Do Karate move if Start button is pressed
+        if (gamepad2.start && !ready) {
+            initRun = true;
+            ready = true;
         }
 
         if(initRun) {
@@ -103,22 +107,32 @@ public class TeleOp extends TeleOpMethods {
                 }
             }
         }
-        else {
-            encoderValue = liftMotor.getCurrentPosition();
-            moveArm();
+        else { // No Karate Move; Driver can move the Robot freely
+
+            // Variables used for the Lift
+
+            //double NewTime = getRuntime();
+            double rateOfChange;
+            //        int oldValue = liftMotor.getCurrentPosition();
+
+
+
+
+
+
+            moveArm(); // g2_; bumper; clamp  AND input was height of the LIFT
+
             //hard limit at 3700 - should go higher
             if (g2_leftstick_y < 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                if(Math.abs(g2_leftstick_y) > 0.5  && getRuntime()-oldTime > 0.2){
+                if(Math.abs(g2_leftstick_y) > 0.3  && (getRuntime()-oldTime) > 0.2){
                     rateOfChange = Math.abs((encoderValue-oldValue)/(getRuntime()-oldTime));
                     if(rateOfChange < 200){
-                        liftMotor.setPower(0.1);
+                        liftMotor.setPower(0);
                     }
                     else{
                         liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
                     }
-                    oldTime = getRuntime();
-                    oldValue = encoderValue;
                 }
                 else if(Math.abs(g2_leftstick_y) > 0.5){
                     liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
@@ -129,6 +143,8 @@ public class TeleOp extends TeleOpMethods {
                     oldValue = encoderValue;
                 }
             }
+
+
             if (g2_dpad_up) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(1/1.5);
@@ -168,6 +184,7 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setTargetPosition(liftMotor.getCurrentPosition());
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+
             if(g2_leftstick_y == 0){
                 oldTime = getRuntime();
                 oldValue = encoderValue;
