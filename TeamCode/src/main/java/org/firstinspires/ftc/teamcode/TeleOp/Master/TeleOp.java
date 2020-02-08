@@ -8,6 +8,11 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
+        int encoderValue;
+        double oldTime = getRuntime();
+        double timeChange = 0.2;
+        double rateOfChange;
+        int oldValue = liftMotor.getCurrentPosition();
         // Basic Code loop
         // 1. Get values from gamepad
         // 2. Get values from the hardware
@@ -99,19 +104,40 @@ public class TeleOp extends TeleOpMethods {
             }
         }
         else {
+            encoderValue = liftMotor.getCurrentPosition();
             moveArm();
             //hard limit at 3700 - should go higher
-            if (g2_leftstick_y < 0 && liftMotor.getCurrentPosition() > -3700) {
+            if (g2_leftstick_y < 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                if(Math.abs(g2_leftstick_y) > 0.5  && getRuntime()-oldTime > 0.2){
+                    rateOfChange = Math.abs((encoderValue-oldValue)/(getRuntime()-oldTime));
+                    if(rateOfChange < 200){
+                        liftMotor.setPower(0.1);
+                    }
+                    oldTime = getRuntime();
+                    oldValue = liftMotor.getCurrentPosition();
+                }
+                else{
+                    liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                }
             }
-            else if (g2_dpad_up) {
+            if (g2_dpad_up) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 liftMotor.setPower(1/1.5);
             }
-            else if (g2_leftstick_y > 0 && liftMotor.getCurrentPosition() < 0) {
+            else if (g2_leftstick_y > 0) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftMotor.setPower(Math.pow(g2_leftstick_y,3));
+                if(Math.abs(g2_leftstick_y) > 0.5  && getRuntime()-oldTime > 0.2){
+                    rateOfChange = Math.abs((encoderValue-oldValue)/(getRuntime()-oldTime));
+                    if(rateOfChange < 500){
+                        liftMotor.setPower(0.1);
+                    }
+                    oldTime = getRuntime();
+                    oldValue = liftMotor.getCurrentPosition();
+                }
+                else{
+                    liftMotor.setPower(Math.pow(g2_leftstick_y/1.3,3));
+                }
             }
             else if (g2_dpad_down) {
                 liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -126,7 +152,12 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setTargetPosition(liftMotor.getCurrentPosition());
                 liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             }
+            if(g2_leftstick_y == 0){
+                oldTime = getRuntime();
+                oldValue = liftMotor.getCurrentPosition();
+            }
         }
+
 
 
         // Push the logic into the hardware world
