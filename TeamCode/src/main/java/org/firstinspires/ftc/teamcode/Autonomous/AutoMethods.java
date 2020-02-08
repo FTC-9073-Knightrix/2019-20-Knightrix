@@ -170,7 +170,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
-            if (gyroDegrees < -359) {
+            if (gyroDegrees < -179) {
                 gyroDegrees += 360;
             }
 
