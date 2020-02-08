@@ -158,6 +158,8 @@ public abstract class AutoMethods extends AutoHardwareMap {
     }
 
     public void newGyroMove(int direction, double power, double distance, int stopping, int wait){
+        telemetry.addLine("newGyroMove");
+        telemetry.update();
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         int StartingOrientation = (int) orientation.firstAngle;
 
@@ -170,7 +172,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
-            if (gyroDegrees < -179) {
+            if (gyroDegrees < -180) {
                 gyroDegrees += 360;
             }
 
@@ -364,10 +366,14 @@ public abstract class AutoMethods extends AutoHardwareMap {
             telemetry.update();
         }
 
+        telemetry.addLine("Done with turn");
+        telemetry.update();
         leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);
+
+        sleep(200);
     }
     // Create a method to get values from Hardware
     // public void Get_Hardware_Values(MyGyro){
