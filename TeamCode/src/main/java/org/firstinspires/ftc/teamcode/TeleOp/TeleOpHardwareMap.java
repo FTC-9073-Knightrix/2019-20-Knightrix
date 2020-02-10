@@ -89,6 +89,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public int oldValue;
     public double oldTime = getRuntime();
     public boolean sideDown = false;
+    public int LiftEncoderOffset;
+
+    //Create RevSwitch
+    public DigitalChannel LiftTouch;  // Hardware Device Object
+
 
     //Initialize the defined objects
     public void init() {
@@ -134,5 +139,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
         gyro.initialize(parameters);
+
+        //Add Switch
+        LiftTouch = hardwareMap.get(DigitalChannel.class, "LiftTouch");
+        // set the digital channel to input.
+        LiftTouch.setMode(DigitalChannel.Mode.INPUT);
+
     }
 }
