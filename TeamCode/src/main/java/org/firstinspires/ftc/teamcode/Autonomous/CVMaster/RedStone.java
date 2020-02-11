@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
 
-@Autonomous(name = "RightStoneCV", group = "CV")
+@Autonomous(name = "RedStoneCV", group = "CV")
 
 public class RedStone extends WebcamCV {
     public void runOpMode(){

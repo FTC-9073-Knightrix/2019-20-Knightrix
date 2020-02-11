@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous.CVMaster;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
 
 @Autonomous(name = "BlueStoneIntake", group = "CV")
+@Disabled
 
 public class BlueStoneIntake extends WebcamCV {
     public void runOpMode(){

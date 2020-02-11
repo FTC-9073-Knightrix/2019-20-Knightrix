@@ -7,8 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
+
+import java.io.File;
 
 public abstract class TeleOpHardwareMap extends OpMode {
     //Create the four drive motors
@@ -60,11 +64,15 @@ public abstract class TeleOpHardwareMap extends OpMode {
     //Gamepad buttons
     public boolean g1_a = false;
     public boolean g1_b = false;
+    public boolean g1_x = false;
     public boolean g2_a = false;
     public boolean g2_b = false;
     public boolean g2_y = false;
     public boolean g1_dpad_up = false;
     public boolean g1_dpad_down = false;
+
+    public double perSecond = 0;
+    public int clicks = 0;
 
     //Create the gyroscope
     public BNO055IMU gyro;
@@ -90,6 +98,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public double oldTime = getRuntime();
     public boolean sideDown = false;
     public int LiftEncoderOffset;
+
+    public float gyroAngle = 0;
 
     //Create RevSwitch
     public DigitalChannel LiftTouch;  // Hardware Device Object
@@ -139,6 +149,15 @@ public abstract class TeleOpHardwareMap extends OpMode {
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         gyro = hardwareMap.get(BNO055IMU.class, "gyro");
         gyro.initialize(parameters);
+
+        File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");
+        String gyroString = ReadWriteFile.readFile(gyroPosition);
+        if (gyroString.equals("")) {
+            gyroAngle = 0;
+        }
+        else {
+            gyroAngle = Float.parseFloat(ReadWriteFile.readFile(gyroPosition));
+        }
 
         //Add Switch
         LiftTouch = hardwareMap.get(DigitalChannel.class, "LiftTouch");

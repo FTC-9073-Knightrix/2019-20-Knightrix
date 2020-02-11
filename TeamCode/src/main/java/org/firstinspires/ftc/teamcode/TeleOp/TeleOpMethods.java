@@ -28,6 +28,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g2_dpad_left = gamepad2.dpad_left;
         g1_a = gamepad1.a;
         g1_b = gamepad1.b;
+        g1_x = gamepad1.x;
         g2_a = gamepad2.a;
         g2_b = gamepad2.b;
         g2_y = gamepad2.y;
@@ -75,7 +76,13 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     public void drive() {
         //Get the current position of the robot
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
-        gyroDegrees = (int) orientation.firstAngle;
+        gyroDegrees = (int) (orientation.firstAngle + gyroAngle);
+        if (gyroDegrees > 180) {
+            gyroDegrees -= 360;
+        }
+        else if (gyroDegrees < -180) {
+            gyroDegrees += 360;
+        }
 
         //Get the rotation of the robot based off the position of the right joystick x
         if (!slowmode) {
@@ -142,8 +149,8 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         clampServo.setPosition(g2_right_trigger);
         double twistPosition = bodyTwistServo.getPosition();
         if (liftencoder > 1300) {
-            if (g2_rightstick_x > 0 && twistPosition + 0.03 <= 0.75) {
-                bodyTwistServo.setPosition(twistPosition + .03);
+            if (g2_rightstick_x > 0 && twistPosition + 0.05 <= 0.8) {
+                bodyTwistServo.setPosition(twistPosition + .05);
             }
             else if (g2_rightstick_x > 0 && twistPosition + 0.01 <= 1) {
                 bodyTwistServo.setPosition(twistPosition + .01);
@@ -151,13 +158,16 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
             else if (g2_rightstick_x > 0 && twistPosition + 0.01 > 1) {
                 bodyTwistServo.setPosition(1);
             }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.01 > 0.75) {
+            else if (g2_rightstick_x < 0 && twistPosition - 0.01 > 0.8) {
                 bodyTwistServo.setPosition(twistPosition - .01);
             }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.03 >= 0) {
-                bodyTwistServo.setPosition(twistPosition - .03);
+            else if (g2_rightstick_x < 0 && twistPosition - 0.3 >= 0) {
+                bodyTwistServo.setPosition(twistPosition - .3);
             }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.03 < 0) {
+            else if (g2_rightstick_x < 0 && twistPosition - 0.05 >= 0) {
+                bodyTwistServo.setPosition(twistPosition - .05);
+            }
+            else if (g2_rightstick_x < 0 && twistPosition - 0.05 < 0) {
                 bodyTwistServo.setPosition(0);
             }
         }

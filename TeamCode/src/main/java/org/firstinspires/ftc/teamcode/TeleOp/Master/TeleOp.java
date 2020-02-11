@@ -2,12 +2,21 @@ package org.firstinspires.ftc.teamcode.TeleOp.Master;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "Master")
 
 public class TeleOp extends TeleOpMethods {
     public void loop () {
+
+        if (getRuntime() - perSecond >= 1) {
+            perSecond = getRuntime();
+            clicks = 0;
+            telemetry.addData("Clicks", clicks);
+        }
 
         // Basic Code loop
         // 1. Get values from gamepad
@@ -17,6 +26,11 @@ public class TeleOp extends TeleOpMethods {
 
         getController();
 
+        if (g1_x) {
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            gyroAngle = - orientation.firstAngle;
+        }
+
         // Define SlowMotion status
         if (g1_b) {
             slowmode = false;
@@ -25,7 +39,6 @@ public class TeleOp extends TeleOpMethods {
             slowmode = true;
         }
         drive();
-
 
         // Get Hardware Values
         liftencoderValue = -liftMotor.getCurrentPosition() - LiftEncoderOffset;
@@ -212,5 +225,9 @@ public class TeleOp extends TeleOpMethods {
 
         // Telemetry Section
 
+        clicks++;
+
+        telemetry.addData("Lift Power", liftMotor.getPower());
+        telemetry.addData("Lift Encoder", liftMotor.getCurrentPosition());
     }
 }

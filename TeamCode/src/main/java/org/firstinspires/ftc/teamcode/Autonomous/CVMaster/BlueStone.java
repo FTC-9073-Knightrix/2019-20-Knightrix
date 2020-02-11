@@ -1,9 +1,16 @@
 package org.firstinspires.ftc.teamcode.Autonomous.CVMaster;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ReadWriteFile;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
+
+import java.io.File;
 
 @Autonomous(name = "BlueStoneCV", group = "CV")
 
@@ -13,8 +20,8 @@ public class BlueStone extends WebcamCV {
 
         waitForStart();
 
-        while (opModeIsActive())
-        {
+        //while (opModeIsActive())
+        //{
             //Detects stone position (Left, Center, Right) and closes camera
             String skystone = stageSwitchingPipeline.skystone();
             while(opModeIsActive() && skystone.equals("")) {
@@ -28,7 +35,7 @@ public class BlueStone extends WebcamCV {
             // Set Grabber Fully Open
             blockGrabServo.setPosition(0.54);
             // Set Servo UP
-            blockServo.setPosition(0.7);
+            blockServo.setPosition(0.8);
             //sleep(2000);
 
 
@@ -75,8 +82,9 @@ public class BlueStone extends WebcamCV {
             }
             else { // Center, move forwards a little
                 MyPower = (float) 0.3;
-                MyDistance =  5;
+                MyDistance =  4;
             }
+        straighten(0, 0.5);
             newGyroMove(0, MyPower, MyDistance, 60, 0);
             //sleep(2000);
 
@@ -86,8 +94,8 @@ public class BlueStone extends WebcamCV {
 
             // Move closer to the stone
             newGyroMove(90,-0.2,5,60,0);
-            blockServo.setPosition(1);
-            sleep(300);
+        blockServo.setPosition(1);
+        sleep(300);
             // Closes the hand
             blockGrabServo.setPosition(0);
             sleep(600);
@@ -128,70 +136,126 @@ public class BlueStone extends WebcamCV {
             //sleep(2000);
 
             // Turn 180 degrees
-            turn(180,0.5);
+            if (skystone.equals("Right")) {
+                turn(180, 0.5);
+            }
             //sleep(2000);
 
 
             // Goes back into stone zone based on three different distances
             if (skystone.equals("Left")) {
-                newGyroMove(0,1,115,75,0);
+                newGyroMove(0,-1,133,75,0);
             }
             else if (skystone.equals("Right")) {
                 newGyroMove(0,1,145,75,0);
             }
             else {
-                newGyroMove(0,1,128,75,0);
+                newGyroMove(0,-1,150,75,0);
             }
             //sleep(2000);
 
-            // Goes at an angle to skystone
-            turn(-135,0.5);
-            //sleep(2000);
+            if (skystone.equals("Right")) {
+                // Goes at an angle to skystone
+                turn(-135, 0.5);
+                //sleep(2000);
 
-            // Turn on the intake
-            intakeLeft.setPower(1);
-            intakeRight.setPower(1);
-            //sleep(2000);
+                // Turn on the intake
+                intakeLeft.setPower(1);
+                intakeRight.setPower(1);
+                //sleep(2000);
 
-            // Capture the skystone
-            newGyroMove(0, 0.3, 12, 60, 0);
-            sleep(600);
-            newGyroMove(0, -0.3, 12, 60, 0);
-            //sleep(2000);
+                // Capture the skystone
+                newGyroMove(0, 0.3, 12, 60, 0);
+                sleep(600);
+                newGyroMove(0, -0.3, 12, 60, 0);
+                //sleep(2000);
 
-            // Aligh back to be straight to the walls
-            turn(-180,-0.5);
-            //sleep(2000);
+                // Aligh back to be straight to the walls
+                turn(-180, -0.5);
+                //sleep(2000);
 
-            // Turn OFF the intake
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
-            //sleep(2000);
+                // Turn OFF the intake
+                intakeLeft.setPower(0);
+                intakeRight.setPower(0);
+                //sleep(2000);
 
-            // Move to the Construction Area
-            if (skystone.equals("Left")) {
-                newGyroMove(0,-1,55,100,0);
-            }
-            else if (skystone.equals("Right")) {
-                newGyroMove(0,-1,85,100,0);
+                // Move to the Construction Area
+                newGyroMove(0, -1, 85, 100, 0);
+                //sleep(2000);
+
+                // Drop the skystone
+                intakeLeft.setPower(-0.6);
+                intakeRight.setPower(-0.6);
+                //sleep(2000);
+
+                // Continues moving backward
+                newGyroMove(0, -1, 40, 75, 0);
+                //sleep(2000);
+
+                // Turn OFF the intake
+                intakeLeft.setPower(0);
+                intakeRight.setPower(0);
             }
             else {
-                newGyroMove(0,-1,70,100,0);
+                // Move closer to the stone
+                blockServo.setPosition(.8);
+                sleep(300);
+                // Get Closer to skystone wall
+                TaskPending = true;
+                double RightRangeValue = 0;
+
+                while (opModeIsActive() && TaskPending) {
+                    // Read leftRange Sensor
+                    // that is located on the back of the robot
+                    RightRangeValue = rightRange.getDistance(DistanceUnit.CM);
+                    //ReadWriteFile.writeFile(LeftRangeFile, String.valueOf(LeftRangeValue)); //Store value into a file
+                    MyPower = 0;
+                    if (RightRangeValue > 20) { //go slower
+                        MyPower = (float) -0.2;
+                    }
+                    if (RightRangeValue > 28) { //go fast
+                        MyPower = (float) -0.4;
+                    }
+                    if (RightRangeValue < 17) { // you are too close move away
+                        MyPower = (float) 0.2;
+                    }
+                    if (RightRangeValue >= 17 && RightRangeValue <= 20) {  // you are right where I wanted
+                        MyPower = 0;
+                        TaskPending = false;
+                    }
+                    move(90, MyPower, 0);
+                }
+                straighten(0, 0.5);
+                newGyroMove(90,-0.2,10,60,0);
+                blockServo.setPosition(1);
+                sleep(300);
+                // Closes the hand
+                blockGrabServo.setPosition(0);
+                sleep(600);
+                // Raises the skystone
+                blockServo.setPosition(0.23);
+                // sleep(600);
+                //Pull the stone out
+                newGyroMove(90, 0.4, 9,60, 0);
+                straighten(0, 0.5);
+                if (skystone.equals("Left")) {
+                    newGyroMove(0,1,130,75,0);
+                }
+                else if (skystone.equals("Center")) {
+                    newGyroMove(0,1,145,75,0);
+                }
+                // Drop the skystone
+                //Set the arm down
+                blockServo.setPosition(1);
+                //Wait for the arm to fully Down
+                sleep(600);
+                // Opens the hand
+                blockGrabServo.setPosition(0.54);
+                //sleep(300);
+                // Raises the hand
+                //blockServo.setPosition(0.23);
+                //sleep(300);
             }
-            //sleep(2000);
-
-            // Drop the skystone
-            intakeLeft.setPower(-0.6);
-            intakeRight.setPower(-0.6);
-            //sleep(2000);
-
-            // Continues moving backward
-            newGyroMove(0,-1,40,75,0);
-            //sleep(2000);
-
-            // Turn OFF the intake
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
             //sleep(2000);
 
             liftMotor.setTargetPosition(-2600);
@@ -215,7 +279,10 @@ public class BlueStone extends WebcamCV {
                 telemetry.addData("Position", liftMotor.getCurrentPosition());
                 telemetry.update();
             }
+        File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        ReadWriteFile.writeFile(gyroPosition, String.valueOf(orientation.firstAngle + 90));
             stop();
-        }
+        //}
     }
 }

@@ -175,6 +175,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
             if (gyroDegrees < -180) {
                 gyroDegrees += 360;
             }
+            else if (gyroDegrees > 180) {
+                gyroDegrees -= 360;
+            }
 
             int CorrectionDegrees = (StartingOrientation - gyroDegrees);
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
