@@ -35,7 +35,7 @@ public class BlueStone extends WebcamCV {
             // Set Grabber Fully Open
             blockGrabServo.setPosition(0.54);
             // Set Servo UP
-            blockServo.setPosition(0.8);
+            blockServo.setPosition(0.7);
             //sleep(2000);
 
 
@@ -74,11 +74,11 @@ public class BlueStone extends WebcamCV {
             float MyDistance = 5;
             if (skystone.equals("Left")) { // Go Forwards
                 MyPower = (float) 0.3;
-                MyDistance = 20;
+                MyDistance = 19;
             }
             else if (skystone.equals("Right")) { // Go Backwards
                 MyPower = (float)-0.3;
-                MyDistance = 10;
+                MyDistance = 8;
             }
             else { // Center, move forwards a little
                 MyPower = (float) 0.3;
@@ -93,7 +93,8 @@ public class BlueStone extends WebcamCV {
             //Set the arm down
 
             // Move closer to the stone
-            newGyroMove(90,-0.2,5,60,0);
+        blockServo.setPosition(0.75);
+            newGyroMove(90,-0.2,8,60,0);
         blockServo.setPosition(1);
         sleep(300);
             // Closes the hand
@@ -133,6 +134,7 @@ public class BlueStone extends WebcamCV {
             // Raises the hand
             blockServo.setPosition(0.23);
             sleep(300);
+        newGyroMove(90,0.2,2,60,0);
             //sleep(2000);
 
             // Turn 180 degrees
@@ -147,7 +149,7 @@ public class BlueStone extends WebcamCV {
                 newGyroMove(0,-1,133,75,0);
             }
             else if (skystone.equals("Right")) {
-                newGyroMove(0,1,145,75,0);
+                newGyroMove(0,1,140,75,0);
             }
             else {
                 newGyroMove(0,-1,150,75,0);
@@ -198,7 +200,7 @@ public class BlueStone extends WebcamCV {
             }
             else {
                 // Move closer to the stone
-                blockServo.setPosition(.8);
+                blockServo.setPosition(.7);
                 sleep(300);
                 // Get Closer to skystone wall
                 TaskPending = true;
@@ -226,6 +228,7 @@ public class BlueStone extends WebcamCV {
                     move(90, MyPower, 0);
                 }
                 straighten(0, 0.5);
+                blockServo.setPosition(0.75);
                 newGyroMove(90,-0.2,10,60,0);
                 blockServo.setPosition(1);
                 sleep(300);

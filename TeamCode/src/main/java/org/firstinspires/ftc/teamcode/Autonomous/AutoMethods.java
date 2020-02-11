@@ -172,14 +172,20 @@ public abstract class AutoMethods extends AutoHardwareMap {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
-            if (gyroDegrees < -180) {
+            /*if (gyroDegrees < -180) {
                 gyroDegrees += 360;
             }
             else if (gyroDegrees > 180) {
                 gyroDegrees -= 360;
-            }
+            }*/
 
-            int CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            int CorrectionDegrees = 0;
+            if (StartingOrientation == 0 || gyroDegrees == 0 || (StartingOrientation/Math.abs(StartingOrientation) == -1 && gyroDegrees/Math.abs(gyroDegrees) == -1) || (StartingOrientation/Math.abs(StartingOrientation) == 1 && gyroDegrees/Math.abs(gyroDegrees) == 1)) {
+                CorrectionDegrees = (StartingOrientation - gyroDegrees);
+            }
+            else {
+                CorrectionDegrees = (StartingOrientation + gyroDegrees);
+            }
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
             double newPower = (power/Math.abs(power)) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
