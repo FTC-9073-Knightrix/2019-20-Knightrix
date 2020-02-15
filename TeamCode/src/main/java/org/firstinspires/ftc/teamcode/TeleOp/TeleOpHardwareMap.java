@@ -73,6 +73,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
 
     public double perSecond = 0;
     public int clicks = 0;
+    public int clicks2 = 0;
 
     //Create the gyroscope
     public BNO055IMU gyro;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name = "Blue Buildsite")
-
+@Disabled
 public class AutoBlueSite extends AutoMethods {
     public void runOpMode() {
         initRobot();

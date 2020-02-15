@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Master;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name="Red Stone")
+@Disabled
 
 public class AutoRedStone extends AutoMethods {
     public void runOpMode() {

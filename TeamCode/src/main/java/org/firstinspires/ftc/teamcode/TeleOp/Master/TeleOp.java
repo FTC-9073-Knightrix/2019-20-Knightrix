@@ -12,10 +12,10 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 public class TeleOp extends TeleOpMethods {
     public void loop () {
 
-        if (getRuntime() - perSecond >= 1) {
+        if (getRuntime() - perSecond >= 0.5) {
             perSecond = getRuntime();
+            clicks2 = clicks;
             clicks = 0;
-            telemetry.addData("Clicks", clicks);
         }
 
         // Basic Code loop
@@ -229,5 +229,7 @@ public class TeleOp extends TeleOpMethods {
 
         telemetry.addData("Lift Power", liftMotor.getPower());
         telemetry.addData("Lift Encoder", liftMotor.getCurrentPosition());
+        telemetry.addData("Clicks per 0.5 second", clicks2);
+        telemetry.update();
     }
 }
