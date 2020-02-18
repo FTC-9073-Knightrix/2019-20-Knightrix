@@ -29,6 +29,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g1_a = gamepad1.a;
         g1_b = gamepad1.b;
         g1_x = gamepad1.x;
+        g1_y = gamepad1.y;
         g2_a = gamepad2.a;
         g2_b = gamepad2.b;
         g2_y = gamepad2.y;

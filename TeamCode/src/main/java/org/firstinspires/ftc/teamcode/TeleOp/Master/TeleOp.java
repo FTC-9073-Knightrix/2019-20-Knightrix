@@ -38,7 +38,32 @@ public class TeleOp extends TeleOpMethods {
         else if (g1_a){
             slowmode = true;
         }
-        drive();
+
+        if (!g1_y) {
+            if (sitePower > 0) {
+                sitePower -= 0.01;
+                leftBackDrive.setPower(sitePower);
+                rightBackDrive.setPower(sitePower);
+                leftFrontDrive.setPower(sitePower);
+                rightFrontDrive.setPower(sitePower);
+            }
+            else {
+                sitePower = 0;
+                drive();
+            }
+        }
+        else {
+            if (sitePower < 0.2) {
+                sitePower += 0.01;
+            }
+            else {
+                sitePower = (float)0.2;
+            }
+            leftBackDrive.setPower(sitePower);
+            rightBackDrive.setPower(sitePower);
+            leftFrontDrive.setPower(sitePower);
+            rightFrontDrive.setPower(sitePower);
+        }
 
         // Get Hardware Values
         liftencoderValue = -liftMotor.getCurrentPosition() - LiftEncoderOffset;

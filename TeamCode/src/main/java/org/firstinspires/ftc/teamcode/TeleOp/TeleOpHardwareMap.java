@@ -65,6 +65,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public boolean g1_a = false;
     public boolean g1_b = false;
     public boolean g1_x = false;
+    public boolean g1_y = false;
     public boolean g2_a = false;
     public boolean g2_b = false;
     public boolean g2_y = false;
@@ -101,6 +102,8 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public int LiftEncoderOffset;
 
     public float gyroAngle = 0;
+
+    public float sitePower = 0;
 
     //Create RevSwitch
     public DigitalChannel LiftTouch;  // Hardware Device Object

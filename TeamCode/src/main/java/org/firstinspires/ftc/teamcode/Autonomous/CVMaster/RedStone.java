@@ -16,6 +16,7 @@ import java.io.File;
 
 public class RedStone extends WebcamCV {
     public void runOpMode(){
+        double distance;
         //Initialize robot
         initRobot();
         //Wait until the robot starts
@@ -101,16 +102,40 @@ public class RedStone extends WebcamCV {
         straighten(0, 0.5);
         //Move to the other side of the field to drop off the stone
         if (skystone.equals("Right")) {
-            newGyroMove(0,-1,95,60,0);
+            newGyroMove(0,-1,60,60,0);
         }
         else if (skystone.equals("Left")) {
-            newGyroMove(0,-1,125,60,0);
+            newGyroMove(0,-1,100,60,0);
         }
         else {
-            newGyroMove(0,-1,103,60,0);
+            newGyroMove(0,-1,80,60,0);
         }
+        newGyroMove(0,-1,40, 75,0);
+        distance = leftRange.getDistance(DistanceUnit.CM);
+        // store distance
+        // get closer towards foundation
+        newGyroMove(-90,0.5,distance/2,60,0);
+        distance = leftRange.getDistance(DistanceUnit.CM);
+        newGyroMove(-90,0.25,distance/2,60,0);
+        // once reach distance
+        //stop moving
+        // drop the servo
+        blockServo.setPosition(1);
+        //Wait for the arm to fully Down
+        sleep(800);
+        // Opens the hand
+        blockGrabServo.setPosition(0.54);
+        //Wait for the grabber to open
+        sleep(500);
+        // go back to start
+        // Raises the hand
+        blockServo.setPosition(0.23);
+        //Wait for side servo to fully go up
+        sleep(300);
 
-        //Set the arm down
+        newGyroMove(90, 1, distance+1, 60, 0);
+        straighten(0, 0.5);
+        /*//Set the arm down
         blockServo.setPosition(1);
         //Wait for the arm to fully Down
         sleep(600);
@@ -126,14 +151,15 @@ public class RedStone extends WebcamCV {
         newGyroMove(90,0.2,4,60,0);
 
         //Goes back into the zone based on three different distances
+         */
         if (skystone.equals("Right")) {
-            newGyroMove(0,1,137,75,0);
+            newGyroMove(0,1,155,75,0);
         }
         else if (skystone.equals("Left")) {
-            newGyroMove(0,1,140,75,0);
+            newGyroMove(0,1,190,75,0);
         }
         else {
-            newGyroMove(0,1,146,75,0);
+            newGyroMove(0,1,178,75,0);
         }
 
         //Use the intake if the skystone is the left one (closest to wall)
@@ -219,19 +245,42 @@ public class RedStone extends WebcamCV {
             //Align to get ready to move across the field
             straighten(0, 0.5);
             if (skystone.equals("Right")) {
-                newGyroMove(0,-1,130,75,0);
+                newGyroMove(0,-1,155,75,0);
             }
             else if (skystone.equals("Center")) {
-                newGyroMove(0,-1,142,75,0);
+                newGyroMove(0,-1,178,75,0);
             }
-            //Set the arm down
+            distance = leftRange.getDistance(DistanceUnit.CM);
+            // store distance
+            // get closer towards foundation
+            newGyroMove(-90,0.5,distance/2,60,0);
+            distance = leftRange.getDistance(DistanceUnit.CM);
+            newGyroMove(-90,0.25,distance/2,60,0);
+            // once reach distance
+            //stop moving
+            // drop the servo
+            blockServo.setPosition(1);
+            //Wait for the arm to fully Down
+            sleep(800);
+            // Opens the hand
+            blockGrabServo.setPosition(0.54);
+            //Wait for the grabber to open
+            sleep(500);
+            // go back to start
+            newGyroMove(90, 1, distance, 60, 0);
+            // Raises the hand
+            blockServo.setPosition(0.23);
+            //Wait for side servo to fully go up
+            sleep(300);
+
+            /*//Set the arm down
             blockServo.setPosition(1);
             //Wait for the arm to fully Down
             sleep(600);
             // Opens the hand
             blockGrabServo.setPosition(0.54);
             //resets the angle of the robot
-            straighten(0, 0.5);
+            straighten(0, 0.5);*/
         }
 
         //Make the lift go up to swap
@@ -263,6 +312,12 @@ public class RedStone extends WebcamCV {
             telemetry.addData("Position", liftMotor.getCurrentPosition());
             telemetry.update();
         }
+        straighten(-90, 0.5);
+        newGyroMove(0,-1,22,60,0);
+        sideServo.setPosition(1);
+        newGyroMove(90,1,5,60,0);
+        straighten(0,0.5);
+        newGyroMove(0,-1,10,60,0);
         //Save the orientation of the robot so that it can be used for the teleop
         File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
