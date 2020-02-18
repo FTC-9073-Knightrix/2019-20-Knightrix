@@ -1,11 +1,19 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
@@ -106,6 +114,16 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DigitalChannel LiftTouch;  // Hardware Device Object
 
 
+
+    public RevBlinkinLedDriver blinkin;
+    /*public I2cDevice range1;
+    public I2cDeviceSynch range1Reader;
+    public byte[] range1Cache;
+    public double range1Value;*/
+    public DistanceSensor intakeRange;
+
+
+
     //Initialize the defined objects
     public void init() {
         //Add the motors to the configuration on the phones
@@ -165,5 +183,11 @@ public abstract class TeleOpHardwareMap extends OpMode {
         // set the digital channel to input.
         LiftTouch.setMode(DigitalChannel.Mode.INPUT);
 
+
+
+        blinkin = hardwareMap.get(RevBlinkinLedDriver.class, "LED");
+        blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+
+        intakeRange = hardwareMap.get(DistanceSensor.class, "IRS");
     }
 }

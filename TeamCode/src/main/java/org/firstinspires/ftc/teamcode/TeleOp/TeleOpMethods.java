@@ -149,25 +149,22 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         clampServo.setPosition(g2_right_trigger);
         double twistPosition = bodyTwistServo.getPosition();
         if (liftencoder > 1300) {
-            if (g2_rightstick_x > 0 && twistPosition + 0.05 <= 0.8) {
+            if (g2_rightstick_x > 0 && twistPosition + 0.3 <= 0.85) {
+                bodyTwistServo.setPosition(twistPosition + .3);
+            }
+            else if (g2_rightstick_x > 0 && twistPosition + 0.05 <= 1) {
                 bodyTwistServo.setPosition(twistPosition + .05);
             }
-            else if (g2_rightstick_x > 0 && twistPosition + 0.01 <= 1) {
-                bodyTwistServo.setPosition(twistPosition + .01);
-            }
-            else if (g2_rightstick_x > 0 && twistPosition + 0.01 > 1) {
+            else if (g2_rightstick_x > 0 && twistPosition + 0.05 > 1) {
                 bodyTwistServo.setPosition(1);
             }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.01 > 0.8) {
-                bodyTwistServo.setPosition(twistPosition - .01);
+            else if (g2_rightstick_x < 0 && twistPosition - 0.05 > 0.85) {
+                bodyTwistServo.setPosition(twistPosition - .05);
             }
             else if (g2_rightstick_x < 0 && twistPosition - 0.3 >= 0) {
                 bodyTwistServo.setPosition(twistPosition - .3);
             }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.05 >= 0) {
-                bodyTwistServo.setPosition(twistPosition - .05);
-            }
-            else if (g2_rightstick_x < 0 && twistPosition - 0.05 < 0) {
+            else if (g2_rightstick_x < 0 && twistPosition - 0.3 < 0) {
                 bodyTwistServo.setPosition(0);
             }
         }

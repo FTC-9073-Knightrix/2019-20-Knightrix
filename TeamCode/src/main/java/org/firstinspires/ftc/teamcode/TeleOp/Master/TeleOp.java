@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Master;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "Master")
@@ -86,12 +88,12 @@ public class TeleOp extends TeleOpMethods {
 
 
         // Do Karate move if Start button is pressed
-        if (gamepad2.start && !ready) {
+        /*if (gamepad2.start && !ready) {
             initRun = true;
             ready = true;
         }
 
-        if(initRun) {
+        //if(initRun) {
             /*if (stage == 0) {
                 liftMotor.setPower(0.2);
                 liftMotor.setTargetPosition(-2300);
@@ -119,8 +121,8 @@ public class TeleOp extends TeleOpMethods {
                     initRun = false;
                 }
             }*/
-        }
-        else { // No Karate Move; Driver can move the Robot freely
+        //}
+        //else { // No Karate Move; Driver can move the Robot freely
 
             // Variables used for the Lift
 
@@ -164,6 +166,14 @@ public class TeleOp extends TeleOpMethods {
             telemetry.addData("Encoder: ", liftencoderValue);
 
             // ########## END Move Lift ##########
+
+
+        if (intakeRange.getDistance(DistanceUnit.CM) < 10) {
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+        }
+        else {
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+        }
 
 
             /*
@@ -215,7 +225,7 @@ public class TeleOp extends TeleOpMethods {
             }
 
              */
-        }
+        //}
 
 
 
