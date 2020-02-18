@@ -74,15 +74,28 @@ public class TeleOp extends TeleOpMethods {
         double IntakePower = 0;
         // If Driver OR Gunner buttons pressed, IN take
         if (g1_right_bumper || g2_a) {
+            if (intakeRange.getDistance(DistanceUnit.CM) < 10) {
+                blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+            }
+            else {
+                blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+            }
             IntakePower = 1;
         }
         // Driver or Gunner buttons pressed, OUT take
         else if (g1_left_bumper || g2_b) {
+            if (intakeRange.getDistance(DistanceUnit.CM) < 10) {
+                blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+            }
+            else {
+                blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
+            }
             IntakePower = -1;
         }
         // No buttons pressed, STOP motors
         else {
             IntakePower = 0;
+            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
         }
 
         // Apply variables
@@ -191,14 +204,6 @@ public class TeleOp extends TeleOpMethods {
             telemetry.addData("Encoder: ", liftencoderValue);
 
             // ########## END Move Lift ##########
-
-
-        if (intakeRange.getDistance(DistanceUnit.CM) < 10) {
-            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
-        }
-        else {
-            blinkin.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLACK);
-        }
 
 
             /*
