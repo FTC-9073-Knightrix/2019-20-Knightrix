@@ -312,10 +312,12 @@ public abstract class AutoMethods extends AutoHardwareMap {
             rightFrontDrive.setPower(Range.clip((-myrot + (mypower * ((Math.sin((myangle +  45) / 180 * Math.PI))))), -1, 1));
             rightBackDrive.setPower( Range.clip((-myrot + (mypower * ((Math.sin((myangle + 135) / 180 * Math.PI))))), -1, 1));
 
+            /*
             telemetry.addData("LeftFront",  leftFrontDrive.getCurrentPosition());
             telemetry.addData("LeftBack",   leftBackDrive.getCurrentPosition());
             telemetry.addData("RightFront", rightFrontDrive.getCurrentPosition());
             telemetry.addData("RightBack",  rightBackDrive.getCurrentPosition());
+            */
         }
     }
 
