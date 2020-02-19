@@ -116,12 +116,7 @@ public class BlueStone extends WebcamCV {
         distance = rightRange.getDistance(DistanceUnit.CM);
         // store distance
         // get closer towards foundation
-        if (distance >= 10) {
-            newGyroMove(-90, 0.5, distance - 10, 60, 0);
-        }
-        else{
-            newGyroMove(-90, 0.5, 0, 60, 0);
-        }
+        newGyroMove(-90, 0.5, Math.max(distance - 10,0), 60, 0);
         //distance = leftRange.getDistance(DistanceUnit.CM);
         //newGyroMove(-90,0.25,distance/2,60,0);
         // once reach distance
@@ -141,14 +136,14 @@ public class BlueStone extends WebcamCV {
 
         //If the right skystone, turn 180 degrees to pick up with the front intake wheels
         if (skystone.equals("Right")) {
-            newGyroMove(90, 1, distance/4, 60, 0);
+            newGyroMove(90, 1,Math.max(distance - 10,0), 60, 0);
             blockServo.setPosition(0.23);
             turn(180, 0.5);
         }
 
         // Goes back into stone zone based on three different distances
         if (skystone.equals("Left")) {
-            newGyroMove(90, 1, distance/6, 60, 0);
+            newGyroMove(90, 1, Math.max(distance - 10,0), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
             newGyroMove(0,-1,156,75,0);
@@ -157,7 +152,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(0,1,154,75,0);
         }
         else {
-            newGyroMove(90, 1, distance/6, 60, 0);
+            newGyroMove(90, 1,Math.max(distance - 10,0), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
             newGyroMove(0,-1,171,75,0);
