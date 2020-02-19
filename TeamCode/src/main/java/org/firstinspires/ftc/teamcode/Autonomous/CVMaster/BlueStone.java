@@ -80,7 +80,7 @@ public class BlueStone extends WebcamCV {
             MyPower = (float) 0.3;
             MyDistance =  4;
         }
-        straighten(0, 0.5);
+        //straighten(0, 0.5);
         newGyroMove(0, MyPower, MyDistance, 60, 0);
 
         //Set arm down a little
