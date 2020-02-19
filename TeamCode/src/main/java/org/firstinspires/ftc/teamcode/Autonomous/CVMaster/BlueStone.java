@@ -120,7 +120,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(-90, 0.5, distance - 10, 60, 0);
         }
         else{
-            newGyroMove(-90, 0.5, distance, 60, 0);
+            newGyroMove(-90, 0.5, 0, 60, 0);
         }
         //distance = leftRange.getDistance(DistanceUnit.CM);
         //newGyroMove(-90,0.25,distance/2,60,0);
