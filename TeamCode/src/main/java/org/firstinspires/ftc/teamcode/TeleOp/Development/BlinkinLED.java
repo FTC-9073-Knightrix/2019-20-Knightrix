@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.TeleOp.Development;
 
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 @TeleOp(name = "Blinkin", group = "Development")
+@Disabled
 
 public class BlinkinLED extends TeleOpMethods {
     public void loop() {

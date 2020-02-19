@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autonomous.CVMaster;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
 import java.io.File;
 
 @Autonomous(name = "RedBlockPlacing", group = "CV")
+@Disabled
 
 
 public class RedBlockPlacing extends WebcamCV{

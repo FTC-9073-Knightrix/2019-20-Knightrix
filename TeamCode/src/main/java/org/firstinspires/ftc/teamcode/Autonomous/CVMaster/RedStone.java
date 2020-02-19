@@ -69,7 +69,7 @@ public class RedStone extends WebcamCV {
         float MyDistance = 5;
         if (skystone.equals("Left")) { // Go Forwards
             MyPower = (float) 0.3;
-            MyDistance = 19;
+            MyDistance = 18;
         }
         else if (skystone.equals("Right")) { // Go Backwards
             MyPower = (float)-0.3;
@@ -77,7 +77,7 @@ public class RedStone extends WebcamCV {
         }
         else { // Center, move forwards a little
             MyPower = (float) 0.3;
-            MyDistance =  3;
+            MyDistance =  1;
         }
         straighten(0, 0.5);
         newGyroMove(0, MyPower, MyDistance, 60, 0);
@@ -108,7 +108,7 @@ public class RedStone extends WebcamCV {
             newGyroMove(0,-1,140,75,0);
         }
         else {
-            newGyroMove(0,-1,120,75,0);
+            newGyroMove(0,-1,125,75,0);
         }
         //newGyroMove(0,-1,40, 75,0);
         blockServo.setPosition(0.6);
@@ -133,7 +133,7 @@ public class RedStone extends WebcamCV {
         //Wait for side servo to fully go up
         //sleep(300);
 
-        newGyroMove(90, 1, distance/4, 60, 0);
+        newGyroMove(90, 1, distance/5, 60, 0);
         blockServo.setPosition(0.23);
         straighten(0, 0.5);
         /*//Set the arm down
@@ -157,40 +157,75 @@ public class RedStone extends WebcamCV {
             newGyroMove(0,1,155,75,0);
         }
         else if (skystone.equals("Left")) {
-            newGyroMove(0,1,190,75,0);
+            newGyroMove(0,1,162,75,0);
         }
         else {
-            newGyroMove(0,1,178,75,0);
+            newGyroMove(0,1,167,75,0);
         }
 
         //Use the intake if the skystone is the left one (closest to wall)
         if (skystone.equals("Left")) {
+            // Get Closer to skystone wall
+            TaskPending = true;
+            double LeftRangeValue = 0;
+            while (opModeIsActive() && TaskPending) {
+                // Read leftRange Sensor
+                RightRangeValue = rightRange.getDistance(DistanceUnit.CM);
+                MyPower = 0;
+                //Too far, move slowly closer
+                if (RightRangeValue > 20) {
+                    MyPower = (float) -0.3;
+                }
+                //Too far, move quickly closer
+                if (RightRangeValue > 28) {
+                    MyPower = (float) -0.6;
+                }
+                //Too close, move slowly away
+                if (RightRangeValue < 17) {
+                    MyPower = (float) 0.3;
+                }
+                //Perfect
+                if (RightRangeValue >= 17 && RightRangeValue <= 20) {
+                    MyPower = 0;
+                    TaskPending = false;
+                }
+                move(90, MyPower, 0);
+            }
             //Turn to angle the skystone
             turn(-45, -0.5);
             //Turn on the intake
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
             //Move forwards to the skystone
-            newGyroMove(0, 0.3, 12, 60, 0);
+            newGyroMove(0, 0.3, 15, 60, 0);
             //Wait a little until the skystone goes into the robot
             sleep(600);
             //Take the robot out
-            newGyroMove(0, -0.3, 12, 60, 0);
+            newGyroMove(0, -0.3, 15, 60, 0);
             //Turn so that the robot can cross over to the other side again
             turn(0, 0.5);
             // Turn OFF the intake
             intakeLeft.setPower(0);
             intakeRight.setPower(0);
             //Move to the construction area
-            newGyroMove(0, -1, 85, 100, 0);
+            newGyroMove(0, -1, 110, 100, 0);
             //Drop the skystone as the robot moves backwards
             intakeLeft.setPower(-0.6);
             intakeRight.setPower(-0.6);
+            blockServo.setPosition(0.6);
+            liftMotor.setTargetPosition(-2600);
+            //Don't run the motor yet
+            liftMotor.setPower(1);
             // Continues moving backward
             newGyroMove(0, -1, 40, 75, 0);
             // Turn OFF the intake
             intakeLeft.setPower(0);
             intakeRight.setPower(0);
+            sideServo.setPosition(0.7);
+            blockServo.setPosition(0);
+            blockGrabServo.setPosition(0.2);
+            distance = leftRange.getDistance(DistanceUnit.CM);
+            turn(90,0.5);
         }
         //If the skystone is the center or right
         else {
@@ -249,7 +284,7 @@ public class RedStone extends WebcamCV {
                 newGyroMove(0,-1,170,75,0);
             }
             else if (skystone.equals("Center")) {
-                newGyroMove(0,-1,198,75,0);
+                newGyroMove(0,-1,187,75,0);
             }
             blockServo.setPosition(0.6);
             distance = leftRange.getDistance(DistanceUnit.CM);
@@ -293,7 +328,7 @@ public class RedStone extends WebcamCV {
             //turn foundation
             sideServo.setPosition(0.7);
             turn(90,0.5);
-            newGyroMove(0,-1,distance/2,60,0);
+            /*newGyroMove(0,-1,distance/2,60,0);
             sideServo.setPosition(1);
             liftMotor.setTargetPosition(0);
             sleep(300);
@@ -321,8 +356,37 @@ public class RedStone extends WebcamCV {
             rightBackDrive.setPower(0);
 
             straighten(0, 1);
-            newGyroMove(0,-1,15,100,0);
+            newGyroMove(0,-1,15,100,0);*/
         }
+        newGyroMove(0,-1,distance/2,60,0);
+        sideServo.setPosition(1);
+        liftMotor.setTargetPosition(0);
+        sleep(400);
+        //Pull back buildsite
+        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        //Get the current degree of the robot
+        angle = orientation.firstAngle;
+
+        double power = -1;
+        //While the difference between the target angle and current angle is greater than three degrees
+        while (opModeIsActive() && angle > 0) {
+            leftFrontDrive.setPower(-power);
+            rightFrontDrive.setPower(-power/4);
+            leftBackDrive.setPower(-power);
+            rightBackDrive.setPower(-power/4);
+
+            //Get the current position of the robot
+            orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+            //Get the current degree of the robot
+            angle = orientation.firstAngle;
+        }
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
+
+        straighten(0, 1);
+        newGyroMove(0,-1,15,100,0);
 
         /*//Make the lift go up to swap
         liftMotor.setTargetPosition(-2600);
