@@ -167,7 +167,6 @@ public class RedStone extends WebcamCV {
         if (skystone.equals("Left")) {
             // Get Closer to skystone wall
             TaskPending = true;
-            double LeftRangeValue = 0;
             while (opModeIsActive() && TaskPending) {
                 // Read leftRange Sensor
                 RightRangeValue = rightRange.getDistance(DistanceUnit.CM);

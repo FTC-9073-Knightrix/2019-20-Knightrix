@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Autonomous.AutoMethods;
 
 @Autonomous(name="Lift Test", group="Development")
+@Disabled
 public class LiftMotor extends AutoMethods {
     public void runOpMode() {
         initRobot();

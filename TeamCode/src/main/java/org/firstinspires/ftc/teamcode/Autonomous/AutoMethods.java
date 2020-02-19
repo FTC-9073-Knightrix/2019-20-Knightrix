@@ -347,9 +347,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         angle = orientation.firstAngle;
 
         //While the difference between the target angle and current angle is greater than three degrees
-        while (opModeIsActive() && Math.abs(degrees - angle) > 1) {
+        while (opModeIsActive() && Math.abs(Math.abs(degrees) - Math.abs(angle)) > 1) {
             //If the target degree is greater than the current angle of the robot, turn right
-            if (Math.abs(degrees - angle) < 25) {
+            if (Math.abs(Math.abs(degrees) - Math.abs(angle)) < 25) {
                 leftFrontDrive.setPower(-power/5);
                 rightFrontDrive.setPower(power/5);
                 leftBackDrive.setPower(-power/5);
