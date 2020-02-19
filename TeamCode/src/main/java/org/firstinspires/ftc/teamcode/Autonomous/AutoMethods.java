@@ -168,9 +168,24 @@ public abstract class AutoMethods extends AutoHardwareMap {
 
         resetEncoders();
         distance *= ENCCM; //converts cm to encoder rotations
-        while(opModeIsActive() &&  (distance > (Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) {
+
+        //Calculate the position of the wheels - First to enter WHILE
+        double LFD_Encoder = Math.abs(leftFrontDrive.getCurrentPosition());
+        double RFD_Encoder = Math.abs(rightFrontDrive.getCurrentPosition());
+        double LBD_Encoder = Math.abs(leftBackDrive.getCurrentPosition());
+        double RBD_Encoder = Math.abs(rightBackDrive.getCurrentPosition());
+        double Wheels_Encoder = LFD_Encoder + RFD_Encoder + LBD_Encoder + RBD_Encoder;
+
+        while(opModeIsActive() &&  (distance > (Wheels_Encoder/4)) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
+
+            //Calculate the position of the wheels - Second inside WHILE
+            double LFD_Encoder = Math.abs(leftFrontDrive.getCurrentPosition());
+            double RFD_Encoder = Math.abs(rightFrontDrive.getCurrentPosition());
+            double LBD_Encoder = Math.abs(leftBackDrive.getCurrentPosition());
+            double RBD_Encoder = Math.abs(rightBackDrive.getCurrentPosition());
+            double Wheels_Encoder = LFD_Encoder + RFD_Encoder + LBD_Encoder + RBD_Encoder;
 
             /*if (gyroDegrees < -180) {
                 gyroDegrees += 360;
@@ -188,7 +203,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
             }
             float myrot = (float)(CorrectionDegrees / 180.0) * -1;
 
-            double newPower = (power/Math.abs(power)) * Range.clip(Math.abs(power*(((distance-((Math.abs(leftFrontDrive.getCurrentPosition()) + Math.abs(rightFrontDrive.getCurrentPosition()) + Math.abs(leftBackDrive.getCurrentPosition()) + Math.abs(rightBackDrive.getCurrentPosition())) / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
+            double newPower = (power/Math.abs(power)) * Range.clip(Math.abs(power*(((distance-(Wheels_Encoder / 4.0)) / (stopping*distance / 100.0)))),0.1,1);
 
             move(direction, (float) newPower, myrot);
         }
