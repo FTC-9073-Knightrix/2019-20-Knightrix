@@ -115,7 +115,6 @@ public abstract class AutoMethods extends AutoHardwareMap {
         //Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
-
     public void initVuStone() {
         initVuforia();
 

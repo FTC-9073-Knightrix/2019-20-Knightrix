@@ -40,6 +40,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public Servo blockServo;
     public Servo siteServo;
     public Servo blockGrabServo;
+    public Servo capstoneServo;
 
     //Create the variable that will keep track of the left joystick's x value
     public float leftstick_x = 0;
@@ -145,6 +146,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         blockServo = hardwareMap.servo.get("BS"); // Placed on the side, for autonomous SKYSTONE selection
         siteServo = hardwareMap.servo.get("SS");  // Placed at the back of the robot, to grab the platform
         blockGrabServo = hardwareMap.servo.get("BGS");
+        capstoneServo = hardwareMap.servo.get("CAP");
 
         //Set the direction of the motors
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// F

@@ -13,7 +13,6 @@ import org.firstinspires.ftc.teamcode.Autonomous.WebcamCV;
 import java.io.File;
 
 @Autonomous(name = "BlueStone", group = "CV")
-
 public class BlueStone extends WebcamCV {
     public void runOpMode(){
         double distance;

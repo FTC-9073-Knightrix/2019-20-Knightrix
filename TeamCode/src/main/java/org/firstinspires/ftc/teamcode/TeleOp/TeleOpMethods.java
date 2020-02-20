@@ -19,6 +19,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
         g2_rightstick_x = gamepad2.right_stick_x;
 
 
+
         //Gamepad buttons
         g1_dpad_down = gamepad1.dpad_down;
         g1_dpad_up = gamepad1.dpad_up;

@@ -12,12 +12,22 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp", group = "Master")
 
 public class TeleOp extends TeleOpMethods {
+    int iterations = 0;
+    double t1 = getRuntime();
     public void loop () {
 
         if (getRuntime() - perSecond >= 0.5) {
             perSecond = getRuntime();
             clicks2 = clicks;
             clicks = 0;
+        }
+        if((getRuntime()-t1) > 0.5){
+            telemetry.addData("iterations per 0.5 seconds", iterations);
+            iterations = 0;
+            t1 = getRuntime();
+        }
+        else{
+            iterations++;
         }
 
         // Basic Code loop
@@ -131,6 +141,54 @@ public class TeleOp extends TeleOpMethods {
             ready = true;
         }
 
+         */
+        //code for automated capstone addition
+        //go to -675 encoder
+        //turn the hand servo to the right
+        //move the arm servo slightly to the right
+        //move hand up
+        //turn back to center
+        liftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        /*if(g2_dpad_down){
+            capstoneServo.setPosition(1);
+            if(liftMotor.getCurrentPosition() > -575){
+                liftMotor.setPower(-0.2);
+            }
+            else if(liftMotor.getCurrentPosition() > -1000){
+                blockTwistServo.setPosition(0);
+                liftMotor.setPower(-0.1);
+            }
+            else if(liftMotor.getCurrentPosition() > -1100){
+                blockTwistServo.setPosition(0.2);
+                liftMotor.setPower(-1);
+            }
+        }*/
+
+        if(g2_dpad_down){
+            capstoneServo.setPosition(1);
+            if(intakeRange.getDistance(DistanceUnit.CM) < 10){
+                liftMotor.setPower(-0.2);
+            }
+            else if(liftMotor.getCurrentPosition() > -1000){
+                blockTwistServo.setPosition(0);
+                liftMotor.setPower(-0.1);
+            }
+            else if(liftMotor.getCurrentPosition() > -1100){
+                blockTwistServo.setPosition(0.2);
+                liftMotor.setPower(-1);
+            }
+        }
+        else {
+            capstoneServo.setPosition(0.5);
+        }
+
+
+        if(g2_dpad_up){
+            capstoneServo.setPosition(1);
+        }
+        if(g2_dpad_left){
+            capstoneServo.setPosition(0.5);
+        }
         //if(initRun) {
             /*if (stage == 0) {
                 liftMotor.setPower(0.2);
@@ -197,7 +255,9 @@ public class TeleOp extends TeleOpMethods {
                 MyPower = 0; //false = button pressed
             }
             //Move
-            liftMotor.setPower(MyPower);
+            if(!g2_dpad_down){
+                liftMotor.setPower(MyPower);
+            }
             // Telemetry
             telemetry.addData("Joy Y: ", g2_leftstick_y);
             telemetry.addData("Power: ", MyPower);
@@ -270,6 +330,7 @@ public class TeleOp extends TeleOpMethods {
         telemetry.addData("Lift Power", liftMotor.getPower());
         telemetry.addData("Lift Encoder", liftMotor.getCurrentPosition());
         telemetry.addData("Clicks per 0.5 second", clicks2);
+        telemetry.addData("dpad", g2_dpad_down);
         telemetry.update();
     }
 }
