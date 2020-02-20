@@ -176,16 +176,16 @@ public abstract class AutoMethods extends AutoHardwareMap {
         double RBD_Encoder = Math.abs(rightBackDrive.getCurrentPosition());
         double Wheels_Encoder = LFD_Encoder + RFD_Encoder + LBD_Encoder + RBD_Encoder;
 
-        while(opModeIsActive() &&  (distance > (Wheels_Encoder/4)) {
+        while(opModeIsActive() &&  (distance > (Wheels_Encoder/4))) {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             int gyroDegrees = (int) orientation.firstAngle;
 
             //Calculate the position of the wheels - Second inside WHILE
-            double LFD_Encoder = Math.abs(leftFrontDrive.getCurrentPosition());
-            double RFD_Encoder = Math.abs(rightFrontDrive.getCurrentPosition());
-            double LBD_Encoder = Math.abs(leftBackDrive.getCurrentPosition());
-            double RBD_Encoder = Math.abs(rightBackDrive.getCurrentPosition());
-            double Wheels_Encoder = LFD_Encoder + RFD_Encoder + LBD_Encoder + RBD_Encoder;
+            LFD_Encoder = Math.abs(leftFrontDrive.getCurrentPosition());
+            RFD_Encoder = Math.abs(rightFrontDrive.getCurrentPosition());
+            LBD_Encoder = Math.abs(leftBackDrive.getCurrentPosition());
+            RBD_Encoder = Math.abs(rightBackDrive.getCurrentPosition());
+            Wheels_Encoder = LFD_Encoder + RFD_Encoder + LBD_Encoder + RBD_Encoder;
 
             /*if (gyroDegrees < -180) {
                 gyroDegrees += 360;
