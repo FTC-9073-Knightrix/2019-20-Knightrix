@@ -21,6 +21,8 @@ public class BlueStone extends WebcamCV {
         //Wait until the robot starts
         waitForStart();
 
+        capstoneServo.setPosition(1);
+
         //Detects stone position (Left, Center, Right) until it is found
         String skystone = stageSwitchingPipeline.skystone();
         while(opModeIsActive() && skystone.equals("")) {
@@ -135,9 +137,10 @@ public class BlueStone extends WebcamCV {
 
         //If the right skystone, turn 180 degrees to pick up with the front intake wheels
         if (skystone.equals("Right")) {
-            newGyroMove(90, 0.5,Math.max(distance - 10,0), 60, 0);
+            newGyroMove(90, 0.5,Math.max(distance - 13,0), 60, 0);
             blockServo.setPosition(0.23);
             turn(180, 0.4);
+            capstoneServo.setPosition(0.5);
         }
 
         // Goes back into stone zone based on three different distances
@@ -148,7 +151,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(0,-1,156,75,0);
         }
         else if (skystone.equals("Right")) {
-            newGyroMove(0,1,154,75,0);
+            newGyroMove(0,1,160,75,0);
         }
         else {
             newGyroMove(90, 1,Math.max(distance - 5,0), 60, 0);
@@ -187,11 +190,11 @@ public class BlueStone extends WebcamCV {
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
             //Move forwards to the skystone
-            newGyroMove(0, 0.3, 13, 60, 0);
+            newGyroMove(0, 0.3, 15, 60, 0);
             //Wait a little until the skystone goes into the robot
             sleep(600);
             //Take the robot out
-            newGyroMove(0, -0.3, 13, 60, 0);
+            newGyroMove(0, -0.3, 15, 60, 0);
             //Turn so that the robot can cross over to the other side again
             turn(-180, -0.5);
             // Turn OFF the intake
@@ -200,8 +203,8 @@ public class BlueStone extends WebcamCV {
             // Move to the Construction Area
             newGyroMove(0, -1, 110, 100, 0);
             // Drop the skystone as the robot moves backwards
-            intakeLeft.setPower(-0.6);
-            intakeRight.setPower(-0.6);
+            //intakeLeft.setPower(-0.6);
+            //intakeRight.setPower(-0.6);
             blockServo.setPosition(0.6);
             liftMotor.setTargetPosition(-2600);
             //Don't run the motor yet
@@ -331,12 +334,15 @@ public class BlueStone extends WebcamCV {
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
+        //double timer = getRuntime();
+        tapeMotor.setPower(1);
+
         double power = 1;
         //While the difference between the target angle and current angle is greater than three degrees
         while (opModeIsActive() && angle < 135) {
-            leftFrontDrive.setPower(power/4);
+            leftFrontDrive.setPower(power/5);
             rightFrontDrive.setPower(power);
-            leftBackDrive.setPower(power/4);
+            leftBackDrive.setPower(power/5);
             rightBackDrive.setPower(power);
 
             //Get the current position of the robot
@@ -356,20 +362,19 @@ public class BlueStone extends WebcamCV {
             angle = orientation.firstAngle;
         }*/
         //move straight back to align foundation
-        newGyroMove(0, -1,5,75,0);
-        turn(180,0.5);
+        //newGyroMove(0, -1,5,75,0);
+        turn(135,0.5);
 
-        leftFrontDrive.setPower(0);
-        rightFrontDrive.setPower(0);
-        leftBackDrive.setPower(0);
-        rightBackDrive.setPower(0);
+        //straighten(-180, 1);
+        //newGyroMove(0,-1,15,100,0);*/
 
-        straighten(-180, 1);
-        newGyroMove(0,-1,15,100,0);
+        //newGyroMove(45,-1,15,100,0);
+
         //Save the orientation of the robot so that it can be used for the teleop
         File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         ReadWriteFile.writeFile(gyroPosition, String.valueOf(orientation.firstAngle + 90));
+        //tapeMotor.setPower(0);
         //Stop the program (it's done)
         stop();
     }

@@ -30,6 +30,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
     public DcMotor liftMotor;
+    public DcMotor tapeMotor;
 
     public OpenCvCamera phoneCam;
     public WebcamCV.StageSwitchingPipeline stageSwitchingPipeline;
@@ -37,6 +38,7 @@ public abstract class AutoHardwareMap extends LinearOpMode {
     public Servo blockServo;
     public Servo sideServo;
     public Servo blockGrabServo;
+    public Servo capstoneServo;
 
     public DistanceSensor rightRange;
     public DistanceSensor leftRange;

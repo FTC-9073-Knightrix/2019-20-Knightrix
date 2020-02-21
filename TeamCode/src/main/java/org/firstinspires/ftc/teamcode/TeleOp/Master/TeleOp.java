@@ -16,6 +16,16 @@ public class TeleOp extends TeleOpMethods {
     double t1 = getRuntime();
     public void loop () {
 
+        if (gamepad1.left_trigger > 0 && tapeMotor.getCurrentPosition() > 10) {
+            tapeMotor.setPower(-1);
+        }
+        else if (gamepad1.right_trigger > 0) {
+            tapeMotor.setPower(1);
+        }
+        else {
+            tapeMotor.setPower(0);
+        }
+
         if (getRuntime() - perSecond >= 0.5) {
             perSecond = getRuntime();
             clicks2 = clicks;

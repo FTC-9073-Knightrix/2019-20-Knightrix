@@ -29,6 +29,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
         liftMotor = hardwareMap.dcMotor.get("LM");
+        tapeMotor = hardwareMap.dcMotor.get("TM");
 
         //camera initialization
 
@@ -44,6 +45,7 @@ public abstract class AutoMethods extends AutoHardwareMap {
         blockServo = hardwareMap.servo.get("BS");
         sideServo = hardwareMap.servo.get("SS");
         blockGrabServo = hardwareMap.servo.get("BGS");
+        capstoneServo = hardwareMap.servo.get("CAP");
 
         rightRange = hardwareMap.get(DistanceSensor.class, "RR");
         leftRange = hardwareMap.get(DistanceSensor.class, "LR");
@@ -60,6 +62,9 @@ public abstract class AutoMethods extends AutoHardwareMap {
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        tapeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        tapeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         liftMotor.setTargetPosition(0);
         liftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);

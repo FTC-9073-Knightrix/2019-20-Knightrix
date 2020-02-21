@@ -32,6 +32,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
     public DcMotor intakeLeft;
     public DcMotor intakeRight;
     public DcMotor liftMotor;
+    public DcMotor tapeMotor;
 
     //Create the servo motors
     public Servo bodyTwistServo;
@@ -138,6 +139,7 @@ public abstract class TeleOpHardwareMap extends OpMode {
         intakeLeft = hardwareMap.dcMotor.get("IL");
         intakeRight = hardwareMap.dcMotor.get("IR");
         liftMotor = hardwareMap.dcMotor.get("LM");
+        tapeMotor = hardwareMap.dcMotor.get("TM");
 
         //Add servos to the configuration on the phones
         bodyTwistServo = hardwareMap.servo.get("BodyS");   // Turns Skystone from front to back of robot
