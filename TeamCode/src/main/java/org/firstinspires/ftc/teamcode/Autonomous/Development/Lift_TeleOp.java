@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous.Development;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Lift_TeleOp", group = "Master")
+@Disabled
 
 public class Lift_TeleOp extends TeleOpMethods {
 

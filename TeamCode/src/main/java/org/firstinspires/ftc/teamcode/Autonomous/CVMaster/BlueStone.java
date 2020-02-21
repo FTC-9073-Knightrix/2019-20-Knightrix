@@ -52,11 +52,11 @@ public class BlueStone extends WebcamCV {
                 MyPower = (float) -0.6;
             }
             //Too close, move further slowly
-            if (LeftRangeValue < 17) {
+            if (LeftRangeValue < 16) {
                 MyPower = (float) 0.3;
             }
             //Perfect
-            if (LeftRangeValue >= 17 && LeftRangeValue <= 18) {
+            if (LeftRangeValue >= 16 && LeftRangeValue <= 17) {
                 MyPower = 0;
                 TaskPending = false;
             }
@@ -71,7 +71,7 @@ public class BlueStone extends WebcamCV {
         float MyDistance = 5;
         if (skystone.equals("Left")) { // Go Forwards
             MyPower = (float) 0.3;
-            MyDistance = 20;
+            MyDistance = 21;
         }
         else if (skystone.equals("Right")) { // Go Backwards
             MyPower = (float)-0.3;
@@ -127,6 +127,7 @@ public class BlueStone extends WebcamCV {
         //sleep(800);
         // Opens the hand
         blockGrabServo.setPosition(0.54);
+        straighten(0, 0.5);
         //Wait for the grabber to open
         //sleep(300);
         // go back to start
@@ -137,7 +138,7 @@ public class BlueStone extends WebcamCV {
 
         //If the right skystone, turn 180 degrees to pick up with the front intake wheels
         if (skystone.equals("Right")) {
-            newGyroMove(90, 0.5,Math.max(distance - 13,0), 60, 0);
+            newGyroMove(90, 0.5,Math.max(distance - 13,1), 60, 0);
             blockServo.setPosition(0.23);
             turn(180, 0.4);
             capstoneServo.setPosition(0.5);
@@ -145,19 +146,19 @@ public class BlueStone extends WebcamCV {
 
         // Goes back into stone zone based on three different distances
         if (skystone.equals("Left")) {
-            newGyroMove(90, 1, Math.max(distance - 5,0), 60, 0);
+            newGyroMove(90, 1, Math.max(distance - 20,1), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
-            newGyroMove(0,-1,156,75,0);
+            newGyroMove(0,-1,155,75,0);
         }
         else if (skystone.equals("Right")) {
-            newGyroMove(0,1,160,75,0);
+            newGyroMove(0,1,157,75,0);
         }
         else {
-            newGyroMove(90, 1,Math.max(distance - 5,0), 60, 0);
+            newGyroMove(90, 1,Math.max(distance - 20,1), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
-            newGyroMove(0,-1,176,75,0);
+            newGyroMove(0,-1,165,75,0);
         }
 
         //Use the intake if the skystone is the right one (closest to wall)
@@ -185,23 +186,22 @@ public class BlueStone extends WebcamCV {
                 move(90, MyPower, 0);
             }*/
             //Turn to angle the skystone
-            turn(-135, 0.5);
+            //turn(-135, 0.5);
+            newGyroMove(90,1,20,60,0);
             // Turn on the intake
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
             //Move forwards to the skystone
-            newGyroMove(0, 0.3, 15, 60, 0);
+            newGyroMove(0, 0.3, 5, 60, 0);
+            newGyroMove(-90,1,20,60,0);
             //Wait a little until the skystone goes into the robot
-            sleep(600);
+            //sleep(600);
             //Take the robot out
-            newGyroMove(0, -0.3, 15, 60, 0);
+            //newGyroMove(0, -0.3, 15, 60, 0);
             //Turn so that the robot can cross over to the other side again
             turn(-180, -0.5);
-            // Turn OFF the intake
-            intakeLeft.setPower(0);
-            intakeRight.setPower(0);
             // Move to the Construction Area
-            newGyroMove(0, -1, 110, 100, 0);
+            newGyroMove(0, -1, 115, 100, 0);
             // Drop the skystone as the robot moves backwards
             //intakeLeft.setPower(-0.6);
             //intakeRight.setPower(-0.6);
@@ -209,6 +209,9 @@ public class BlueStone extends WebcamCV {
             liftMotor.setTargetPosition(-2600);
             //Don't run the motor yet
             liftMotor.setPower(1);
+            // Turn OFF the intake
+            intakeLeft.setPower(0);
+            intakeRight.setPower(0);
             // Continues moving backward
             newGyroMove(0, -1, 40, 75, 0);
             // Turn OFF the intake
@@ -276,7 +279,7 @@ public class BlueStone extends WebcamCV {
             straighten(0, 0.5);
             //Depending on the skystone get to the other side
             if (skystone.equals("Left")) {
-                newGyroMove(0,1,180,75,0);
+                newGyroMove(0,1,175,75,0);
             }
             else if (skystone.equals("Center")) {
                 newGyroMove(0,1,190,75,0);
@@ -350,6 +353,7 @@ public class BlueStone extends WebcamCV {
             //Get the current degree of the robot
             angle = orientation.firstAngle;
         }
+        //sideServo.setPosition(0);
         /*while (opModeIsActive() && angle < 180 && angle > -170) {
             leftFrontDrive.setPower(-power);
             rightFrontDrive.setPower(-power/4);
@@ -363,7 +367,10 @@ public class BlueStone extends WebcamCV {
         }*/
         //move straight back to align foundation
         //newGyroMove(0, -1,5,75,0);
-        turn(135,0.5);
+        turn2(-145,0.5);
+        sideServo.setPosition(0);
+        sleep(300);
+        newGyroMove(0, 1, 3, 100, 0);
 
         //straighten(-180, 1);
         //newGyroMove(0,-1,15,100,0);*/

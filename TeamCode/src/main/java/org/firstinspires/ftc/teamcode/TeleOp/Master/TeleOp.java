@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 public class TeleOp extends TeleOpMethods {
     int iterations = 0;
     double t1 = getRuntime();
+    double poss = 0;
     public void loop () {
 
         if (gamepad1.left_trigger > 0 && tapeMotor.getCurrentPosition() > 10) {
@@ -175,29 +176,38 @@ public class TeleOp extends TeleOpMethods {
         }*/
 
         if(g2_dpad_down){
-            capstoneServo.setPosition(1);
+            capstoneServo.setPosition(0.5);
             if(intakeRange.getDistance(DistanceUnit.CM) < 10){
                 liftMotor.setPower(-0.2);
+                poss = liftMotor.getCurrentPosition();
             }
-            else if(liftMotor.getCurrentPosition() > -1000){
+            else if(liftMotor.getCurrentPosition() > poss - 100){
                 blockTwistServo.setPosition(0);
                 liftMotor.setPower(-0.1);
             }
-            else if(liftMotor.getCurrentPosition() > -1100){
-                blockTwistServo.setPosition(0.2);
-                liftMotor.setPower(-1);
+            else if(liftMotor.getCurrentPosition() > poss - 200){
+                bodyTwistServo.setPosition(0.13);
+                liftMotor.setPower(-0.1);
+
+            }
+            else if (liftMotor.getCurrentPosition() > poss - 300) {
+                liftMotor.setPower(-0.6);
+            }
+            else if (liftMotor.getCurrentPosition() < poss - 800) {
+                blockTwistServo.setPosition(0.5);
+                liftMotor.setPower(-0.6);
             }
         }
         else {
-            capstoneServo.setPosition(0.5);
+            capstoneServo.setPosition(0);
         }
 
 
         if(g2_dpad_up){
-            capstoneServo.setPosition(1);
+            capstoneServo.setPosition(0.5);
         }
         if(g2_dpad_left){
-            capstoneServo.setPosition(0.5);
+            capstoneServo.setPosition(0);
         }
         //if(initRun) {
             /*if (stage == 0) {

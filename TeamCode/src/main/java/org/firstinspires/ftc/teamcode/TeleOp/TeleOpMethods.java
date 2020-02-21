@@ -150,7 +150,7 @@ public abstract class TeleOpMethods extends TeleOpHardwareMap {
     public void moveArm(int liftencoder) {
         clampServo.setPosition(g2_right_trigger);
         double twistPosition = bodyTwistServo.getPosition();
-        if (liftencoder > 1300) {
+        if (liftencoder > 1500) {
             if (g2_rightstick_x > 0 && twistPosition + 0.3 <= 0.85) {
                 bodyTwistServo.setPosition(twistPosition + .3);
             }
