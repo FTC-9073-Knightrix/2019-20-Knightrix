@@ -199,7 +199,7 @@ public class BlueStone extends WebcamCV {
             //Take the robot out
             //newGyroMove(0, -0.3, 15, 60, 0);
             //Turn so that the robot can cross over to the other side again
-            turn(-180, -0.5);
+            straighten(-180, 0.5);
             // Move to the Construction Area
             newGyroMove(0, -1, 115, 100, 0);
             // Drop the skystone as the robot moves backwards
