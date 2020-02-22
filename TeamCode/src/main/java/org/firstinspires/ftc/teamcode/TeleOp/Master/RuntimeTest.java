@@ -10,19 +10,18 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.TeleOp.TeleOpMethods;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "RuntimeTest", group = "Master")
-@Disabled
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "tapeReset", group = "Master")
+
 public class RuntimeTest extends TeleOpMethods {
-    int iterations = 0;
-    double t1 = getRuntime();
     public void loop() {
-        if ((getRuntime() - t1) > 0.5) {
-            telemetry.addData("iterations per 0.5 seconds", iterations);
-            iterations = 0;
-            t1 = getRuntime();
-        } else {
-            iterations++;
+        if(gamepad1.x){
+            tapeMotor.setPower(-1);
         }
-        telemetry.update();
+        else if(gamepad1.y){
+            tapeMotor.setPower(1);
+        }
+        else{
+            tapeMotor.setPower(0);
+        }
     }
 }

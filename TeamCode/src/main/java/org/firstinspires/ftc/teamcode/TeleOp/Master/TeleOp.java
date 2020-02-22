@@ -16,11 +16,15 @@ public class TeleOp extends TeleOpMethods {
     double t1 = getRuntime();
     double poss = 0;
     public void loop () {
+        if(iterations == 0){
+            capstoneServo.setPosition(0);
+        }
 
-        if (gamepad1.left_trigger > 0 && tapeMotor.getCurrentPosition() > 10) {
+        iterations++;
+        if ((gamepad1.left_trigger > 0 || gamepad2.x) && tapeMotor.getCurrentPosition() > 50) {
             tapeMotor.setPower(-1);
         }
-        else if (gamepad1.right_trigger > 0) {
+        else if ((gamepad1.right_trigger > 0 || gamepad2.left_trigger > 0) && tapeMotor.getCurrentPosition() < 1600) {
             tapeMotor.setPower(1);
         }
         else {
@@ -32,14 +36,14 @@ public class TeleOp extends TeleOpMethods {
             clicks2 = clicks;
             clicks = 0;
         }
-        if((getRuntime()-t1) > 0.5){
+        /*if((getRuntime()-t1) > 0.5){
             telemetry.addData("iterations per 0.5 seconds", iterations);
             iterations = 0;
             t1 = getRuntime();
         }
         else{
             iterations++;
-        }
+        }*/
 
         // Basic Code loop
         // 1. Get values from gamepad
@@ -198,17 +202,20 @@ public class TeleOp extends TeleOpMethods {
                 liftMotor.setPower(-0.6);
             }
         }
-        else {
-            capstoneServo.setPosition(0);
-        }
+        //else {
+        //    capstoneServo.setPosition(0);
+        //}
 
 
-        if(g2_dpad_up){
+        /*if(g2_dpad_up){
             capstoneServo.setPosition(0.5);
-        }
+
         if(g2_dpad_left){
             capstoneServo.setPosition(0);
-        }
+        }*/
+
+
+
         //if(initRun) {
             /*if (stage == 0) {
                 liftMotor.setPower(0.2);
@@ -282,6 +289,7 @@ public class TeleOp extends TeleOpMethods {
             telemetry.addData("Joy Y: ", g2_leftstick_y);
             telemetry.addData("Power: ", MyPower);
             telemetry.addData("Encoder: ", liftencoderValue);
+            telemetry.addData("tape motro: ", tapeMotor.getCurrentPosition());
 
             // ########## END Move Lift ##########
 
