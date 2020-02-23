@@ -117,7 +117,7 @@ public class BlueStone extends WebcamCV {
         distance = rightRange.getDistance(DistanceUnit.CM);
         // store distance
         // get closer towards foundation
-        newGyroMove(-90, 0.5, Math.max(distance - 5,0), 60, 0);
+        newGyroMove(-90, 0.5, Math.max(distance - 3,1), 60, 0);
         //distance = leftRange.getDistance(DistanceUnit.CM);
         //newGyroMove(-90,0.25,distance/2,60,0);
         // once reach distance
@@ -136,9 +136,10 @@ public class BlueStone extends WebcamCV {
         //Wait for side servo to fully go up
         //sleep(300);
 
+
         //If the right skystone, turn 180 degrees to pick up with the front intake wheels
         if (skystone.equals("Right")) {
-            newGyroMove(90, 0.5,Math.max(distance - 13,1), 60, 0);
+            newGyroMove(90, 1, Math.max(distance - 5,1), 60, 0);
             blockServo.setPosition(0.23);
             turn(180, 0.4);
             capstoneServo.setPosition(0.5);
@@ -146,7 +147,7 @@ public class BlueStone extends WebcamCV {
 
         // Goes back into stone zone based on three different distances
         if (skystone.equals("Left")) {
-            newGyroMove(90, 1, Math.max(distance - 20,1), 60, 0);
+            newGyroMove(90, 1, Math.max(distance - 5,1), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
             newGyroMove(0,-1,155,75,0);
@@ -155,7 +156,7 @@ public class BlueStone extends WebcamCV {
             newGyroMove(0,1,157,75,0);
         }
         else {
-            newGyroMove(90, 1,Math.max(distance - 20,1), 60, 0);
+            newGyroMove(90, 1,Math.max(distance - 5,1), 60, 0);
             blockServo.setPosition(0.23);
             straighten(0, 0.5);
             newGyroMove(0,-1,165,75,0);
@@ -187,13 +188,13 @@ public class BlueStone extends WebcamCV {
             }*/
             //Turn to angle the skystone
             //turn(-135, 0.5);
-            newGyroMove(90,1,20,60,0);
+            newGyroMove(90,1,30,60,0);
             // Turn on the intake
             intakeLeft.setPower(1);
             intakeRight.setPower(1);
             //Move forwards to the skystone
             newGyroMove(0, 0.3, 5, 60, 0);
-            newGyroMove(-90,1,20,60,0);
+            newGyroMove(-90,1,30,60,0);
             //Wait a little until the skystone goes into the robot
             //sleep(600);
             //Take the robot out
@@ -222,7 +223,7 @@ public class BlueStone extends WebcamCV {
             blockGrabServo.setPosition(0.2);
             distance = leftRange.getDistance(DistanceUnit.CM);
             turn(90,-0.5);
-            newGyroMove(0,-1,distance/6,60,0);
+            newGyroMove(0,-0.7,Math.max(distance-3,1),60,0);
         }
         //If the skystone is the center or left one
         else {
@@ -288,7 +289,7 @@ public class BlueStone extends WebcamCV {
             distance = leftRange.getDistance(DistanceUnit.CM);
             // store distance
             // get closer towards foundation
-            newGyroMove(-90,0.5,distance/2,60,0);
+            newGyroMove(-90,0.5,Math.max(distance-3,1),60,0);
             //distance = leftRange.getDistance(DistanceUnit.CM);
             //newGyroMove(-90,0.25,distance/2,60,0);
             // once reach distance
@@ -306,7 +307,7 @@ public class BlueStone extends WebcamCV {
             //Wait for the grabber to open
             //sleep(300);
             // go back to start
-            newGyroMove(90, 1, distance/2+1, 60, 300);
+            newGyroMove(90, 1, Math.max(distance-3,1), 60, 300);
             // Raises the hand
             blockServo.setPosition(0);
             blockGrabServo.setPosition(0.2);
@@ -326,19 +327,21 @@ public class BlueStone extends WebcamCV {
             //turn foundation
             sideServo.setPosition(0.7);
             turn(90,0.5);
-            newGyroMove(0,-1,distance/2,60,0);
+            newGyroMove(0,-0.7,Math.max(distance-3,1),60,0);
         }
 
         sideServo.setPosition(1);
         liftMotor.setTargetPosition(0);
-        sleep(400);
+        tapeMotor.setPower(0);
+        sleep(600);
         //Pull back buildsite
-        orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
+        /*orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
         //double timer = getRuntime();
-        tapeMotor.setPower(1);
+        //tapeMotor.setPower(1);
+        tapeMotor.setPower(0);
 
         double power = 1;
         //While the difference between the target angle and current angle is greater than three degrees
@@ -352,6 +355,9 @@ public class BlueStone extends WebcamCV {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             //Get the current degree of the robot
             angle = orientation.firstAngle;
+            if (tapeMotor.getCurrentPosition() > 1400) {
+                tapeMotor.setPower(0);
+            }
         }
         //sideServo.setPosition(0);
         /*while (opModeIsActive() && angle < 180 && angle > -170) {
@@ -367,15 +373,30 @@ public class BlueStone extends WebcamCV {
         }*/
         //move straight back to align foundation
         //newGyroMove(0, -1,5,75,0);
-        turn2(-145,0.5);
+        /*turn2(-145,0.5);
+        if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }
         sideServo.setPosition(0);
         sleep(300);
+        if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }
         newGyroMove(0, 1, 3, 100, 0);
+        if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }
 
         //straighten(-180, 1);
         //newGyroMove(0,-1,15,100,0);*/
 
         //newGyroMove(45,-1,15,100,0);
+
+
+        newGyroMove(0,0.7,30,100,0);
+        sideServo.setPosition(0);
+        sleep(300);
+
 
         //Save the orientation of the robot so that it can be used for the teleop
         File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");

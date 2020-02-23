@@ -15,7 +15,11 @@ import java.io.File;
 
 public class MoveRight extends AutoMethods {
     public void runOpMode() {
-        newGyroMove(-90, 0.5, 20, 100, 0);
+        initRobot();
+
+        waitForStart();
+
+        newGyroMove(-90, 0.3, 20, 100, 0);
 
         File gyroPosition = AppUtil.getInstance().getSettingsFile("gyroPosition.txt");
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);

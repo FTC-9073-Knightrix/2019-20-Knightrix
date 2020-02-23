@@ -117,7 +117,7 @@ public class RedStone extends WebcamCV {
         distance = leftRange.getDistance(DistanceUnit.CM);
         // store distance
         // get closer towards foundation
-        newGyroMove(-90,0.5,Math.max(distance - 5,0),60,0);
+        newGyroMove(-90,0.5,Math.max(distance - 3,1),60,0);
         //distance = leftRange.getDistance(DistanceUnit.CM);
         //newGyroMove(-90,0.25,distance/2,60,0);
         // once reach distance
@@ -136,7 +136,7 @@ public class RedStone extends WebcamCV {
         //Wait for side servo to fully go up
         //sleep(300);
 
-        newGyroMove(90, 1, Math.max(distance - 20,1), 60, 0);
+        newGyroMove(90, 1, Math.max(distance - 5,1), 60, 0);
         blockServo.setPosition(0.23);
         straighten(0, 0.5);
         /*//Set the arm down
@@ -290,10 +290,10 @@ public class RedStone extends WebcamCV {
                 newGyroMove(0,-1,187,75,0);
             }
             blockServo.setPosition(0.6);
-            distance = leftRange.getDistance(DistanceUnit.CM);
+            distance = rightRange.getDistance(DistanceUnit.CM);
             // store distance
             // get closer towards foundation
-            newGyroMove(-90,0.5,distance/2,60,0);
+            newGyroMove(-90,0.5,Math.max(distance-3,1),60,0);
             //distance = leftRange.getDistance(DistanceUnit.CM);
             //newGyroMove(-90,0.25,distance/2,60,0);
             // once reach distance
@@ -311,7 +311,7 @@ public class RedStone extends WebcamCV {
             //Wait for the grabber to open
             //sleep(300);
             // go back to start
-            newGyroMove(90, 1, distance/2+1, 60, 300);
+            newGyroMove(90, 1, Math.max(distance-3,1), 60, 300);
             // Raises the hand
             blockServo.setPosition(0);
             blockGrabServo.setPosition(0.2);
@@ -361,20 +361,26 @@ public class RedStone extends WebcamCV {
             straighten(0, 1);
             newGyroMove(0,-1,15,100,0);*/
         }
-        newGyroMove(0,-1,(distance/2)+1,60,0);
+        newGyroMove(0,-0.7,Math.max(distance-3,1),60,0);
         sideServo.setPosition(1);
         liftMotor.setTargetPosition(0);
-        sleep(400);
+        //tapeMotor.setPower(1);
+        tapeMotor.setPower(0);
+        sleep(600);
+        //newGyroMove(-45,0.7,30,100,0);
+
+        newGyroMove(0,0.7,30,100,0);
+
+
+        /*
         //Pull back buildsite
         orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
         //Get the current degree of the robot
         angle = orientation.firstAngle;
 
-        tapeMotor.setPower(1);
-
-        double power = -1;
+        double power = -.7;
         //While the difference between the target angle and current angle is greater than three degrees
-        while (opModeIsActive() && angle > 45) {
+        while (opModeIsActive() && angle > 70) {
             leftFrontDrive.setPower(-power);
             rightFrontDrive.setPower(-power/5);
             leftBackDrive.setPower(-power);
@@ -384,17 +390,30 @@ public class RedStone extends WebcamCV {
             orientation = gyro.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZXY, AngleUnit.DEGREES);
             //Get the current degree of the robot
             angle = orientation.firstAngle;
-        }
+            /*if (tapeMotor.getCurrentPosition() > 1400) {
+                tapeMotor.setPower(0);
+            }*/
+        //}
         /*leftFrontDrive.setPower(0);
         rightFrontDrive.setPower(0);
         leftBackDrive.setPower(0);
         rightBackDrive.setPower(0);*/
 
         //straighten(0, 1);
-        turn2(-15,-0.5);
+        //turn2(-15,-0.5);
+        /*if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }*/
         sideServo.setPosition(0);
         sleep(300);
-        newGyroMove(0,1,3,100,0);
+        /*if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }*/
+        //newGyroMove(0,1,1,100,0);
+        //newGyroMove(70,1,1,100,0);
+        /*if (tapeMotor.getCurrentPosition() > 1400) {
+            tapeMotor.setPower(0);
+        }*/
 
         /*//Make the lift go up to swap
         liftMotor.setTargetPosition(-2600);

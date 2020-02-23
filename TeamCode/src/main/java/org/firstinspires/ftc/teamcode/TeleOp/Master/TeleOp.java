@@ -145,7 +145,8 @@ public class TeleOp extends TeleOpMethods {
         }
         // ???
         if (gamepad2.back) {
-            blockServo.setPosition(0.7);
+            blockServo.setPosition(0);
+            blockGrabServo.setPosition(0.2);
         }
         // END OF Arm Code
 
@@ -186,7 +187,7 @@ public class TeleOp extends TeleOpMethods {
                 poss = liftMotor.getCurrentPosition();
             }
             else if(liftMotor.getCurrentPosition() > poss - 100){
-                blockTwistServo.setPosition(0);
+                blockTwistServo.setPosition(0.2);
                 liftMotor.setPower(-0.1);
             }
             else if(liftMotor.getCurrentPosition() > poss - 200){
